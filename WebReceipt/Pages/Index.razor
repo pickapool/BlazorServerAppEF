@@ -15,16 +15,15 @@ Welcome to your new app.
     List<UserAccountModel> accounts;
     protected override async Task OnInitializedAsync()
     {
-        var response = UserAccountService.GetAccounts();
-        await response;
-        if (response.Status == TaskStatus.RanToCompletion)
+        var response = await UserAccountService.GetAccounts();
+        if (response != null)
         {
-            accounts = response.Result.ToList();
+            accounts = response.ToList();
             Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(accounts, Newtonsoft.Json.Formatting.Indented));
         }
         else
         {
-            // Handle other possible result types here
+           
         }
 
     }

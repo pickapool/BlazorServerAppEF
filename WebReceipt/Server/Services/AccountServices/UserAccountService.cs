@@ -12,14 +12,9 @@ namespace WebReceipt.Server.Services.AccountServices
 {
     [Route("UserAccount/[controller]")]
     [ApiController]
-    public class UserAccountService : ControllerBase, IUserAccountService
+    public class UserAccountService(AppDBContext context) : ControllerBase, IUserAccountService
     {
-        private readonly AppDBContext _context;
-
-        public UserAccountService(AppDBContext context)
-        {
-            _context = context;
-        }
+        private readonly AppDBContext _context = context;
 
         // GET: api/UserAccountService
         [HttpGet]
