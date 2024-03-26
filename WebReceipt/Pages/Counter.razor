@@ -1,5 +1,7 @@
 ﻿@page "/counter"
 
+@inject IUserAccountService UserAccountService
+
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
@@ -11,8 +13,12 @@
 @code {
     private int currentCount = 0;
 
-    private void IncrementCount()
+    private async Task IncrementCount()
     {
         currentCount++;
+        UserAccountModel model = new();
+        model.UserAccountName = "admin1";
+        model.UserAccountPassword = "admin1";
+        await UserAccountService.AddUser(model);
     }
 }
