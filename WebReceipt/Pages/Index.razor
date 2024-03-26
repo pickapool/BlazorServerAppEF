@@ -1,0 +1,31 @@
+﻿@page "/"
+
+@inject IUserAccountService UserAccountService
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code
+{
+    List<UserAccountModel> accounts;
+    protected override async Task OnInitializedAsync()
+    {
+        var response = UserAccountService.GetAccounts();
+        await response;
+        if (response.Status == TaskStatus.RanToCompletion)
+        {
+            accounts = response.Result.ToList();
+            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(accounts, Newtonsoft.Json.Formatting.Indented));
+        }
+        else
+        {
+            // Handle other possible result types here
+        }
+
+    }
+}
