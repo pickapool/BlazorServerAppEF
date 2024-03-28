@@ -12,9 +12,13 @@ namespace WebReceipt.Server.Services.AccountServices
 {
     [Route("UserAccount/[controller]")]
     [ApiController]
-    public class UserAccountService(AppDBContext context) : ControllerBase, IUserAccountService
+    public class UserAccountService: ControllerBase, IUserAccountService
     {
-        private readonly AppDBContext _context = context;
+        private readonly AppDBContext _context;
+        public UserAccountService(AppDBContext context)
+        {
+            _context = context;
+        }
 
         // GET: api/UserAccountService
         [HttpGet]
@@ -42,7 +46,7 @@ namespace WebReceipt.Server.Services.AccountServices
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUserAccountModel(int id, UserAccountModel userAccountModel)
         {
-            if (id != userAccountModel.UserAccountInt)
+            if (id != userAccountModel.UserAccountId)
             {
                 return BadRequest();
             }
@@ -76,7 +80,7 @@ namespace WebReceipt.Server.Services.AccountServices
             _context.Accounts.Add(userAccountModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserAccountModel", new { id = userAccountModel.UserAccountInt }, userAccountModel);
+            return CreatedAtAction("GetUserAccountModel", new { id = userAccountModel.UserAccountId }, userAccountModel);
         }
 
         // DELETE: api/UserAccountService/5
@@ -95,9 +99,14 @@ namespace WebReceipt.Server.Services.AccountServices
             return NoContent();
         }
 
-        private bool UserAccountModelExists(int id)
+        public bool UserAccountModelExists(int id)
         {
-            return _context.Accounts.Any(e => e.UserAccountInt == id);
+            return _context.Accounts.Any(e => e.UserAccountId == id);
+        }
+        public bool Authenticated(string username, string password)
+        {
+            return _context.Accounts.FirstOrDefaultAsync( e => e.UserAccountName == username &&
+            e.UserAccountPassword == password).Result == null ? false : true;
         }
     }
 }

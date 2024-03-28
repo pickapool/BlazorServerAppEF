@@ -1,9 +1,10 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using WebReceipt.Server.AppDatabaseContext;
+using Blazored.LocalStorage;
+using MudBlazor.Services;
+using WebReceipt.Common;
 using WebReceipt.Server.Services.AccountServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddMudServices();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddSingleton<AppState>();
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 
 builder.Services.AddDbContext<AppDBContext>(options =>

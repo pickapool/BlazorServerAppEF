@@ -5,7 +5,7 @@
 namespace WebReceipt.Migrations
 {
     /// <inheritdoc />
-    public partial class Migrationsblazor1 : Migration
+    public partial class migration1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,14 +14,14 @@ namespace WebReceipt.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    UserAccountInt = table.Column<int>(type: "int", nullable: false)
+                    UserAccountId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserAccountName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserAccountPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Accounts", x => x.UserAccountInt);
+                    table.PrimaryKey("PK_Accounts", x => x.UserAccountId);
                 });
         }
 

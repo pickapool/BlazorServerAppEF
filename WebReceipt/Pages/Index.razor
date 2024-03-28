@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-@inject IUserAccountService UserAccountService
+@inject ISnackbar SnackBar
 
 <PageTitle>Index</PageTitle>
 
@@ -12,20 +12,5 @@ Welcome to your new app.
 
 @code
 {
-    List<UserAccountModel> accounts;
-    protected override async Task OnInitializedAsync()
-    {
-        var response = await UserAccountService.GetAccounts();
-        if (response != null)
-        {
-            accounts = response.ToList();
-            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(accounts, Newtonsoft.Json.Formatting.Indented));
-        }
-        else
-        {
-
-        }
-        
-
-    }
+    
 }

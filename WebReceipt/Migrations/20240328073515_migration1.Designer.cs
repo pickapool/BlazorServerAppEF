@@ -11,26 +11,26 @@ using WebReceipt.Server.AppDatabaseContext;
 namespace WebReceipt.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240326010705_Migrationsblazor1")]
-    partial class Migrationsblazor1
+    [Migration("20240328073515_migration1")]
+    partial class migration1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "7.0.17")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("WebReceipt.Models.UserAccountModel", b =>
                 {
-                    b.Property<int>("UserAccountInt")
+                    b.Property<int>("UserAccountId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAccountInt"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAccountId"));
 
                     b.Property<string>("UserAccountName")
                         .IsRequired()
@@ -40,7 +40,7 @@ namespace WebReceipt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserAccountInt");
+                    b.HasKey("UserAccountId");
 
                     b.ToTable("Accounts", (string)null);
                 });

@@ -1,11 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using WebReceipt.Models;
 
 namespace WebReceipt.Server.AppDatabaseContext
 {
-    public class AppDBContext(DbContextOptions<AppDBContext> options) : DbContext(options)
+    public class AppDBContext : DbContext
     {
         public DbSet<UserAccountModel> Accounts { get; set; }
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
+        {
+
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,19 +1,53 @@
 ﻿@inherits LayoutComponentBase
 
+@inject ILocalStorageService LocalStorage
+@inject AppState AppState;
+
 <PageTitle>WebReceipt</PageTitle>
-
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    @if (GlobalClass.IsLogin)
+    {
+        <div class="sidebar">
+            <NavMenu />
         </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+        <main>
+            <div class="top-row px-4">
+                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            </div>
+
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    }
+    else
+    {
+        <Login />
+    }
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
 </div>
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        AppState.OnChange += UpdateState;
+        ValueTask<bool> b = LocalStorage.GetItemAsync<bool>("token");
+        await b;
+        if (b.IsCompleted)
+        {
+            GlobalClass.IsLogin = b.Result;
+            StateHasChanged();
+        }
+    }
+    private void UpdateState()
+    {
+        InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+}
