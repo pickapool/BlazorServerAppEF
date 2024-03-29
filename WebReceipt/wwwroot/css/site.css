@@ -109,7 +109,7 @@ h5{
     justify-content: center;
     align-items: center;
 }
-.nature-table th:nth-child(5), td:nth-child(5)
+.nature-table th:nth-child(5),.nature-table td:nth-child(5)
 {
     display: none !important;
 }

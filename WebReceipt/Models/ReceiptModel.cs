@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebReceipt.Common;
 
 namespace WebReceipt.Models
 {
@@ -13,7 +14,8 @@ namespace WebReceipt.Models
         public string Agency { get; set; }
         public string Payor { get; set; }
         public string Fund { get; set; }
-        public decimal Total { get; set; }
+        public double Total { get; set; }
+        [ForeignKey("ReceiptId")]
         public List<NatureOfCollectionModel> ListOfNatures { get; set; } = new();
         public bool checked1 { get; set; } = false;
         public bool checked2 { get; set; } = false;
@@ -22,6 +24,7 @@ namespace WebReceipt.Models
         public string Value1 { get; set ;}
         public string Value2 { get; set; }
         public String Value3 { get; set; }
+        public Enums.TransactionType TransactionType { get; set ;}
 
     }
 }

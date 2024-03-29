@@ -7,11 +7,10 @@ namespace WebReceipt.Models
     [PrimaryKey("NatureOfCollectionId")]
     public class NatureOfCollectionModel
     {
-        [ForeignKey("ReceiptId")]
         public int NatureOfCollectionId { get; set; }
         public string NatureName { get; set; }
         public int ReceiptId { get; set; }
         public string AccountCode { get; set; }
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
     }
 }

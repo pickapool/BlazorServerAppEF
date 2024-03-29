@@ -1,0 +1,113 @@
+@page "/records"
+
+@inject AppState AppState
+@inject IReceiptService ReceiptService
+@inject ISnackbar SnackbarService
+
+<MudTable Items="ListOfReceipts"
+          Dense="true" Hover="true" Height="80vh"
+          Filter="new Func<ReceiptModel,bool>(FilterFunc1)">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Receipts</MudText>
+        <MudSpacer />
+    </ToolBarContent>
+    <ColGroup>
+    <col/>
+    <col/>
+    <col/>
+    <col/>
+    <col/>
+    <col style="width: 10px;"/>
+    </ColGroup>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="f_number" T="ReceiptModel">OR No.</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="f_payor" T="ReceiptModel">Payor</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="f_date" T="ReceiptModel">Date</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="f_agency" T="ReceiptModel">Transaction Type</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Total</MudTableSortLabel></MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Number">@context.Number</MudTd>
+        <MudTd DataLabel="Payor">@context.Payor</MudTd>
+        <MudTd DataLabel="Date">@context.DateRecorded?.ToString("MM/dd/yyyy hh:mm tt")</MudTd>
+        <MudTd DataLabel="Agency">@Extensions.GetEnumDescription(context.TransactionType)</MudTd>
+        <MudTd Class="text-end" DataLabel="Fund">₱ @context.Total.ToString("N2")</MudTd>
+        <MudTd>
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.TopRight" Size="Size.Small">
+                <MudMenuItem OnClick="()=> Remove(context)">
+                    <MudIcon Icon="@Icons.Material.Filled.DeleteForever" Size="Size.Medium"></MudIcon>
+                    <span>Remove</span>
+                </MudMenuItem>
+                <MudMenuItem>
+                    <MudIcon Icon="@Icons.Material.Filled.Edit" Size="Size.Medium"></MudIcon>
+                    <span>Edit</span>
+                </MudMenuItem>
+                <MudMenuItem>
+                    <MudIcon Icon="@Icons.Material.Filled.LocalPrintshop" Size="Size.Medium"></MudIcon>
+                    <span>Print</span>
+                </MudMenuItem>
+            </MudMenu>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No matching records found</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code{
+    List<ReceiptModel> ListOfReceipts = new();
+    private string searchString1 = "";
+    protected override async Task OnInitializedAsync()
+    {
+        GlobalClass.Title = "Records";
+        await AppState.NotifyStateChangedAsync();
+        await GetReceipts();
+    }
+    private async Task GetReceipts()
+    {
+        Task<List<ReceiptModel>> list = ReceiptService.GetListOfReceipt(new());
+        await list;
+        if(list.Status == TaskStatus.RanToCompletion)
+        {
+            ListOfReceipts = list.Result.ToList();
+        }
+    }
+    private bool FilterFunc1(ReceiptModel element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(ReceiptModel element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Number.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Agency.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Payor.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Fund.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.ApprovedBy.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Value1.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Value2.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Value3.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+    private async Task Remove(ReceiptModel model)
+    {
+        await ReceiptService.RemoveReceipt(model);
+        await GetReceipts();
+        Extensions.ShowSnackbar("Receipt has been remove", Variant.Filled, SnackbarService, Severity.Success);
+    }
+   
+}

@@ -6,6 +6,7 @@ using Blazored.LocalStorage;
 using MudBlazor.Services;
 using WebReceipt.Common;
 using WebReceipt.Server.Services.AccountServices;
+using WebReceipt.Server.Services.ReceiptService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddMudServices();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton<AppState>();
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
+builder.Services.AddScoped<IReceiptService, ReceiptService>();
 
 builder.Services.AddDbContext<AppDBContext>(options =>
 {
