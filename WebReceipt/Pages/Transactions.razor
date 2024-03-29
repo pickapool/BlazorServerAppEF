@@ -1,0 +1,193 @@
+@page "/transactions"
+
+@inject AppState AppState
+
+<div class="center-items flex-column h-100 w-100">
+    @if(!IsNextTransaction)
+    {
+    <MudGrid Spacing="5">
+        <MudItem xs="12">
+    <MudGrid Spacing="4">
+        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.Mayors)">
+            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
+                <MudText class="fw-bolder" Typo="Typo.h5">Mayor's Permit</MudText>
+                <MudIcon Icon="@Icons.Material.Filled.Apartment" Size="Size.Large" Color="Color.Warning"></MudIcon>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.Electrilcal)">
+            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
+                 <MudText class="fw-bolder" Typo="Typo.h5">Electrical Permit</MudText>
+                 <MudIcon Icon="@Icons.Material.Filled.Outlet" Size="Size.Large" Color="Color.Warning"></MudIcon>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.ChairRental)">
+            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
+                 <MudText class="fw-bolder" Typo="Typo.h5">Chair Rental</MudText>
+                <MudIcon Icon="@Icons.Material.Filled.BedroomParent" Size="Size.Large" Color="Color.Warning"></MudIcon> 
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+    </MudItem>
+    <MudItem xs="12">
+    <MudGrid Spacing="4">
+        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.WaterBilling)">
+            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
+                 <MudText class="fw-bolder" Typo="Typo.h5">Water Billing</MudText>
+                 <MudIcon Icon="@Icons.Material.Filled.Money" Size="Size.Large" Color="Color.Warning"></MudIcon>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.Laboratory)">
+            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
+                 <MudText class="fw-bolder" Typo="Typo.h5">Laboratory</MudText>
+                <MudIcon Icon="@Icons.Material.Filled.Money" Size="Size.Large" Color="Color.Warning"></MudIcon>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.MarketStall)">
+            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
+                 <MudText class="fw-bolder" Typo="Typo.h5">Market Stall</MudText>
+                <MudIcon Icon="@Icons.Material.Filled.Money" Size="Size.Large" Color="Color.Warning"></MudIcon>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+    </MudItem>
+    </MudGrid>
+    } else {
+        <div class="d-flex flex-column gap-1">
+        <MudIcon @onclick="()=> Back()" Class="cursor-pointer" Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Medium"></MudIcon>
+        <MudPaper Class="d-flex flex-column pa-4" Elevation="4" Height="80vh" Width="70vh">
+            <MudText Class="text-center">Official Receipt of the Republic</MudText>
+            <MudGrid Spacing="0">
+                <MudItem xs="6">
+                    <MudDatePicker Class="mr-1" @bind-Date="ReceiptModel.DateRecorded" Label="Date" Margin="Margin.Dense"></MudDatePicker>
+                </MudItem>
+                 <MudItem xs="6">
+                    <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Number" Label="No." Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField Class="mr-1" @bind-Value="ReceiptModel.Agency" Label="Agency" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Payor" Label="Payor" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="ReceiptModel.Fund" Label="Funds" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTable Class="nature-table mt-1" Items="ReceiptModel.ListOfNatures"  Dense Hover FixedHeader FixedFooter 
+                    RowEditCommit='( (object model) => Total((NatureOfCollectionModel)model))' Height="200px">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.body1">Nature of Colletions</MudText>
+                            <MudSpacer />
+                            <MudIconButton OnClick="AddNew" Icon="@Icons.Material.Filled.Add" Size="Size.Small"></MudIconButton>
+                        </ToolBarContent>
+                        <ColGroup>
+                        <col/>
+                        <col/>
+                        <col/>
+                        <col style="width: 10px !important;"/>
+                        </ColGroup>
+                        <HeaderContent>
+                            <MudTh>Nature</MudTh>
+                            <MudTh>Account Code</MudTh>
+                            <MudTh Class="text-center">Amount</MudTh>
+                            <MudTh></MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Nature">@context.NatureName</MudTd>
+                            <MudTd DataLabel="Code">@context.AccountCode</MudTd>
+                            <MudTd Class="text-center" DataLabel="Amount">@context.Amount</MudTd>
+                            <MudTd DataLabel="Action">
+                                <MudIconButton OnClick="(()=> { ReceiptModel.ListOfNatures.Remove(context); })" Icon="@Icons.Material.Filled.RemoveCircle" Size="Size.Small"></MudIconButton>
+                            </MudTd>
+                        </RowTemplate>
+                        <RowEditingTemplate>
+                            <MudTd DataLabel="Nature">
+                                <MudTextField @bind-Value="@context.NatureName" Margin="Margin.Dense"></MudTextField>
+                            </MudTd>
+                            <MudTd DataLabel="Nature">
+                                <MudTextField @bind-Value="@context.AccountCode" Margin="Margin.Dense"></MudTextField>
+                            </MudTd>
+                            <MudTd DataLabel="Nature">
+                                <MudTextField Class="text-center" @bind-Value="@context.Amount" Margin="Margin.Dense"></MudTextField>
+                            </MudTd>
+                        </RowEditingTemplate>
+                    </MudTable>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudCheckBox @bind-Checked="ReceiptModel.checked1" Size="Size.Small" Label="Checke 1"></MudCheckBox>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudCheckBox @bind-Checked="ReceiptModel.checked2" Size="Size.Small" Label="Checke 2"></MudCheckBox>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudCheckBox @bind-Checked="ReceiptModel.checked2" Size="Size.Small" Label="Checke 3"></MudCheckBox>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField Class="mr-1" @bind-Value="ReceiptModel.Value1" Label="Approve By" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField Class="ml-1 mr-1" @bind-Value="ReceiptModel.Value2" Label="Approve By" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Value3" Label="Approve By" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="6"></MudItem>
+                 <MudItem xs="6">
+                    <MudTextField @bind-Value="ReceiptModel.ApprovedBy" Label="Approve By" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+        </div>
+    }
+</div>
+
+@code
+{
+    private bool IsNextTransaction = false;
+    private ReceiptModel ReceiptModel = new();
+    protected override async Task OnInitializedAsync()
+    {
+        ReceiptModel = new();
+        GlobalClass.Title = "Transactions";
+        await AppState.NotifyStateChangedAsync();
+    }
+
+    private async Task NextTransaction(Enums.TransactionType tType)
+    {
+        ReceiptModel = new();
+        if(tType.Equals(Enums.TransactionType.Mayors))
+            GlobalClass.Title = "Mayor's Permit";
+        else if(tType.Equals(Enums.TransactionType.Electrilcal))
+            GlobalClass.Title = "Electrical Permit";
+        else if(tType.Equals(Enums.TransactionType.ChairRental))
+            GlobalClass.Title = "Chair Rental";
+        else if(tType.Equals(Enums.TransactionType.WaterBilling))
+            GlobalClass.Title = "Water Billing";
+        else if(tType.Equals(Enums.TransactionType.Laboratory))
+            GlobalClass.Title = "Laboratory";
+        else if(tType.Equals(Enums.TransactionType.MarketStall))
+            GlobalClass.Title = "Market Stall";
+        await AppState.NotifyStateChangedAsync();
+        StateHasChanged();
+        IsNextTransaction = !IsNextTransaction;
+    }
+    private void AddNew()
+    {
+        ReceiptModel.ListOfNatures.Add(new());
+        StateHasChanged();
+    }
+    private void Total(NatureOfCollectionModel model)
+    {
+        if(model != null)
+        {
+            ReceiptModel.Total = ReceiptModel.ListOfNatures.Sum( e => e.Amount);
+        }
+    }
+    private async Task Back()
+    {
+        IsNextTransaction = !IsNextTransaction;
+        GlobalClass.Title = "Transactions";
+        await AppState.NotifyStateChangedAsync();
+    }
+
+}
