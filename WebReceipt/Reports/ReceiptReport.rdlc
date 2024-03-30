@@ -461,7 +461,7 @@ of the</Value>
                 <Top>0.55556in</Top>
                 <Left>0.00001in</Left>
                 <Height>0.5in</Height>
-                <Width>3.95749in</Width>
+                <Width>3.95748in</Width>
                 <ZIndex>3</ZIndex>
                 <Style>
                   <Border>
@@ -1280,7 +1280,7 @@ of the</Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Received the amount started above</Value>
+                    <Value />
                     <Style>
                       <FontSize>9pt</FontSize>
                     </Style>
@@ -1443,7 +1443,7 @@ of the</Value>
         <KeepTogether>true</KeepTogether>
         <Top>0.84667in</Top>
         <Left>0.30999in</Left>
-        <Height>7.75814in</Height>
+        <Height>7.75815in</Height>
         <Width>3.96793in</Width>
         <Style>
           <Border>
@@ -1550,7 +1550,7 @@ of the</Value>
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>8.60481in</Height>
+    <Height>8.60482in</Height>
     <Style />
   </Body>
   <Width>4.41428in</Width>
