@@ -1,68 +1,17 @@
-@page "/transactions"
-
-@inject AppState AppState
 @inject IReceiptService ReceiptService
 @inject ISnackbar SnackbarService
 
-<div class="center-items flex-column h-100 w-100">
-    @if(!IsNextTransaction)
-    {
-    <MudGrid Spacing="5">
-        <MudItem xs="12">
-    <MudGrid Spacing="4">
-        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.Mayors)">
-            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
-                <MudText class="fw-bolder" Typo="Typo.h5">Mayor's Permit</MudText>
-                <MudIcon Icon="@Icons.Material.Filled.Apartment" Size="Size.Large" Color="Color.Warning"></MudIcon>
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.Electrilcal)">
-            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
-                 <MudText class="fw-bolder" Typo="Typo.h5">Electrical Permit</MudText>
-                 <MudIcon Icon="@Icons.Material.Filled.Outlet" Size="Size.Large" Color="Color.Warning"></MudIcon>
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.ChairRental)">
-            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
-                 <MudText class="fw-bolder" Typo="Typo.h5">Chair Rental</MudText>
-                <MudIcon Icon="@Icons.Material.Filled.BedroomParent" Size="Size.Large" Color="Color.Warning"></MudIcon> 
-            </MudPaper>
-        </MudItem>
-    </MudGrid>
-    </MudItem>
-    <MudItem xs="12">
-    <MudGrid Spacing="4">
-        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.WaterBilling)">
-            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
-                 <MudText class="fw-bolder" Typo="Typo.h5">Water Billing</MudText>
-                 <MudIcon Icon="@Icons.Material.Filled.Money" Size="Size.Large" Color="Color.Warning"></MudIcon>
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.Laboratory)">
-            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
-                 <MudText class="fw-bolder" Typo="Typo.h5">Laboratory</MudText>
-                <MudIcon Icon="@Icons.Material.Filled.Money" Size="Size.Large" Color="Color.Warning"></MudIcon>
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="4" @onclick="()=> NextTransaction(Enums.TransactionType.MarketStall)">
-            <MudPaper Class="cursor-pointer permits center-items flex-column" Elevation="4" Height="200px" Width="85%">
-                 <MudText class="fw-bolder" Typo="Typo.h5">Market Stall</MudText>
-                <MudIcon Icon="@Icons.Material.Filled.Money" Size="Size.Large" Color="Color.Warning"></MudIcon>
-            </MudPaper>
-        </MudItem>
-    </MudGrid>
-    </MudItem>
-    </MudGrid>
-    } else {
-        <div class="d-flex flex-column gap-1">
-        <MudIcon @onclick="()=> Back()" Class="cursor-pointer" Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Medium"></MudIcon>
-        <MudPaper Class="d-flex flex-column pa-4" Elevation="4" Height="86vh" Width="70vh">
-            <MudText Class="text-center">Receipt Form</MudText>
+<MudDialog>
+    <TitleContent>
+        <MudText Class="text-center">Receipt Form</MudText>
+    </TitleContent>
+    <DialogContent>
+            
             <MudGrid Spacing="0">
                 <MudItem xs="6">
                     <MudDatePicker Class="mr-1" @bind-Date="ReceiptModel.DateRecorded" Label="Date" Margin="Margin.Dense"></MudDatePicker>
                 </MudItem>
-                 <MudItem xs="6">
+                    <MudItem xs="6">
                     <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Number" Label="No." Margin="Margin.Dense"></MudTextField>
                 </MudItem>
                 <MudItem xs="12">
@@ -134,55 +83,29 @@
                 <MudItem xs="4">
                     <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Value3" Label="Approve By" Margin="Margin.Dense"></MudTextField>
                 </MudItem>
-                <MudItem xs="6"></MudItem>
-                 <MudItem xs="6">
-                    <MudTextField @bind-Value="ReceiptModel.ApprovedBy" Label="Approve By" Margin="Margin.Dense"></MudTextField>
+                <MudItem xs="6">
+                    <MudSelect Class="mr-1" @bind-Value="ReceiptModel.TransactionType" Text="@Extensions.GetEnumDescription(ReceiptModel.TransactionType)" Placeholder="Transaction Type" Margin='Margin.Dense'
+                        AnchorOrigin="Origin.BottomCenter">
+                        @foreach (Enums.TransactionType type in Enum.GetValues(typeof(Enums.TransactionType)))
+                        {
+                            <MudSelectItem Value="@type">@Extensions.GetEnumDescription(type)</MudSelectItem>
+                        }
+                    </MudSelect>
                 </MudItem>
+                    <MudItem xs="6">
+                        <MudTextField Class="ml-1" @bind-Value="ReceiptModel.ApprovedBy" Label="Approve By" Margin="Margin.Dense"></MudTextField>
+                    </MudItem>
                 <MudItem xs="12" Class="d-flex justify-content-center align-items-center mt-4">
-                <MudButton OnClick="AddReceipt" Class="center" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">Add Receipt</MudButton>
+                <MudButton OnClick="Cancel" Class="center" Size="Size.Small" Color="Color.Default" >Cancel</MudButton>
+                <MudButton OnClick="Update" Class="center" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">Update Receipt</MudButton>
                 </MudItem>
             </MudGrid>
-        </MudPaper>
-        </div>
-    }
-</div>
-
-@code
-{
-    private bool IsNextTransaction = false;
-    private ReceiptModel ReceiptModel = new();
-    protected override async Task OnInitializedAsync()
-    {
-        ReceiptModel = new();
-        GlobalClass.Title = "Transactions";
-        await AppState.NotifyStateChangedAsync();
-    }
-
-    private async Task NextTransaction(Enums.TransactionType tType)
-    {
-        ReceiptModel = new();
-        if(tType.Equals(Enums.TransactionType.Mayors))
-            GlobalClass.Title = "Mayor's Permit";
-        else if(tType.Equals(Enums.TransactionType.Electrilcal))
-            GlobalClass.Title = "Electrical Permit";
-        else if(tType.Equals(Enums.TransactionType.ChairRental))
-            GlobalClass.Title = "Chair Rental";
-        else if(tType.Equals(Enums.TransactionType.WaterBilling))
-            GlobalClass.Title = "Water Billing";
-        else if(tType.Equals(Enums.TransactionType.Laboratory))
-            GlobalClass.Title = "Laboratory";
-        else if(tType.Equals(Enums.TransactionType.MarketStall))
-            GlobalClass.Title = "Market Stall";
-        ReceiptModel.TransactionType = tType;
-        await AppState.NotifyStateChangedAsync();
-        StateHasChanged();
-        IsNextTransaction = !IsNextTransaction;
-    }
-    private void AddNew()
-    {
-        ReceiptModel.ListOfNatures.Add(new());
-        StateHasChanged();
-    }
+      
+</DialogContent>
+</MudDialog>
+@code{
+    [CascadingParameter] public MudDialogInstance MudDialog { get; set; } = default!;
+    [Parameter] public ReceiptModel ReceiptModel { get;set; } = new();
     private void Total(NatureOfCollectionModel model)
     {
         if(model != null)
@@ -190,21 +113,24 @@
             ReceiptModel.Total = ReceiptModel.ListOfNatures.Sum( e => e.Amount);
         }
     }
-    private async Task Back()
-    {
-        IsNextTransaction = !IsNextTransaction;
-        GlobalClass.Title = "Transactions";
-        await AppState.NotifyStateChangedAsync();
-    }
-    private async Task AddReceipt()
+    private async Task Update()
     {
         ReceiptModel.Total = ReceiptModel.ListOfNatures.Sum( e => e.Amount);
-        Task t = ReceiptService.AddReceipt(ReceiptModel);
+        Task t = ReceiptService.UpdateReceipt(ReceiptModel);
         await t;
         if(t.Status == TaskStatus.RanToCompletion)
         {
             Extensions.ShowSnackbar("Receipt has been save.", Variant.Filled, SnackbarService, Severity.Success);
-            IsNextTransaction = !IsNextTransaction;
+            MudDialog.Close();
         }
+    }
+    private void AddNew()
+    {
+        ReceiptModel.ListOfNatures.Add(new());
+        StateHasChanged();
+    }
+    private void Cancel()
+    {
+        MudDialog.Cancel();
     }
 }

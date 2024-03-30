@@ -1,6 +1,6 @@
-using System.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
 using WebReceipt.Models;
+using Microsoft.EntityFrameworkCore;
 using WebReceipt.Server.AppDatabaseContext;
 
 namespace WebReceipt.Server.Services.ReceiptService
@@ -16,7 +16,7 @@ namespace WebReceipt.Server.Services.ReceiptService
         [HttpPost]
         public async Task<List<ReceiptModel>> GetListOfReceipt(FilterParameter param)
         {
-            return _context.Receipts.ToList();
+            return _context.Receipts.Include( e => e.ListOfNatures).ToList();
         }
         [HttpPost]
         public async Task<ActionResult<ReceiptModel>> AddReceipt(ReceiptModel receipt)
@@ -29,6 +29,13 @@ namespace WebReceipt.Server.Services.ReceiptService
         public async Task<ActionResult<ReceiptModel>> RemoveReceipt(ReceiptModel receipt)
         {
             _context.Receipts.Remove(receipt);
+            await _context.SaveChangesAsync();
+            return receipt;
+        }
+        [HttpPut]
+        public async Task<ActionResult<ReceiptModel>> UpdateReceipt(ReceiptModel receipt)
+        {
+            _context.Entry(receipt).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return receipt;
         }

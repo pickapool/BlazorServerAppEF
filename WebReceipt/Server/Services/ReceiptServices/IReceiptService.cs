@@ -8,5 +8,6 @@ namespace WebReceipt.Server.Services.ReceiptService
         Task<ActionResult<ReceiptModel>> AddReceipt(ReceiptModel receipt);
          Task<List<ReceiptModel>> GetListOfReceipt(FilterParameter param);
          Task<ActionResult<ReceiptModel>> RemoveReceipt(ReceiptModel receipt);
+         Task<ActionResult<ReceiptModel>> UpdateReceipt(ReceiptModel receipt);
     }
 }

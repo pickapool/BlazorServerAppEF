@@ -25,6 +25,8 @@ namespace WebReceipt.Models
         public string Value2 { get; set; }
         public String Value3 { get; set; }
         public Enums.TransactionType TransactionType { get; set ;}
+        [NotMapped]
+        public bool IsShowReceipt { get; set; }
 
     }
 }
