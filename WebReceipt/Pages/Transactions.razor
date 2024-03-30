@@ -117,26 +117,26 @@
                     </MudTable>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudCheckBox @bind-Checked="ReceiptModel.checked1" Size="Size.Small" Label="Checke 1"></MudCheckBox>
+                    <MudCheckBox @bind-Checked="ReceiptModel.Cash" Size="Size.Small" Label="Cash"></MudCheckBox>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudCheckBox @bind-Checked="ReceiptModel.checked2" Size="Size.Small" Label="Checke 2"></MudCheckBox>
+                    <MudCheckBox @bind-Checked="ReceiptModel.Check" Size="Size.Small" Label="Check"></MudCheckBox>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudCheckBox @bind-Checked="ReceiptModel.checked3" Size="Size.Small" Label="Checke 3"></MudCheckBox>
+                    <MudCheckBox @bind-Checked="ReceiptModel.MoneyOrder" Size="Size.Small" Label="Money Order"></MudCheckBox>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudTextField Class="mr-1" @bind-Value="ReceiptModel.Value1" Label="Approve By" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField Class="mr-1" @bind-Value="ReceiptModel.DraweeBank" Label="Drawee Bank" Margin="Margin.Dense"></MudTextField>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudTextField Class="ml-1 mr-1" @bind-Value="ReceiptModel.Value2" Label="Approve By" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField Class="ml-1 mr-1" @bind-Value="ReceiptModel.DraweeNumber" Label="Drawee Number" Margin="Margin.Dense"></MudTextField>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Value3" Label="Approve By" Margin="Margin.Dense"></MudTextField>
+                    <MudDatePicker Class="mr-1" @bind-Date="ReceiptModel.DraweeDate" Label="Drawee Date" Margin="Margin.Dense"></MudDatePicker>
                 </MudItem>
                 <MudItem xs="6"></MudItem>
                  <MudItem xs="6">
-                    <MudTextField @bind-Value="ReceiptModel.ApprovedBy" Label="Approve By" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField @bind-Value="ReceiptModel.CollectionOfficer" Label="Collection Officer" Margin="Margin.Dense"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" Class="d-flex justify-content-center align-items-center mt-4">
                 <MudButton OnClick="AddReceipt" Class="center" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">Add Receipt</MudButton>

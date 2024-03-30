@@ -45,17 +45,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Reports\Datasets\RecordsDataset.Designer.cs">
-      <DependentUpon>RecordsDataset.xsd</DependentUpon>
+    <Compile Update="Reports\Datasets\NatureDataset.Designer.cs">
+      <DependentUpon>NatureDataset.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Reports\Datasets\ReceiptDataset.Designer.cs">
+      <DependentUpon>ReceiptDataset.xsd</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Reports\Datasets\RecordsDataset.xsd">
+    <None Update="Reports\Datasets\NatureDataset.xsd">
       <SubType>Designer</SubType>
-      <LastGenOutput>RecordsDataset.Designer.cs</LastGenOutput>
+      <LastGenOutput>NatureDataset.Designer.cs</LastGenOutput>
+      <Generator>MSDataSetGenerator</Generator>
+    </None>
+    <None Update="Reports\Datasets\ReceiptDataset.xsd">
+      <SubType>Designer</SubType>
+      <LastGenOutput>ReceiptDataset.Designer.cs</LastGenOutput>
       <Generator>MSDataSetGenerator</Generator>
     </None>
   </ItemGroup>

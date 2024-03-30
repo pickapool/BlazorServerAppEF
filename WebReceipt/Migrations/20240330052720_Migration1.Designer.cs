@@ -12,7 +12,7 @@ using WebReceipt.Server.AppDatabaseContext;
 namespace WebReceipt.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240329045348_Migration1")]
+    [Migration("20240330052720_Migration1")]
     partial class Migration1
     {
         /// <inheritdoc />
@@ -66,16 +66,36 @@ namespace WebReceipt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ApprovedBy")
+                    b.Property<bool>("Cash")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Check")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CollectionOfficer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DateRecorded")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DraweeBank")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DraweeDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DraweeNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Fund")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("MoneyOrder")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Number")
                         .IsRequired()
@@ -90,27 +110,6 @@ namespace WebReceipt.Migrations
 
                     b.Property<int>("TransactionType")
                         .HasColumnType("int");
-
-                    b.Property<string>("Value1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("checked1")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("checked2")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("checked3")
-                        .HasColumnType("bit");
 
                     b.HasKey("ReceiptId");
 

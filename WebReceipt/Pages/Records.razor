@@ -102,13 +102,11 @@
             return true;
         if (element.Fund.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (element.ApprovedBy.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.CollectionOfficer.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (element.Value1.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.DraweeBank.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (element.Value2.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        if (element.Value3.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.DraweeNumber.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }

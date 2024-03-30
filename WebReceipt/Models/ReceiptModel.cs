@@ -17,13 +17,13 @@ namespace WebReceipt.Models
         public double Total { get; set; }
         [ForeignKey("ReceiptId")]
         public List<NatureOfCollectionModel> ListOfNatures { get; set; } = new();
-        public bool checked1 { get; set; } = false;
-        public bool checked2 { get; set; } = false;
-        public bool checked3 { get; set; } = false;
-        public string ApprovedBy { get; set; }
-        public string Value1 { get; set ;}
-        public string Value2 { get; set; }
-        public String Value3 { get; set; }
+        public bool Cash { get; set; } = false;
+        public bool Check { get; set; } = false;
+        public bool MoneyOrder { get; set; } = false;
+        public string CollectionOfficer { get; set; }
+        public string DraweeBank { get; set ;}
+        public string DraweeNumber { get; set; }
+        public DateTime? DraweeDate { get; set; } = DateTime.Now;
         public Enums.TransactionType TransactionType { get; set ;}
         [NotMapped]
         public bool IsShowReceipt { get; set; }
