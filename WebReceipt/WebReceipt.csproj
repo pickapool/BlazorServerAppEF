@@ -7,12 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Reports\ReceiptReport.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\ReceiptReport.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="Blazored.Typeahead" Version="4.7.0" />
     <PackageReference Include="bootstrap" Version="5.3.3" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.8.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.17">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -45,11 +56,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Reports\Datasets\NatureDataset.Designer.cs">
-      <DependentUpon>NatureDataset.xsd</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Update="Reports\Datasets\ReceiptDataset.Designer.cs">
       <DependentUpon>ReceiptDataset.xsd</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -58,11 +64,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Reports\Datasets\NatureDataset.xsd">
-      <SubType>Designer</SubType>
-      <LastGenOutput>NatureDataset.Designer.cs</LastGenOutput>
-      <Generator>MSDataSetGenerator</Generator>
-    </None>
     <None Update="Reports\Datasets\ReceiptDataset.xsd">
       <SubType>Designer</SubType>
       <LastGenOutput>ReceiptDataset.Designer.cs</LastGenOutput>

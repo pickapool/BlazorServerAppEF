@@ -27,6 +27,8 @@ namespace WebReceipt.Models
         public Enums.TransactionType TransactionType { get; set ;}
         [NotMapped]
         public bool IsShowReceipt { get; set; }
+        [NotMapped]
+        public string PDF { get; set; }
 
     }
 }

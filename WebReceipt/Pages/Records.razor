@@ -4,6 +4,7 @@
 @inject IReceiptService ReceiptService
 @inject ISnackbar SnackbarService
 @inject IDialogService DialogService
+@inject IReportService ReportService
 
 <MudTable Items="ListOfReceipts"
           Dense="true" Hover="true" Height="80vh"
@@ -46,15 +47,23 @@
                     <MudIcon Icon="@Icons.Material.Filled.Edit" Size="Size.Medium"></MudIcon>
                     <span>Edit</span>
                 </MudMenuItem>
-                <MudMenuItem>
-                    <MudIcon Icon="@Icons.Material.Filled.LocalPrintshop" Size="Size.Medium"></MudIcon>
+                <MudMenuItem OnClick="()=> GetReport(context)">
+                        <MudIcon Icon="@Icons.Material.Filled.LocalPrintshop" Size="Size.Medium"></MudIcon>
                     <span>Print</span>
                 </MudMenuItem>
             </MudMenu>
         </MudTd>
     </RowTemplate>
     <ChildRowContent>
-
+        @if(context.IsShowReceipt)
+        {
+            <td class="pa-1" colspan="6">
+                <div class="d-flex flex-column justify-content-end gap-1 w-100">
+                    <MudButton OnClick="()=> context.IsShowReceipt = !context.IsShowReceipt" Class="ml-auto mr-1 mb-3" Variant="Variant.Filled" Color="Color.Error" Label="true">Close</MudButton>
+                    <iframe src='@context.PDF' style='height:81vh;' />
+                </div>
+            </td>
+        }
     </ChildRowContent>
     <NoRecordsContent>
         <MudText>No matching records found</MudText>
@@ -80,6 +89,7 @@
     private async Task GetReceipts()
     {
         IsLoading = true;
+        StateHasChanged();
         Task<List<ReceiptModel>> list = ReceiptService.GetListOfReceipt(new());
         await list;
         if(list.Status == TaskStatus.RanToCompletion)
@@ -127,5 +137,19 @@
             await GetReceipts();
         }
     }
-   
+    private void GetReport(ReceiptModel receipt)
+    {
+        IsLoading = true;
+        StateHasChanged();
+        receipt.IsShowReceipt = !receipt.IsShowReceipt;
+        IActionResult report = ReportService.GetMasterListReport(receipt);
+        if (report is FileContentResult fileContentResult)
+        {
+            byte[] pdfBytes = fileContentResult.FileContents;
+            receipt.PDF = "data:application/pdf;base64," + Convert.ToBase64String(pdfBytes);
+            IsLoading = false;
+        }
+
+    }
+
 }
