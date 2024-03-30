@@ -50,13 +50,25 @@
                     </MudItem>
                     <MudItem xs=2><MudCheckBox @bind-Checked="parameter.IsTransactionType"></MudCheckBox></MudItem>
                     <MudItem xs=10>
-                        <MudSelect T="Enums.TransactionType" Class="w300px" @bind-SelectedValues="parameter.ListOfTransaction" Label="Transaction Type"
-                            @bind-Value="tType"  Clearable Margin="Margin.Dense"
-                            IconSize='Size.Small' Dense MultiSelection Disabled='!parameter.IsTransactionType' Placeholder='Transaction Type' Variant='Variant.Outlined'
-                            AnchorOrigin='Origin.BottomCenter' TransformOrigin='Origin.TopCenter'>
-                           @foreach (Enums.TransactionType transactionType in Enum.GetValues(typeof(Enums.TransactionType)))
+                        <MudSelect T="Enums.TransactionType?" 
+                            Class="w300px" 
+                            @bind-SelectedValues="parameter.ListOfTransaction" 
+                            Label="Transaction Type"
+                            @bind-Value="tType"  
+                            Clearable 
+                            Margin="Margin.Dense" 
+                            MultiSelectionTextFunc="@(new Func<List<string>, string>(SelectedType))"
+                            IconSize='Size.Small' 
+                            Dense 
+                            MultiSelection 
+                            Disabled='!parameter.IsTransactionType' 
+                            Placeholder='Transaction Type' 
+                            Variant='Variant.Outlined'
+                            AnchorOrigin='Origin.BottomCenter' 
+                            TransformOrigin='Origin.TopCenter'>
+                            @foreach (Enums.TransactionType transactionType in Enum.GetValues(typeof(Enums.TransactionType)))
                             {
-                                <MudSelectItem Value="@transactionType">@Extensions.GetEnumDescription(transactionType)</MudSelectItem>
+                                <MudSelectItem T="Enums.TransactionType?" Value="@transactionType">@Extensions.GetEnumDescription(transactionType)</MudSelectItem>
                             }
                         </MudSelect>
                     </MudItem>
@@ -135,8 +147,7 @@
     private string searchString1 = "";
     private bool IsLoading = false;
     public bool _isOpen;
-    private Enums.TransactionType tType { get; set; }
-    private IEnumerable<Enums.TransactionType> options { get; set; } = new HashSet<Enums.TransactionType>();
+    private Enums.TransactionType? tType { get; set; }
     FilterParameter parameter = new();
     protected override async Task OnInitializedAsync()
     {
@@ -220,6 +231,15 @@
     {
         await GetReceipts(parameter);
         Toggle();
+    }
+    private string SelectedType(List<string> types)
+    {
+        var tTypeDescriptions = parameter.ListOfTransaction
+            .Where(x => x != null) // Filter out null values
+            .Select(x => Extensions.GetEnumDescription(x)); // Select descriptions for non-null values
+        var tType = string.Join(", ", tTypeDescriptions);
+        
+        return tType;
     }
 
 }
