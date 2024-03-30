@@ -16,7 +16,24 @@ namespace WebReceipt.Server.Services.ReceiptService
         [HttpPost]
         public async Task<List<ReceiptModel>> GetListOfReceipt(FilterParameter param)
         {
-            return _context.Receipts.Include( e => e.ListOfNatures).ToList();
+            List<ReceiptModel> current = _context.Receipts.Include( e => e.ListOfNatures).ToList();
+            if (param.IsDate)
+            {
+                current = current.Where(sa => sa.DateRecorded >= param._dateRange.Start && sa.DateRecorded <= param._dateRange.End).ToList();
+            }
+            if(param.IsPayor)
+            {
+                current = current.Where( e => e.Payor.Contains(param.PayorName, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+            if(param.IsORNumber)
+            {
+                current = current.Where( e => e.Number.Contains(param.ORNumber, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+            if(param.IsTransactionType)
+            {
+                current = current.Where( e => param.ListOfTransaction.Any( b => e.TransactionType == b)).ToList();
+            }
+            return current;
         }
         [HttpPost]
         public async Task<ActionResult<ReceiptModel>> AddReceipt(ReceiptModel receipt)

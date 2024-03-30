@@ -121,3 +121,15 @@ h5{
 {
     justify-content: unset !important;
 }
+.chip-number
+{
+    background-color: #e6e6e6;
+    color: #282a2b;
+    border-radius: 5px;
+    font-size: 12px;
+    text-align: center;
+}
+.width400px
+{
+    width: 400px;
+}

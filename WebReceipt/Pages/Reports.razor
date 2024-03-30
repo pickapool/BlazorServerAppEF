@@ -1,9 +1,8 @@
-@page "/records"
+@page "/reports"
 
 @inject AppState AppState
 @inject IReceiptService ReceiptService
 @inject ISnackbar SnackbarService
-@inject IDialogService DialogService
 @inject IReportService ReportService
 
 <MudTable Items="ListOfReceipts"
@@ -51,7 +50,7 @@
                     <MudItem xs=2><MudCheckBox @bind-Checked="parameter.IsTransactionType"></MudCheckBox></MudItem>
                     <MudItem xs=10>
                         <MudSelect T="Enums.TransactionType" Class="w300px" @bind-SelectedValues="parameter.ListOfTransaction" Label="Transaction Type"
-                            @bind-Value="tType"  Clearable Margin="Margin.Dense"
+                            @bind-Value="tType"  Clearable Margin="Margin.Dense" MultiSelectionTextFunc="@(new Func<List<string>, string>(SelectedType))"
                             IconSize='Size.Small' Dense MultiSelection Disabled='!parameter.IsTransactionType' Placeholder='Transaction Type' Variant='Variant.Outlined'
                             AnchorOrigin='Origin.BottomCenter' TransformOrigin='Origin.TopCenter'>
                            @foreach (Enums.TransactionType transactionType in Enum.GetValues(typeof(Enums.TransactionType)))
@@ -60,7 +59,6 @@
                             }
                         </MudSelect>
                     </MudItem>
-
                     <MudItem xs="7"></MudItem>
                     <MudItem xs="5">
                         <MudButton OnClick="@Toggle" Class="ml-auto mr-1 mb-3" Color="Color.Default">Close</MudButton>
@@ -70,55 +68,44 @@
             </MudPopover>
     </ToolBarContent>
     <ColGroup>
+    <col style="width: 120px;"/>
+    <col/>
+    <col style="width: 190px;"/>
     <col/>
     <col/>
     <col/>
     <col/>
     <col/>
-    <col style="width: 10px;"/>
+    <col/>
     </ColGroup>
     <HeaderContent>
         <MudTh><MudTableSortLabel SortLabel="f_number" T="ReceiptModel">OR No.</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="f_payor" T="ReceiptModel">Payor</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="f_date" T="ReceiptModel">Date</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_agency" T="ReceiptModel">Transaction Type</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Total</MudTableSortLabel></MudTh>
-        <MudTh></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Chair Rental</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Mayor's permit</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Laboratory</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Electrical Payment</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Water Billing</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Market Stall</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Number">@context.Number</MudTd>
+        <MudTd DataLabel="Number">
+            <div class="chip-number pa-1">
+                @context.Number
+            </div>
+        </MudTd>
         <MudTd DataLabel="Payor">@context.Payor</MudTd>
         <MudTd DataLabel="Date">@context.DateRecorded?.ToString("MM/dd/yyyy hh:mm tt")</MudTd>
-        <MudTd DataLabel="Agency">@Extensions.GetEnumDescription(context.TransactionType)</MudTd>
-        <MudTd Class="text-end" DataLabel="Fund">₱ @context.Total.ToString("N2")</MudTd>
-        <MudTd>
-            <MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.TopRight" Size="Size.Small">
-                <MudMenuItem OnClick="()=> Remove(context)">
-                    <MudIcon Icon="@Icons.Material.Filled.DeleteForever" Size="Size.Medium"></MudIcon>
-                    <span>Remove</span>
-                </MudMenuItem>
-                <MudMenuItem OnClick="()=> EditRecord(context)">
-                    <MudIcon Icon="@Icons.Material.Filled.Edit" Size="Size.Medium"></MudIcon>
-                    <span>Edit</span>
-                </MudMenuItem>
-                <MudMenuItem OnClick="()=> GetReport(context)">
-                        <MudIcon Icon="@Icons.Material.Filled.LocalPrintshop" Size="Size.Medium"></MudIcon>
-                    <span>Print</span>
-                </MudMenuItem>
-            </MudMenu>
-        </MudTd>
+        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.ChairRental ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Mayors ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Laboratory ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Electrilcal ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.WaterBilling ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.MarketStall ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+        @* <MudTd Class="text-end" DataLabel="Fund">₱ @context.Total.ToString("N2")</MudTd> *@
+                @* <MudTd DataLabel="Agency">@Extensions.GetEnumDescription(context.TransactionType)</MudTd> *@
     </RowTemplate>
-    <ChildRowContent>
-        @if(context.IsShowReceipt)
-        {
-            <td class="pa-1" colspan="6">
-                <div class="d-flex flex-column justify-content-end gap-1 w-100">
-                    <MudButton OnClick="()=> context.IsShowReceipt = !context.IsShowReceipt" Class="ml-auto mr-1 mb-3" Variant="Variant.Filled" Color="Color.Error" Label="true">Close</MudButton>
-                    <iframe src='@context.PDF' style='height:81vh;' />
-                </div>
-            </td>
-        }
-    </ChildRowContent>
     <NoRecordsContent>
         <MudText>No matching records found</MudText>
     </NoRecordsContent>
@@ -140,7 +127,7 @@
     FilterParameter parameter = new();
     protected override async Task OnInitializedAsync()
     {
-        GlobalClass.Title = "Records";
+        GlobalClass.Title = "Reports";
         await AppState.NotifyStateChangedAsync();
         await GetReceipts(new());
     }
@@ -178,23 +165,6 @@
             return true;
         return false;
     }
-    private async Task Remove(ReceiptModel model)
-    {
-        await ReceiptService.RemoveReceipt(model);
-        await GetReceipts(new());
-        Extensions.ShowSnackbar("Receipt has been remove", Variant.Filled, SnackbarService, Severity.Success);
-    }
-    private async Task EditRecord(ReceiptModel model)
-    {
-        var parameters = new DialogParameters();
-        parameters.Add("ReceiptModel", model);
-        var options = new DialogOptions() { CloseButton = false, MaxWidth = MaxWidth.Small, FullWidth = true, NoHeader = false, DisableBackdropClick = false };
-        var resultDialog = await DialogService.Show<Components.ReceiptForm>("", parameters, options).Result;
-        if (!resultDialog.Canceled)
-        {
-            await GetReceipts(new());
-        }
-    }
     private void GetReport(ReceiptModel receipt)
     {
         IsLoading = true;
@@ -209,7 +179,7 @@
         }
 
     }
-     public void Toggle()
+    public void Toggle()
     {
         if (_isOpen)
             _isOpen = false;
@@ -221,5 +191,13 @@
         await GetReceipts(parameter);
         Toggle();
     }
-
+    private string SelectedType(List<string> types)
+    {
+        var tType = "";
+        foreach (var item in parameter.ListOfTransaction)
+        {
+        tType = string.Join(", ", parameter.ListOfTransaction.Select(x => Extensions.GetEnumDescription(x)));      
+        }
+        return $"{tType}";
+    }
 }
