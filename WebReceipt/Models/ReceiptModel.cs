@@ -29,6 +29,14 @@ namespace WebReceipt.Models
         public bool IsShowReceipt { get; set; }
         [NotMapped]
         public string PDF { get; set; }
+        [NotMapped]
+        public int TransactionTypeId
+        {
+            get
+            {
+                return (int) TransactionType;
+            }
+        }
 
     }
 }

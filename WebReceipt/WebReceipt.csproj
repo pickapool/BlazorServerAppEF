@@ -8,10 +8,14 @@
 
   <ItemGroup>
     <None Remove="Reports\ReceiptReport.rdlc" />
+    <None Remove="Reports\RecordsReport.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Reports\ReceiptReport.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RecordsReport.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

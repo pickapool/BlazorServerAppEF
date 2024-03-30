@@ -344,6 +344,8 @@ namespace WebReceipt.Reports.Datasets {
             
             private global::System.Data.DataColumn columnTransactionType;
             
+            private global::System.Data.DataColumn columnTransactionTypeId;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ReceiptDatasetDataTable() {
@@ -499,6 +501,14 @@ namespace WebReceipt.Reports.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TransactionTypeIdColumn {
+                get {
+                    return this.columnTransactionTypeId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -534,7 +544,23 @@ namespace WebReceipt.Reports.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ReceiptDatasetRow AddReceiptDatasetRow(string ReceiptId, string DateRecorded, string Number, string Agency, string Payor, string Fund, string Total, string Cash, string Check, string MoneyOrder, string CollectionOfficer, string DraweeBank, string DraweeNumber, string DraweeDate, string TransactionType) {
+            public ReceiptDatasetRow AddReceiptDatasetRow(
+                        string ReceiptId, 
+                        string DateRecorded, 
+                        string Number, 
+                        string Agency, 
+                        string Payor, 
+                        string Fund, 
+                        string Total, 
+                        string Cash, 
+                        string Check, 
+                        string MoneyOrder, 
+                        string CollectionOfficer, 
+                        string DraweeBank, 
+                        string DraweeNumber, 
+                        string DraweeDate, 
+                        string TransactionType, 
+                        string TransactionTypeId) {
                 ReceiptDatasetRow rowReceiptDatasetRow = ((ReceiptDatasetRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ReceiptId,
@@ -551,7 +577,8 @@ namespace WebReceipt.Reports.Datasets {
                         DraweeBank,
                         DraweeNumber,
                         DraweeDate,
-                        TransactionType};
+                        TransactionType,
+                        TransactionTypeId};
                 rowReceiptDatasetRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReceiptDatasetRow);
                 return rowReceiptDatasetRow;
@@ -589,6 +616,7 @@ namespace WebReceipt.Reports.Datasets {
                 this.columnDraweeNumber = base.Columns["DraweeNumber"];
                 this.columnDraweeDate = base.Columns["DraweeDate"];
                 this.columnTransactionType = base.Columns["TransactionType"];
+                this.columnTransactionTypeId = base.Columns["TransactionTypeId"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -624,6 +652,8 @@ namespace WebReceipt.Reports.Datasets {
                 base.Columns.Add(this.columnDraweeDate);
                 this.columnTransactionType = new global::System.Data.DataColumn("TransactionType", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTransactionType);
+                this.columnTransactionTypeId = new global::System.Data.DataColumn("TransactionTypeId", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTransactionTypeId);
                 this.ExtendedProperties.Add("Generator_TablePropName", "_ReceiptDataset");
                 this.ExtendedProperties.Add("Generator_UserTableName", "ReceiptDataset");
             }
@@ -1311,6 +1341,22 @@ namespace WebReceipt.Reports.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TransactionTypeId {
+                get {
+                    try {
+                        return ((string)(this[this.tableReceiptDataset.TransactionTypeIdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TransactionTypeId\' in table \'ReceiptDataset\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReceiptDataset.TransactionTypeIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsReceiptIdNull() {
                 return this.IsNull(this.tableReceiptDataset.ReceiptIdColumn);
             }
@@ -1487,6 +1533,18 @@ namespace WebReceipt.Reports.Datasets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTransactionTypeNull() {
                 this[this.tableReceiptDataset.TransactionTypeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTransactionTypeIdNull() {
+                return this.IsNull(this.tableReceiptDataset.TransactionTypeIdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTransactionTypeIdNull() {
+                this[this.tableReceiptDataset.TransactionTypeIdColumn] = global::System.Convert.DBNull;
             }
         }
         

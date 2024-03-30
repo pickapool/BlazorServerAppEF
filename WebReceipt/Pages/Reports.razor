@@ -5,134 +5,147 @@
 @inject ISnackbar SnackbarService
 @inject IReportService ReportService
 
-<MudTable Items="ListOfReceipts"
-          Dense="true" Hover="true" Height="80vh"
-          Filter="new Func<ReceiptModel,bool>(FilterFunc1)"
-            Loading="IsLoading"
-            >
-    <ToolBarContent>
-        <MudText Typo="Typo.h6">Receipts</MudText>
-        <MudSpacer />
-        <MudMenu StartIcon='@Icons.Material.Filled.MoreVert' AnchorOrigin='Origin.TopLeft'
-            TransformOrigin='Origin.TopRight' Dense='true' Size='Size.Small' Label='More'>
-            <MudMenuItem OnClick="Toggle">
-                <div class='d-flex align-center gap-2 '>
-                    <MudIcon Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
-                    <MudText Typo='Typo.body2'>Filter</MudText>
+@if(IsShowReport)
+{
+    <div class="d-flex flex-column" style="width: 100%;height: 85vh;">
+        <MudButton OnClick="()=> IsShowReport = !IsShowReport" Class="ml-auto mr-1 mb-3" Variant="Variant.Filled" Color="Color.Error" Label="true">Close</MudButton>
+         <iframe src='@PDF' style='height:78vh;' />
+    </div>
+} else {
+    <MudTable Items="ListOfReceipts"
+            Dense="true" Hover="true" Height="80vh"
+            Filter="new Func<ReceiptModel,bool>(FilterFunc1)"
+                Loading="IsLoading"
+                >
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Receipts</MudText>
+            <MudSpacer />
+            <MudMenu StartIcon='@Icons.Material.Filled.MoreVert' AnchorOrigin='Origin.TopLeft'
+                TransformOrigin='Origin.TopRight' Dense='true' Size='Size.Small' Label='More'>
+                <MudMenuItem OnClick="Toggle">
+                    <div class='d-flex align-center gap-2 '>
+                        <MudIcon Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
+                        <MudText Typo='Typo.body2'>Filter</MudText>
+                    </div>
+                </MudMenuItem>
+                <MudMenuItem OnClick="()=> ShowReport()">
+                        <div class='d-flex align-center gap-2 '>
+                            <MudIcon Icon='@Icons.Material.Filled.LocalPrintshop' Size='Size.Small' />
+                            <MudText Typo='Typo.body2'>Report</MudText>
+                        </div>
+                    </MudMenuItem>
+            </MudMenu>
+            <MudPopover Open="@_isOpen" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="px-4 pt-4 width400px">
+                    <MudGrid Spacing="1">
+                    <MudItem Class="d-flex" xs="12">
+                            <MudIcon Class="mr-2" Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
+                            <MudText Typo="Typo.button">FILTER</MudText>
+                        </MudItem>
+                        <MudItem Class="mb-2" xs="12">
+                            <MudDivider/>
+                        </MudItem> 
+                        <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsDate"></MudCheckBox></MudItem>
+                        <MudItem xs="10">
+                            <MudDateRangePicker Label="Date" @bind-DateRange="parameter._dateRange" 
+                            IconSize='Size.Small' DisableToolbar AnchorOrigin='Origin.BottomLeft' TransformOrigin='Origin.BottomRight'
+                            Placeholder="Date" Variant='Variant.Outlined' Margin='Margin.Dense' Disabled="!parameter.IsDate"/>
+                        </MudItem>
+                        <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsORNumber"></MudCheckBox></MudItem>
+                        <MudItem xs="10">
+                            <MudTextField @bind-Value="parameter.ORNumber" Label="OR Number" Margin="Margin.Dense"
+                            Variant="Variant.Outlined" Disabled="!parameter.IsORNumber"/>
+                        </MudItem>
+                        <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsPayor"></MudCheckBox></MudItem>
+                        <MudItem xs="10">
+                            <MudTextField @bind-Value="parameter.PayorName" Label="Payor" Margin="Margin.Dense"
+                            Variant="Variant.Outlined" Disabled="!parameter.IsPayor"/>
+                        </MudItem>
+                        <MudItem xs=2><MudCheckBox @bind-Checked="parameter.IsTransactionType"></MudCheckBox></MudItem>
+                        <MudItem xs=10>
+                            <MudSelect T="Enums.TransactionType?" 
+                                Class="w300px" 
+                                @bind-SelectedValues="parameter.ListOfTransaction" 
+                                Label="Transaction Type"
+                                @bind-Value="tType"  
+                                Clearable 
+                                Margin="Margin.Dense" 
+                                MultiSelectionTextFunc="@(new Func<List<string>, string>(SelectedType))"
+                                IconSize='Size.Small' 
+                                Dense 
+                                MultiSelection 
+                                Disabled='!parameter.IsTransactionType' 
+                                Placeholder='Transaction Type' 
+                                Variant='Variant.Outlined'
+                                AnchorOrigin='Origin.BottomCenter' 
+                                TransformOrigin='Origin.TopCenter'>
+                        @foreach (Enums.TransactionType transactionType in Enum.GetValues(typeof(Enums.TransactionType)))
+                        {
+                            <MudSelectItem T="Enums.TransactionType?" Value="@transactionType">@Extensions.GetEnumDescription(transactionType)</MudSelectItem>
+                        }
+                    </MudSelect>
+                        </MudItem>
+                        <MudItem xs="7"></MudItem>
+                        <MudItem xs="5">
+                            <MudButton OnClick="@Toggle" Class="ml-auto mr-1 mb-3" Color="Color.Default">Close</MudButton>
+                            <MudButton OnClick="@Filter" Class="ml-auto mr-n3 mb-3" Variant="Variant.Filled" Color="Color.Info">Filter</MudButton> 
+                        </MudItem>
+                    </MudGrid>
+                </MudPopover>
+        </ToolBarContent>
+        <ColGroup>
+        <col style="width: 120px;"/>
+        <col/>
+        <col style="width: 190px;"/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        </ColGroup>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortLabel="f_number" T="ReceiptModel">OR No.</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="f_payor" T="ReceiptModel">Payor</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="f_date" T="ReceiptModel">Date</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Chair Rental</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Mayor's permit</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Laboratory</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Electrical Payment</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Water Billing</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Market Stall</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Number">
+                <div class="chip-number pa-1">
+                    @context.Number
                 </div>
-            </MudMenuItem>
-        </MudMenu>
-        <MudPopover Open="@_isOpen" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="px-4 pt-4 width400px">
-                <MudGrid Spacing="1">
-                   <MudItem Class="d-flex" xs="12">
-                        <MudIcon Class="mr-2" Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
-                        <MudText Typo="Typo.button">FILTER</MudText>
-                    </MudItem>
-                    <MudItem Class="mb-2" xs="12">
-                        <MudDivider/>
-                    </MudItem> 
-                    <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsDate"></MudCheckBox></MudItem>
-                    <MudItem xs="10">
-                        <MudDateRangePicker Label="Date" @bind-DateRange="parameter._dateRange" 
-                        IconSize='Size.Small' DisableToolbar AnchorOrigin='Origin.BottomLeft' TransformOrigin='Origin.BottomRight'
-                        Placeholder="Date" Variant='Variant.Outlined' Margin='Margin.Dense' Disabled="!parameter.IsDate"/>
-                    </MudItem>
-                    <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsORNumber"></MudCheckBox></MudItem>
-                    <MudItem xs="10">
-                        <MudTextField @bind-Value="parameter.ORNumber" Label="OR Number" Margin="Margin.Dense"
-                        Variant="Variant.Outlined" Disabled="!parameter.IsORNumber"/>
-                    </MudItem>
-                    <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsPayor"></MudCheckBox></MudItem>
-                    <MudItem xs="10">
-                        <MudTextField @bind-Value="parameter.PayorName" Label="Payor" Margin="Margin.Dense"
-                        Variant="Variant.Outlined" Disabled="!parameter.IsPayor"/>
-                    </MudItem>
-                    <MudItem xs=2><MudCheckBox @bind-Checked="parameter.IsTransactionType"></MudCheckBox></MudItem>
-                    <MudItem xs=10>
-                        <MudSelect T="Enums.TransactionType?" 
-                            Class="w300px" 
-                            @bind-SelectedValues="parameter.ListOfTransaction" 
-                            Label="Transaction Type"
-                            @bind-Value="tType"  
-                            Clearable 
-                            Margin="Margin.Dense" 
-                            MultiSelectionTextFunc="@(new Func<List<string>, string>(SelectedType))"
-                            IconSize='Size.Small' 
-                            Dense 
-                            MultiSelection 
-                            Disabled='!parameter.IsTransactionType' 
-                            Placeholder='Transaction Type' 
-                            Variant='Variant.Outlined'
-                            AnchorOrigin='Origin.BottomCenter' 
-                            TransformOrigin='Origin.TopCenter'>
-                    @foreach (Enums.TransactionType transactionType in Enum.GetValues(typeof(Enums.TransactionType)))
-                    {
-                        <MudSelectItem T="Enums.TransactionType?" Value="@transactionType">@Extensions.GetEnumDescription(transactionType)</MudSelectItem>
-                    }
-                </MudSelect>
-                    </MudItem>
-                    <MudItem xs="7"></MudItem>
-                    <MudItem xs="5">
-                        <MudButton OnClick="@Toggle" Class="ml-auto mr-1 mb-3" Color="Color.Default">Close</MudButton>
-                        <MudButton OnClick="@Filter" Class="ml-auto mr-n3 mb-3" Variant="Variant.Filled" Color="Color.Info">Filter</MudButton> 
-                    </MudItem>
-                </MudGrid>
-            </MudPopover>
-    </ToolBarContent>
-    <ColGroup>
-    <col style="width: 120px;"/>
-    <col/>
-    <col style="width: 190px;"/>
-    <col/>
-    <col/>
-    <col/>
-    <col/>
-    <col/>
-    <col/>
-    </ColGroup>
-    <HeaderContent>
-        <MudTh><MudTableSortLabel SortLabel="f_number" T="ReceiptModel">OR No.</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_payor" T="ReceiptModel">Payor</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_date" T="ReceiptModel">Date</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Chair Rental</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Mayor's permit</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Laboratory</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Electrical Payment</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Water Billing</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Market Stall</MudTableSortLabel></MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Number">
-            <div class="chip-number pa-1">
-                @context.Number
-            </div>
-        </MudTd>
-        <MudTd DataLabel="Payor">@context.Payor</MudTd>
-        <MudTd DataLabel="Date">@context.DateRecorded?.ToString("MM/dd/yyyy hh:mm tt")</MudTd>
-        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.ChairRental ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
-        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Mayors ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
-        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Laboratory ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
-        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Electrilcal ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
-        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.WaterBilling ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
-        <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.MarketStall ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
-        @* <MudTd Class="text-end" DataLabel="Fund">₱ @context.Total.ToString("N2")</MudTd> *@
-                @* <MudTd DataLabel="Agency">@Extensions.GetEnumDescription(context.TransactionType)</MudTd> *@
-    </RowTemplate>
-    <NoRecordsContent>
-        <MudText>No matching records found</MudText>
-    </NoRecordsContent>
-    <LoadingContent>
-        <MudText>Loading...</MudText>
-    </LoadingContent>
-    <PagerContent>
-        <MudTablePager />
-    </PagerContent>
-</MudTable>
-
+            </MudTd>
+            <MudTd DataLabel="Payor">@context.Payor</MudTd>
+            <MudTd DataLabel="Date">@context.DateRecorded?.ToString("MM/dd/yyyy hh:mm tt")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.ChairRental ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Mayors ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Laboratory ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Electrilcal ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.WaterBilling ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.MarketStall ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+            @* <MudTd Class="text-end" DataLabel="Fund">₱ @context.Total.ToString("N2")</MudTd> *@
+                    @* <MudTd DataLabel="Agency">@Extensions.GetEnumDescription(context.TransactionType)</MudTd> *@
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+}
 @code{
     List<ReceiptModel> ListOfReceipts = new();
-    private string searchString1 = "";
-    private bool IsLoading = false;
+    private string searchString1 = "", PDF = "";
+    private bool IsLoading = false,IsShowReport = false;
     public bool _isOpen;
     private Enums.TransactionType? tType { get; set; } = Enums.TransactionType.Mayors;
     FilterParameter parameter = new();
@@ -210,5 +223,18 @@
         var tType = string.Join(", ", tTypeDescriptions);
         
         return tType;
+    }
+    private void ShowReport()
+    {
+        IsShowReport = !IsShowReport;
+        IsLoading = true;
+        StateHasChanged();
+        IActionResult report = ReportService.GetRecordReport(ListOfReceipts);
+        if (report is FileContentResult fileContentResult)
+        {
+            byte[] pdfBytes = fileContentResult.FileContents;
+            PDF = "data:application/pdf;base64," + Convert.ToBase64String(pdfBytes);
+            IsLoading = false;
+        }
     }
 }
