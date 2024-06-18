@@ -1,0 +1,87 @@
+﻿@page "/accounts"
+
+@inject IUserAccountService UserAccountService
+@inject IDialogService DialogService
+
+<MudTable Items="@accounts" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)">
+    <ToolBarContent>
+        <MudIconButton OnClick="()=> OpenDialog(new())" class="ml-0" Icon="@Icons.Material.Filled.Add" Color="Color.Primary" aria-label="github"></MudIconButton>
+        <MudText Typo="Typo.subtitle2">Accounts</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
+         Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+          IconSize="Size.Small" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <ColGroup>
+        <col />
+        <col />
+        <col  style="width: 200px;" />
+    </ColGroup>
+    <HeaderContent>
+        <MudTh>Username</MudTh>
+        <MudTh>Employee Name</MudTh>
+        <MudTh class="text-center">Action</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Nr">@context.UserAccountName</MudTd>
+        <MudTd DataLabel="Sign">@context.EmployeeName</MudTd>
+        <MudTd class="d-flex justify-center">
+            <MudIconButton OnClick="()=> OpenDialog(context)" class="ml-0" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" aria-label="github"></MudIconButton>
+            <MudIconButton OnClick="()=> DeleteUser(context)" class="ml-0" Icon="@Icons.Material.Filled.Delete" Color="Color.Primary" aria-label="github"></MudIconButton>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+    </PagerContent>
+</MudTable>
+
+@code {
+    IEnumerable<UserAccountModel> accounts;
+    private string searchString1 = "";
+    protected override async Task OnInitializedAsync()
+    {
+        accounts = await UserAccountService.GetAccounts();
+        StateHasChanged();
+    }
+    private bool FilterFunc1(UserAccountModel element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(UserAccountModel element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.EmployeeName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.UserAccountName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{element.EmployeeName} {element.UserAccountName}".Contains(searchString))
+            return true;
+        return false;
+    }
+    private async Task OpenDialog(UserAccountModel model)
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.ExtraSmall, FullWidth = true };
+        var parameters = new DialogParameters();
+        parameters.Add("User", model);
+        var result = await DialogService.Show<AddAccountDialog>("Account",parameters, options).Result;
+        if (!result.Canceled)
+        {
+            await OnInitializedAsync();
+        }
+    }
+    private async Task DeleteUser(UserAccountModel model)
+    {
+        Task t = UserAccountService.DeleteUserAccountModel(model.UserAccountId);
+        await t;
+        if(t.Status == TaskStatus.RanToCompletion)
+        {
+            await OnInitializedAsync();
+        }
+    }
+}
+<style>
+
+    .mud-table-container
+    {
+        margin-top: 20px;
+    }
+</style>

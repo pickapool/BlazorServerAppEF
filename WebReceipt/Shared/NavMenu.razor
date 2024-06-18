@@ -32,8 +32,21 @@
                 <span>Reports</span>
             </NavLink>
         </div>
+         <div class="nav-item">
+            <MudNavGroup style="color: white;" Class="nav-link gap-2" Title="Settings" Icon="@Icons.Material.Filled.Settings">
+                <MudNavLink Class="nav-link" Href="/accounts">
+                    <MudIcon Icon="@Icons.Material.Filled.PictureAsPdf"></MudIcon>
+                    <span>Accounts</span>
+                </MudNavLink>
+                <MudNavLink Class="nav-link" Href="/paymenttype">
+                    <MudIcon Icon="@Icons.Material.Filled.PictureAsPdf"></MudIcon>
+                    <span>Payment Types</span>
+                </MudNavLink>
+            </MudNavGroup>
+         </div>
     </nav>
 </div>
+
 
 @code {
     private bool collapseNavMenu = true;
@@ -45,3 +58,6 @@
         collapseNavMenu = !collapseNavMenu;
     }
 }
+<style>
+ 
+</style>

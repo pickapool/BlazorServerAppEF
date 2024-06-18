@@ -7,6 +7,8 @@ namespace WebReceipt.Server.Services.AccountServices
     {
         Task<IEnumerable<UserAccountModel>> GetAccounts();
         Task<ActionResult<UserAccountModel>> AddUser(UserAccountModel userAccountModel);
+        Task<IActionResult> PutUserAccountModel(int id, UserAccountModel userAccountModel);
+        Task<IActionResult> DeleteUserAccountModel(int id);
         bool Authenticated(string username, string password);
     }
 }
