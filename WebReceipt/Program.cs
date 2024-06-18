@@ -8,6 +8,7 @@ using WebReceipt.Common;
 using WebReceipt.Server.Services.AccountServices;
 using WebReceipt.Server.Services.ReceiptService;
 using WebReceipt.Server.Services.ReportServices;
+using WebReceipt.Server.Services.PaymentTypeServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddSingleton<AppState>();
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddScoped<IReceiptService, ReceiptService>();
 builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IPaymentTypeService, PaymentTypeService>();
 
 builder.Services.AddDbContext<AppDBContext>(options =>
 {

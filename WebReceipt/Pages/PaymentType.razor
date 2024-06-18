@@ -1,7 +1,80 @@
 ﻿@page "/paymenttype"
 
-<h3>PaymentType</h3>
+@inject IPaymentTypeService PaymentService
+@inject IDialogService DialogService
+
+<MudTable Items="@paymentTypes" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)">
+    <ToolBarContent>
+        <MudIconButton OnClick="()=> OpenDialog(new())" class="ml-0" Icon="@Icons.Material.Filled.Add" Color="Color.Primary" aria-label="github"></MudIconButton>
+        <MudText Typo="Typo.subtitle2">Payment Type</MudText>
+       <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
+         Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+          IconSize="Size.Small" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <ColGroup>
+        <col />
+        <col  style="width: 200px;" />
+    </ColGroup>
+    <HeaderContent>
+        <MudTh>Payment Type</MudTh>
+        <MudTh class="text-center">Action</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Nr">@context.PaymentTypeName</MudTd>
+        <MudTd class="d-flex justify-center">
+            <MudIconButton OnClick="()=> OpenDialog(context)" class="ml-0" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" aria-label="github"></MudIconButton>
+            <MudIconButton OnClick="()=> DeletePayment(context)" class="ml-0" Icon="@Icons.Material.Filled.Delete" Color="Color.Primary" aria-label="github"></MudIconButton>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+    </PagerContent>
+</MudTable>
 
 @code {
+    IEnumerable<PaymentTypeModel> paymentTypes;
+    private string searchString1 = "";
+    protected override async Task OnInitializedAsync()
+    {
+        paymentTypes = await PaymentService.GetPayments();
+        StateHasChanged();
+    }
+    private bool FilterFunc1(PaymentTypeModel element) => FilterFunc(element, searchString1);
 
+    private bool FilterFunc(PaymentTypeModel element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.PaymentTypeName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+    private async Task OpenDialog(PaymentTypeModel model)
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.ExtraSmall, FullWidth = true };
+        var parameters = new DialogParameters();
+        parameters.Add("Payment", model);
+        var result = await DialogService.Show<PaymentTypeDialog>("Payment Type",parameters, options).Result;
+        if (!result.Canceled)
+        {
+            await OnInitializedAsync();
+        }
+    }
+    private async Task DeletePayment(PaymentTypeModel model)
+    {
+        Task t = PaymentService.DeletePayment(model.PaymentTypeId);
+        await t;
+        if(t.Status == TaskStatus.RanToCompletion)
+        {
+            await OnInitializedAsync();
+        }
+    }
 }
+<style>
+
+    .mud-table-container
+    {
+        margin-top: 20px;
+    }
+</style>

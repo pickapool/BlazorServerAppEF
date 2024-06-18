@@ -1,0 +1,32 @@
+@inject IPaymentTypeService PaymentService
+
+<MudDialog>
+    <DialogContent>
+        <div class="d-flex flex-column gap-2">
+        <MudTextField @bind-Value="@Payment.PaymentTypeName" Label="Type Name" Variant="Variant.Outlined" Shrinkable=true></MudTextField>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public PaymentTypeModel Payment { get; set; } = new();
+    protected override void OnInitialized()
+    {
+        if(Payment == null)
+            Payment = new();
+    }
+
+    private async Task Submit() {
+        Task t = Payment.PaymentTypeId == 0? PaymentService.AddPayment(Payment) : PaymentService.PutPayment(Payment.PaymentTypeId, Payment);
+        await t;
+        if(t.Status == TaskStatus.RanToCompletion)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        } 
+    }
+    void Cancel() => MudDialog.Cancel();
+}

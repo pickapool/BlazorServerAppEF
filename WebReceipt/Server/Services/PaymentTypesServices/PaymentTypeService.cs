@@ -29,7 +29,7 @@ namespace WebReceipt.Server.Services.PaymentTypeServices
 
         // GET: api/PaymentTypeService/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PaymentTypeModel>> GetPaymentModel(int id)
+        public async Task<ActionResult<PaymentTypeModel>> GetPaymentModel(long id)
         {
             var p = await _context.PaymentTypes.FindAsync(id);
 
@@ -44,7 +44,7 @@ namespace WebReceipt.Server.Services.PaymentTypeServices
         // PUT: api/PaymentTypeService/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserAccountModel(int id, PaymentTypeModel p)
+        public async Task<IActionResult> PutPayment(long id, PaymentTypeModel p)
         {
             if (id != p.PaymentTypeId)
             {
@@ -78,7 +78,7 @@ namespace WebReceipt.Server.Services.PaymentTypeServices
 
         // DELETE: api/PaymentTypeService/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePayment(int id)
+        public async Task<IActionResult> DeletePayment(long id)
         {
             var p = await _context.PaymentTypes.FindAsync(id);
             if (p == null)
