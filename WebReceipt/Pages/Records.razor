@@ -5,7 +5,10 @@
 @inject ISnackbar SnackbarService
 @inject IDialogService DialogService
 @inject IReportService ReportService
+@inject IPaymentTypeService PaymentTypeService
 
+@if(!isCreate)
+{
 <MudTable Items="ListOfReceipts"
           Dense="true" Hover="true" Height="80vh"
           Filter="new Func<ReceiptModel,bool>(FilterFunc1)"
@@ -20,6 +23,12 @@
                 <div class='d-flex align-center gap-2 '>
                     <MudIcon Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
                     <MudText Typo='Typo.body2'>Filter</MudText>
+                </div>
+            </MudMenuItem>
+            <MudMenuItem OnClick="Add">
+                <div class='d-flex align-center gap-2 '>
+                    <MudIcon Icon='@Icons.Material.Filled.Add' Size='Size.Small' />
+                    <MudText Typo='Typo.body2'>Add</MudText>
                 </div>
             </MudMenuItem>
         </MudMenu>
@@ -94,14 +103,14 @@
         <MudTh><MudTableSortLabel SortLabel="f_payor" T="ReceiptModel">Payor</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="f_date" T="ReceiptModel">Date</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="f_agency" T="ReceiptModel">Transaction Type</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_fund" T="ReceiptModel">Total</MudTableSortLabel></MudTh>
+        <MudTh>Total</MudTh>
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Number">@context.Number</MudTd>
         <MudTd DataLabel="Payor">@context.Payor</MudTd>
         <MudTd DataLabel="Date">@context.DateRecorded?.ToString("MM/dd/yyyy hh:mm tt")</MudTd>
-        <MudTd DataLabel="Agency">@Extensions.GetEnumDescription(context.TransactionType)</MudTd>
+         <MudTd DataLabel="Agency">@context.PaymentType.PaymentTypeName</MudTd>
         <MudTd Class="text-end" DataLabel="Fund">₱ @context.Total.ToString("N2")</MudTd>
         <MudTd>
             <MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.TopRight" Size="Size.Small">
@@ -140,13 +149,118 @@
     <PagerContent>
         <MudTablePager />
     </PagerContent>
-</MudTable>
-
+    </MudTable>
+} else
+{
+    <div class="d-flex justify-center">
+    <MudPaper Class="d-flex flex-column pa-4" Elevation="4" Height="86vh" Width="80%">
+        <MudText Class="text-center">Receipt Form</MudText>
+        <MudGrid Spacing="0">
+            <MudItem xs="4">
+                <MudDatePicker Class="mr-1" @bind-Date="ReceiptModel.DateRecorded" Label="Date" Margin="Margin.Dense"></MudDatePicker>
+            </MudItem>
+            <MudItem xs="4">
+                <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Number" Label="No." Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="4">
+                <MudSelect Class="mr-1" @bind-Value="ReceiptModel.PaymentType" Text="ReceiptModel.PaymentType" Placeholder="Transaction Type" Margin='Margin.Dense'
+                    AnchorOrigin="Origin.BottomCenter">
+                    @foreach (var type in Payments)
+                    {
+                        <MudSelectItem Value="@type">@type.PaymentTypeName</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Class="mr-1" @bind-Value="ReceiptModel.Agency" Label="Agency" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="6">
+                <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Payor" Label="Payor" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="6">
+                <MudTextField @bind-Value="ReceiptModel.Fund" Label="Funds" Margin="Margin.Dense"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTable Class="nature-table mt-1" Items="ReceiptModel.ListOfNatures" Dense Hover FixedHeader FixedFooter
+                           RowEditCommit='( (object model) => Total((NatureOfCollectionModel)model))' Height="200px">
+                     <ToolBarContent>
+                         <MudText Typo="Typo.body1">Nature of Colletions - </MudText>
+                         <MudText Class="fw-bolder" Typo="Typo.caption">Total @ReceiptModel.ListOfNatures.Sum(e => e.Amount).ToString("N2")</MudText>
+                            <MudSpacer />
+                            <MudIconButton OnClick="AddNew" Icon="@Icons.Material.Filled.Add" Size="Size.Small"></MudIconButton>
+                        </ToolBarContent>
+                        <ColGroup>
+                            <col />
+                            <col />
+                            <col />
+                            <col style="width: 10px !important;" />
+                        </ColGroup>
+                        <HeaderContent>
+                            <MudTh>Nature</MudTh>
+                            <MudTh>Account Code</MudTh>
+                            <MudTh Class="text-center">Amount</MudTh>
+                            <MudTh></MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Nature">@context.NatureName</MudTd>
+                            <MudTd DataLabel="Code">@context.AccountCode</MudTd>
+                            <MudTd Class="text-center" DataLabel="Amount">@context.Amount</MudTd>
+                            <MudTd DataLabel="Action">
+                                <MudIconButton OnClick="(()=> { ReceiptModel.ListOfNatures.Remove(context); })" Icon="@Icons.Material.Filled.RemoveCircle" Size="Size.Small"></MudIconButton>
+                            </MudTd>
+                        </RowTemplate>
+                        <RowEditingTemplate>
+                            <MudTd DataLabel="Nature">
+                                <MudTextField @bind-Value="@context.NatureName" Margin="Margin.Dense"></MudTextField>
+                            </MudTd>
+                            <MudTd DataLabel="Nature">
+                                <MudTextField @bind-Value="@context.AccountCode" Margin="Margin.Dense"></MudTextField>
+                            </MudTd>
+                            <MudTd DataLabel="Nature">
+                                <MudTextField Class="text-center" @bind-Value="@context.Amount" Format="N2" Margin="Margin.Dense"></MudTextField>
+                            </MudTd>
+                        </RowEditingTemplate>
+                    </MudTable>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudCheckBox @bind-Checked="ReceiptModel.Cash" Size="Size.Small" Label="Cash"></MudCheckBox>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudCheckBox @bind-Checked="ReceiptModel.Check" Size="Size.Small" Label="Check"></MudCheckBox>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudCheckBox @bind-Checked="ReceiptModel.MoneyOrder" Size="Size.Small" Label="Money Order"></MudCheckBox>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField Class="mr-1" @bind-Value="ReceiptModel.DraweeBank" Label="Drawee Bank" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField Class="ml-1 mr-1" @bind-Value="ReceiptModel.DraweeNumber" Label="Drawee Number" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudDatePicker Class="mr-1" @bind-Date="ReceiptModel.DraweeDate" Label="Drawee Date" Margin="Margin.Dense"></MudDatePicker>
+                </MudItem>
+                <MudItem xs="6"></MudItem>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="ReceiptModel.CollectionOfficer" Label="Collection Officer" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" Class="d-flex justify-content-center align-items-center mt-4">
+                    <MudButton OnClick="Cancel" Class="center" Size="Size.Small" Color="Color.Error" Variant="Variant.Text">Cancel</MudButton>
+                    <MudButton OnClick="AddReceipt" Class="center" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">
+                        @(ReceiptModel.ReceiptId == 0 ? "Add Receipt" : "Update Receipt")
+                    </MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+        </div>
+}
 @code{
     List<ReceiptModel> ListOfReceipts = new();
+    private ReceiptModel ReceiptModel = new();
+    private IEnumerable<PaymentTypeModel> Payments;
     private string searchString1 = "";
     private bool IsLoading = false;
-    public bool _isOpen;
+    public bool _isOpen, isCreate;
     private Enums.TransactionType? tType { get; set; }
     FilterParameter parameter = new();
     protected override async Task OnInitializedAsync()
@@ -164,7 +278,13 @@
         if(list.Status == TaskStatus.RanToCompletion)
         {
             ListOfReceipts = list.Result.ToList();
-            IsLoading  = false;
+            Task<IEnumerable<PaymentTypeModel>> p = PaymentTypeService.GetPayments();
+            await p;
+            if(p.Status == TaskStatus.RanToCompletion)
+            {
+                Payments = p.Result;
+                IsLoading = false;
+            }
         }
     }
     private bool FilterFunc1(ReceiptModel element) => FilterFunc(element, searchString1);
@@ -197,20 +317,24 @@
     }
     private async Task EditRecord(ReceiptModel model)
     {
-        var parameters = new DialogParameters();
-        parameters.Add("ReceiptModel", model);
-        var options = new DialogOptions() { CloseButton = false, MaxWidth = MaxWidth.Small, FullWidth = true, NoHeader = false, DisableBackdropClick = false };
-        var resultDialog = await DialogService.Show<Components.ReceiptForm>("", parameters, options).Result;
-        if (!resultDialog.Canceled)
-        {
-            await GetReceipts(new());
-        }
+        ReceiptModel = model;
+        isCreate = true;
+        StateHasChanged();
+        // var parameters = new DialogParameters();
+        // parameters.Add("ReceiptModel", model);
+        // var options = new DialogOptions() { CloseButton = false, MaxWidth = MaxWidth.Small, FullWidth = true, NoHeader = false, DisableBackdropClick = false };
+        // var resultDialog = await DialogService.Show<Components.ReceiptForm>("", parameters, options).Result;
+        // if (!resultDialog.Canceled)
+        // {
+        //     await GetReceipts(new());
+        // }
     }
     private void GetReport(ReceiptModel receipt)
     {
         IsLoading = true;
         StateHasChanged();
         receipt.IsShowReceipt = !receipt.IsShowReceipt;
+        receipt.PaymentTypeName = receipt.PaymentType.PaymentTypeName;
         IActionResult report = ReportService.GetMasterListReport(receipt);
         if (report is FileContentResult fileContentResult)
         {
@@ -220,7 +344,7 @@
         }
 
     }
-     public void Toggle()
+    public void Toggle()
     {
         if (_isOpen)
             _isOpen = false;
@@ -238,8 +362,46 @@
             .Where(x => x != null) // Filter out null values
             .Select(x => Extensions.GetEnumDescription(x)); // Select descriptions for non-null values
         var tType = string.Join(", ", tTypeDescriptions);
-        
+
         return tType;
+    }
+    private void Add()
+    {
+        if (!isCreate)
+            ReceiptModel = new();
+        isCreate = true;
+        StateHasChanged();
+    }
+    private void Total(NatureOfCollectionModel model)
+    {
+        if (model != null)
+        {
+            ReceiptModel.Total = ReceiptModel.ListOfNatures.Sum(e => e.Amount);
+        }
+    }
+    private void AddNew()
+    {
+        ReceiptModel.ListOfNatures.Add(new());
+        StateHasChanged();
+    }
+    private async Task AddReceipt()
+    {
+        ReceiptModel.Total = ReceiptModel.ListOfNatures.Sum(e => e.Amount);
+        Task t = ReceiptModel.ReceiptId == 0 ? ReceiptService.AddReceipt(ReceiptModel) : ReceiptService.UpdateReceipt(ReceiptModel);
+        await t;
+        if (t.Status == TaskStatus.RanToCompletion)
+        {
+            Extensions.ShowSnackbar("Receipt has been save.", Variant.Filled, SnackbarService, Severity.Success);
+            await OnInitializedAsync();
+        }
+        isCreate = false;
+        StateHasChanged();
+    }
+    private void Cancel()
+    {
+        ReceiptModel = new();
+        isCreate = false;
+        StateHasChanged();
     }
 
 }

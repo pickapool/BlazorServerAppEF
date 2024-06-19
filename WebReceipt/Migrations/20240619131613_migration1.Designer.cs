@@ -12,8 +12,8 @@ using WebReceipt.Server.AppDatabaseContext;
 namespace WebReceipt.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240618120732_Migration3")]
-    partial class Migration3
+    [Migration("20240619131613_migration1")]
+    partial class migration1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,23 @@ namespace WebReceipt.Migrations
                     b.HasIndex("ReceiptId");
 
                     b.ToTable("NatureOfCollections");
+                });
+
+            modelBuilder.Entity("WebReceipt.Models.PaymentTypeModel", b =>
+                {
+                    b.Property<long>("PaymentTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PaymentTypeId"));
+
+                    b.Property<string>("PaymentTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PaymentTypeId");
+
+                    b.ToTable("PaymentTypes", (string)null);
                 });
 
             modelBuilder.Entity("WebReceipt.Models.ReceiptModel", b =>
@@ -101,6 +118,9 @@ namespace WebReceipt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("PaymentTypeId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Payor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -108,10 +128,9 @@ namespace WebReceipt.Migrations
                     b.Property<double>("Total")
                         .HasColumnType("float");
 
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
-
                     b.HasKey("ReceiptId");
+
+                    b.HasIndex("PaymentTypeId");
 
                     b.ToTable("Receipts", (string)null);
                 });
@@ -148,6 +167,17 @@ namespace WebReceipt.Migrations
                         .HasForeignKey("ReceiptId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebReceipt.Models.ReceiptModel", b =>
+                {
+                    b.HasOne("WebReceipt.Models.PaymentTypeModel", "PaymentType")
+                        .WithMany()
+                        .HasForeignKey("PaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PaymentType");
                 });
 
             modelBuilder.Entity("WebReceipt.Models.ReceiptModel", b =>

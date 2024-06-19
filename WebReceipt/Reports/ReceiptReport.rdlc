@@ -1661,8 +1661,12 @@ of the</Value>
           <DataField>DraweeDate</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="TransactionType">
-          <DataField>TransactionType</DataField>
+        <Field Name="PaymentTypeName">
+          <DataField>PaymentTypeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PaymentTypeId">
+          <DataField>PaymentTypeId</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

@@ -342,9 +342,9 @@ namespace WebReceipt.Reports.Datasets {
             
             private global::System.Data.DataColumn columnDraweeDate;
             
-            private global::System.Data.DataColumn columnTransactionType;
+            private global::System.Data.DataColumn columnPaymentTypeName;
             
-            private global::System.Data.DataColumn columnTransactionTypeId;
+            private global::System.Data.DataColumn columnPaymentTypeId;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -493,17 +493,17 @@ namespace WebReceipt.Reports.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn TransactionTypeColumn {
+            public global::System.Data.DataColumn PaymentTypeNameColumn {
                 get {
-                    return this.columnTransactionType;
+                    return this.columnPaymentTypeName;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn TransactionTypeIdColumn {
+            public global::System.Data.DataColumn PaymentTypeIdColumn {
                 get {
-                    return this.columnTransactionTypeId;
+                    return this.columnPaymentTypeId;
                 }
             }
             
@@ -559,8 +559,8 @@ namespace WebReceipt.Reports.Datasets {
                         string DraweeBank, 
                         string DraweeNumber, 
                         string DraweeDate, 
-                        string TransactionType, 
-                        string TransactionTypeId) {
+                        string PaymentTypeName, 
+                        string PaymentTypeId) {
                 ReceiptDatasetRow rowReceiptDatasetRow = ((ReceiptDatasetRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ReceiptId,
@@ -577,8 +577,8 @@ namespace WebReceipt.Reports.Datasets {
                         DraweeBank,
                         DraweeNumber,
                         DraweeDate,
-                        TransactionType,
-                        TransactionTypeId};
+                        PaymentTypeName,
+                        PaymentTypeId};
                 rowReceiptDatasetRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReceiptDatasetRow);
                 return rowReceiptDatasetRow;
@@ -615,8 +615,8 @@ namespace WebReceipt.Reports.Datasets {
                 this.columnDraweeBank = base.Columns["DraweeBank"];
                 this.columnDraweeNumber = base.Columns["DraweeNumber"];
                 this.columnDraweeDate = base.Columns["DraweeDate"];
-                this.columnTransactionType = base.Columns["TransactionType"];
-                this.columnTransactionTypeId = base.Columns["TransactionTypeId"];
+                this.columnPaymentTypeName = base.Columns["PaymentTypeName"];
+                this.columnPaymentTypeId = base.Columns["PaymentTypeId"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -650,10 +650,10 @@ namespace WebReceipt.Reports.Datasets {
                 base.Columns.Add(this.columnDraweeNumber);
                 this.columnDraweeDate = new global::System.Data.DataColumn("DraweeDate", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDraweeDate);
-                this.columnTransactionType = new global::System.Data.DataColumn("TransactionType", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTransactionType);
-                this.columnTransactionTypeId = new global::System.Data.DataColumn("TransactionTypeId", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTransactionTypeId);
+                this.columnPaymentTypeName = new global::System.Data.DataColumn("PaymentTypeName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPaymentTypeName);
+                this.columnPaymentTypeId = new global::System.Data.DataColumn("PaymentTypeId", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPaymentTypeId);
                 this.ExtendedProperties.Add("Generator_TablePropName", "_ReceiptDataset");
                 this.ExtendedProperties.Add("Generator_UserTableName", "ReceiptDataset");
             }
@@ -1325,33 +1325,33 @@ namespace WebReceipt.Reports.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string TransactionType {
+            public string PaymentTypeName {
                 get {
                     try {
-                        return ((string)(this[this.tableReceiptDataset.TransactionTypeColumn]));
+                        return ((string)(this[this.tableReceiptDataset.PaymentTypeNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TransactionType\' in table \'ReceiptDataset\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'PaymentTypeName\' in table \'ReceiptDataset\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReceiptDataset.TransactionTypeColumn] = value;
+                    this[this.tableReceiptDataset.PaymentTypeNameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string TransactionTypeId {
+            public string PaymentTypeId {
                 get {
                     try {
-                        return ((string)(this[this.tableReceiptDataset.TransactionTypeIdColumn]));
+                        return ((string)(this[this.tableReceiptDataset.PaymentTypeIdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TransactionTypeId\' in table \'ReceiptDataset\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'PaymentTypeId\' in table \'ReceiptDataset\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReceiptDataset.TransactionTypeIdColumn] = value;
+                    this[this.tableReceiptDataset.PaymentTypeIdColumn] = value;
                 }
             }
             
@@ -1525,26 +1525,26 @@ namespace WebReceipt.Reports.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsTransactionTypeNull() {
-                return this.IsNull(this.tableReceiptDataset.TransactionTypeColumn);
+            public bool IsPaymentTypeNameNull() {
+                return this.IsNull(this.tableReceiptDataset.PaymentTypeNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetTransactionTypeNull() {
-                this[this.tableReceiptDataset.TransactionTypeColumn] = global::System.Convert.DBNull;
+            public void SetPaymentTypeNameNull() {
+                this[this.tableReceiptDataset.PaymentTypeNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsTransactionTypeIdNull() {
-                return this.IsNull(this.tableReceiptDataset.TransactionTypeIdColumn);
+            public bool IsPaymentTypeIdNull() {
+                return this.IsNull(this.tableReceiptDataset.PaymentTypeIdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetTransactionTypeIdNull() {
-                this[this.tableReceiptDataset.TransactionTypeIdColumn] = global::System.Convert.DBNull;
+            public void SetPaymentTypeIdNull() {
+                this[this.tableReceiptDataset.PaymentTypeIdColumn] = global::System.Convert.DBNull;
             }
         }
         

@@ -84,13 +84,13 @@
                     <MudDatePicker Class="mr-1" @bind-Date="ReceiptModel.DraweeDate" Label="Drawee Date" Margin="Margin.Dense"></MudDatePicker>
                 </MudItem>
                 <MudItem xs="6">
-                    <MudSelect Class="mr-1" @bind-Value="ReceiptModel.TransactionType" Text="@Extensions.GetEnumDescription(ReceiptModel.TransactionType)" Placeholder="Transaction Type" Margin='Margin.Dense'
+                   @*  <MudSelect Class="mr-1" @bind-Value="ReceiptModel.TransactionType" Text="@Extensions.GetEnumDescription(ReceiptModel.TransactionType)" Placeholder="Transaction Type" Margin='Margin.Dense'
                         AnchorOrigin="Origin.BottomCenter">
                         @foreach (Enums.TransactionType type in Enum.GetValues(typeof(Enums.TransactionType)))
                         {
                             <MudSelectItem Value="@type">@Extensions.GetEnumDescription(type)</MudSelectItem>
                         }
-                    </MudSelect>
+                    </MudSelect> *@
                 </MudItem>
                     <MudItem xs="6">
                         <MudTextField Class="ml-1" @bind-Value="ReceiptModel.CollectionOfficer" Label="Collection Officer" Margin="Margin.Dense"></MudTextField>

@@ -115,6 +115,9 @@ namespace WebReceipt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("PaymentTypeId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Payor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -122,10 +125,9 @@ namespace WebReceipt.Migrations
                     b.Property<double>("Total")
                         .HasColumnType("float");
 
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
-
                     b.HasKey("ReceiptId");
+
+                    b.HasIndex("PaymentTypeId");
 
                     b.ToTable("Receipts", (string)null);
                 });
@@ -162,6 +164,17 @@ namespace WebReceipt.Migrations
                         .HasForeignKey("ReceiptId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebReceipt.Models.ReceiptModel", b =>
+                {
+                    b.HasOne("WebReceipt.Models.PaymentTypeModel", "PaymentType")
+                        .WithMany()
+                        .HasForeignKey("PaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PaymentType");
                 });
 
             modelBuilder.Entity("WebReceipt.Models.ReceiptModel", b =>

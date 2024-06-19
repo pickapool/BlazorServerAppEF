@@ -24,19 +24,15 @@ namespace WebReceipt.Models
         public string DraweeBank { get; set ;}
         public string DraweeNumber { get; set; }
         public DateTime? DraweeDate { get; set; } = DateTime.Now;
-        public Enums.TransactionType TransactionType { get; set ;}
+        public long PaymentTypeId { get; set; }
+        [ForeignKey("PaymentTypeId")]
+        public PaymentTypeModel PaymentType { get; set; }
+        //public Enums.TransactionType TransactionType { get; set ;}
         [NotMapped]
         public bool IsShowReceipt { get; set; }
         [NotMapped]
         public string PDF { get; set; }
         [NotMapped]
-        public int TransactionTypeId
-        {
-            get
-            {
-                return (int) TransactionType;
-            }
-        }
-
+        public string PaymentTypeName { get; set; }
     }
 }

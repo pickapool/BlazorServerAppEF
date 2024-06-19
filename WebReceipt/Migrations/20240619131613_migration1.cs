@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebReceipt.Migrations
 {
     /// <inheritdoc />
-    public partial class Migration1 : Migration
+    public partial class migration1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,11 +18,25 @@ namespace WebReceipt.Migrations
                     UserAccountId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserAccountName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserAccountPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserAccountPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Accounts", x => x.UserAccountId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentTypes",
+                columns: table => new
+                {
+                    PaymentTypeId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PaymentTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentTypes", x => x.PaymentTypeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,11 +58,17 @@ namespace WebReceipt.Migrations
                     DraweeBank = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DraweeNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DraweeDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TransactionType = table.Column<int>(type: "int", nullable: false)
+                    PaymentTypeId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Receipts", x => x.ReceiptId);
+                    table.ForeignKey(
+                        name: "FK_Receipts_PaymentTypes_PaymentTypeId",
+                        column: x => x.PaymentTypeId,
+                        principalTable: "PaymentTypes",
+                        principalColumn: "PaymentTypeId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,6 +97,11 @@ namespace WebReceipt.Migrations
                 name: "IX_NatureOfCollections_ReceiptId",
                 table: "NatureOfCollections",
                 column: "ReceiptId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Receipts_PaymentTypeId",
+                table: "Receipts",
+                column: "PaymentTypeId");
         }
 
         /// <inheritdoc />
@@ -90,6 +115,9 @@ namespace WebReceipt.Migrations
 
             migrationBuilder.DropTable(
                 name: "Receipts");
+
+            migrationBuilder.DropTable(
+                name: "PaymentTypes");
         }
     }
 }

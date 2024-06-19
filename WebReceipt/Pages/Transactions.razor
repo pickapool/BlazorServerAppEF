@@ -173,7 +173,7 @@
             GlobalClass.Title = "Laboratory";
         else if(tType.Equals(Enums.TransactionType.MarketStall))
             GlobalClass.Title = "Market Stall";
-        ReceiptModel.TransactionType = tType;
+        // ReceiptModel.TransactionType = tType;
         await AppState.NotifyStateChangedAsync();
         StateHasChanged();
         IsNextTransaction = !IsNextTransaction;
