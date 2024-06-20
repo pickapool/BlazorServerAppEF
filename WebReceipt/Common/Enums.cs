@@ -19,5 +19,17 @@ namespace WebReceipt.Common
             [Description("Market Stall")]
             MarketStall = 5
         }
+        public enum Sex
+        {
+            Male = 0,
+            Female = 1
+        }
+        public enum CivilStatus
+        {
+            Single = 0,
+            Married = 1,
+            Widow = 2,
+            Divorced = 3
+        }
     }
 }

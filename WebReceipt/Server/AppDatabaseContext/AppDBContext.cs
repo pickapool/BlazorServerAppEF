@@ -9,6 +9,7 @@ namespace WebReceipt.Server.AppDatabaseContext
         public DbSet<UserAccountModel> Accounts { get; set; }
         public DbSet<ReceiptModel> Receipts { get; set; }
         public DbSet<PaymentTypeModel> PaymentTypes { get; set; }
+        public DbSet<CedulaModel> Cedulas { get; set; }
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
 
@@ -19,6 +20,7 @@ namespace WebReceipt.Server.AppDatabaseContext
             modelBuilder.Entity<UserAccountModel>().ToTable("Accounts");
             modelBuilder.Entity<ReceiptModel>().ToTable("Receipts");
             modelBuilder.Entity<PaymentTypeModel>().ToTable("PaymentTypes");
+            modelBuilder.Entity<CedulaModel>().ToTable("Cedulas");
         }
     }
 }

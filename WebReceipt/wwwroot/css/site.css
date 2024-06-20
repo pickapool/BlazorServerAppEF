@@ -133,3 +133,65 @@ h5{
 {
     width: 400px;
 }
+.parent {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr) 1.5fr;
+    grid-template-rows: repeat(13, 1fr) repeat(2, 0.8fr);
+    grid-column-gap: 0;
+    grid-row-gap: 0;
+    grid-template-areas:
+        "place place place date-issued taxpayers taxpayers"
+        "surename surename surename surename tin tin"
+        "address address address address sex sex"
+        "citizenship citizenship icr birth birth height"
+        "civil civil civil civil dateofbirth weight"
+        "profession profession profession profession taxamount communitytax"
+        "basic basic basic basic basictax basiccomm"
+        "add add add add addtax addcomm"
+        "gross gross gross gross grosstax grosscomm"
+        "salary salary salary salary salarytax salarycomm"
+        "income income income income incometax incomecomm"
+        "total total interest interest paid paid"
+        "tres tres tres tres tres tres"
+        "actions actions actions actions actions actions";
+        font-size: 11px;
+}
+.surename
+{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 0.9fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    grid-template-areas:
+    "name1 name2 name3";
+}
+.name1 {
+    grid-area: name1;
+}
+.name2 {
+    grid-area: name2;
+}
+.name3 {
+    grid-area: name3;
+}
+.parent .mud-input-control>.mud-input-control-input-container>div.mud-input.mud-input-text
+{
+    font-size: 11px !important;
+    margin: unset !important;
+}
+.parent .mud-input-control
+{
+    margin-top: unset;
+    height: 1px;
+}
+.parent span{
+    text-transform: capitalize;
+    font-weight: 500;
+}
+.parent .mud-input>input.mud-input-root, div.mud-input-slot.mud-input-root
+{
+    padding: 2px 0 2px !important;
+    margin-top: 5px;
+    text-align: center;
+}

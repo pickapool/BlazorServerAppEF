@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebReceipt.Server.AppDatabaseContext;
 
@@ -11,9 +12,11 @@ using WebReceipt.Server.AppDatabaseContext;
 namespace WebReceipt.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240620130247_Migration2")]
+    partial class Migration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,17 +53,7 @@ namespace WebReceipt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CityTreasurer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CivilStatus")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DateIssued")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
@@ -72,9 +65,6 @@ namespace WebReceipt.Migrations
 
                     b.Property<decimal>("GrossTax")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
 
                     b.Property<string>("ICRNo")
                         .IsRequired()
@@ -111,10 +101,6 @@ namespace WebReceipt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PlaceOfIssue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("SalaryCommunity")
                         .HasColumnType("decimal(18,2)");
 
@@ -128,14 +114,8 @@ namespace WebReceipt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Tin")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Weight")
-                        .HasColumnType("int");
 
                     b.HasKey("CedulaId");
 

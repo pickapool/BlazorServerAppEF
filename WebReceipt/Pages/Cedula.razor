@@ -1,0 +1,386 @@
+@page "/cedula"
+
+@inject ICedulaService CedulaServices
+
+@if (ShowList)
+{
+    <MudTable Items="@cedulas" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)">
+        <ToolBarContent>
+            <MudIconButton OnClick="()=> Createnew()" class="ml-0" Icon="@Icons.Material.Filled.Add" Color="Color.Primary"
+                aria-label="github"></MudIconButton>
+            <MudText Typo="Typo.subtitle2">Cedulas</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense" Placeholder="Search"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small"
+                Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <ColGroup>
+            <col />
+            <col />
+            <col style="width: 200px;" />
+        </ColGroup>
+        <HeaderContent>
+            <MudTh>Username</MudTh>
+            <MudTh>Employee Name</MudTh>
+            <MudTh class="text-center">Action</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nr">@context.ORNumber</MudTd>
+            <MudTd DataLabel="Sign">@context.DateIssued?.ToString("MM/dd/yyyy")</MudTd>
+            <MudTd></MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+        </PagerContent>
+    </MudTable>
+}
+else
+{
+    <MudPaper class="pa-1" Height="calc(100vh - 90px)">
+        <MudText Typo="Typo.subtitle2">COMMUNITY TAX CERTIFICATE</MudText>
+
+        <div class="border parent">
+            <div class="place bbottom bright d-flex flex-column custom">
+                <span>Place of Issue</span>
+                <MudTextField @bind-Value="@cedula.PlaceOfIssue" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="date-issued bbottom bright d-flex flex-column center">
+                <span>Date Issued</span>
+                <MudDatePicker  @bind-Date="@cedula.DateIssued"/>
+            </div>
+            <div class="taxpayers bbottom d-flex flex-column center justify-content-center">
+                <span>TAX PAYER'S COPY</span>
+            </div>
+            <div class="surename bbottom bright">
+                <div class="name1 d-flex flex-column align-items-center custom">
+                    <span>Name(SureName)</span>
+                    <MudTextField @bind-Value="@cedula.SureName" Variant="Variant.Text"></MudTextField>
+                </div>
+                 <div class="name2 d-flex flex-column align-items-center custom">
+                    <span>(First)</span>
+                    <MudTextField @bind-Value="@cedula.FirstName" Variant="Variant.Text"></MudTextField>
+                </div>
+                <div class="name3 d-flex flex-column align-items-center custom">
+                    <span>(Middle)</span>
+                    <MudTextField @bind-Value="@cedula.MiddleName" Variant="Variant.Text"></MudTextField>
+                </div>
+            </div>
+                <div class="tin bbottom d-flex flex-column align-items-center custom">
+                    <span>
+                        TIN
+                    </span>
+                </div>
+               
+                <div class="address">Address</div>
+                <div class="sex">Sex</div>
+                <div class="citizenship">Citizenship</div>
+                <div class="icr">ICR</div>
+                <div class="birth">Birth</div>
+                <div class="height">Height</div>
+                <div class="civil">Civil</div>
+                <div class="dateofbirth">Date of Birth</div>
+                <div class="weight">Weight</div>
+                <div class="profession">Profession</div>
+                <div class="taxamount">Tax Amount</div>
+                <div class="communitytax">Community Tax</div>
+                <div class="basic">Basic</div>
+                <div class="basictax">Basic Tax</div>
+                <div class="basiccomm">Comm</div>
+                <div class="add">Add</div>
+                <div class="addtax">Add Tax</div>
+                <div class="addcomm">Add Comm</div>
+                <div class="gross">Gross</div>
+                <div class="grosstax">Gross Tax</div>
+                <div class="grosscomm">Gross Comm</div>
+                <div class="salary">Salary</div>
+                <div class="salarytax">Salary Tax</div>
+                <div class="salarycomm">Salary Comm</div>
+                <div class="income">Income</div>
+                <div class="incometax">Income Tax</div>
+                <div class="incomecomm">Income Comm</div>
+                <div class="total">Total</div>
+                <div class="interest">Interest</div>
+                <div class="paid">Paid</div>
+                <div class="tres">Tres</div>
+                <div class="actions">Actions</div>
+            </div>
+
+
+    </MudPaper>
+}
+
+
+@code
+{
+    private List<CedulaModel> cedulas = new();
+    private CedulaModel cedula = new();
+    private bool ShowList = true;
+    private string searchString1 = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Task<List<CedulaModel>> c = CedulaServices.GetListOfCedula(new());
+        await c;
+        if (c.Status == TaskStatus.RanToCompletion)
+        {
+            cedulas = c.Result;
+            StateHasChanged();
+        }
+    }
+    private void Createnew()
+    {
+        ShowList = false;
+        StateHasChanged();
+    }
+}
+<style>
+   
+    .bleft
+    {
+        border-left-width:0.3px;
+    }
+    .bright{
+        border-right-width:0.3px;
+    }
+    .bbottom
+    {
+        border-bottom-width:0.3px;
+    }
+    .btop
+    {
+        border-top-width:0.3px;
+    }
+    .ball
+    {
+        border-width:0.3px;
+    }
+    div.bleft,div.bright,div.bbottom,div.btop,div.ball
+    {
+        border-color: #d3d3d3;
+    }
+
+    .mud-popover-provider .mud-picker-container .mud-toolbar
+    {
+        height: 100px !important;
+    }
+    .parent .custom div
+    {
+        align-items: center;
+        width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .parent .center
+    {
+        align-items: center;
+        width: 100%;
+    }
+    .parent .center .mud-icon-size-medium
+    {
+        font-size: 0.9rem;
+        margin-top: 6px;
+    }
+    .mud-table-container {
+        margin-top: 20px;
+    }
+
+    .border {
+        height: calc(100vh - 120px);
+    }
+
+    /* Define grid areas */
+    .place {
+        grid-area: place;
+        align-items: center;
+    }
+
+    .date-issued {
+        grid-area: date-issued;
+        /* Border for 'date-issued' area */
+    }
+
+    .taxpayers {
+        grid-area: taxpayers;
+        /* Border for 'taxpayers' area */
+    }
+
+    .surename {
+        grid-area: surename;
+        /* Border for 'surname' area */
+    }
+
+    .tin {
+        grid-area: tin;
+        /* Border for 'surname' area */
+    }
+
+    .firstname {
+        grid-area: firstname;
+        /* Border for 'firstname' area */
+    }
+
+    .middlename {
+        grid-area: middlename;
+        /* Border for 'middlename' area */
+    }
+
+    .address {
+        grid-area: address;
+        /* Border for 'address' area */
+    }
+
+    .sex {
+        grid-area: sex;
+        /* Border for 'sex' area */
+    }
+
+    .citizenship {
+        grid-area: citizenship;
+        /* Border for 'citizenship' area */
+    }
+
+    .icr {
+        grid-area: icr;
+        /* Border for 'icr' area */
+    }
+
+    .birth {
+        grid-area: birth;
+        /* Border for 'birth' area */
+    }
+
+    .height {
+        grid-area: height;
+        /* Border for 'height' area */
+    }
+
+    .civil {
+        grid-area: civil;
+        /* Border for 'civil' area */
+    }
+
+    .dateofbirth {
+        grid-area: dateofbirth;
+        /* Border for 'dateofbirth' area */
+    }
+
+    .weight {
+        grid-area: weight;
+        /* Border for 'weight' area */
+    }
+
+    .profession {
+        grid-area: profession;
+        /* Border for 'profession' area */
+    }
+
+    .taxamount {
+        grid-area: taxamount;
+        /* Border for 'taxamount' area */
+    }
+
+    .communitytax {
+        grid-area: communitytax;
+        /* Border for 'communitytax' area */
+    }
+
+    .basic {
+        grid-area: basic;
+        /* Border for 'basic' area */
+    }
+
+    .basictax {
+        grid-area: basictax;
+        /* Border for 'basictax' area */
+    }
+
+    .basiccomm {
+        grid-area: basiccomm;
+        /* Border for 'comm' area */
+    }
+
+    .add {
+        grid-area: add;
+        /* Border for 'add' area */
+    }
+
+    .addtax {
+        grid-area: addtax;
+        /* Border for 'addtax' area */
+    }
+
+    .addcomm {
+        grid-area: addcomm;
+        /* Border for 'addcomm' area */
+    }
+
+    .gross {
+        grid-area: gross;
+        /* Border for 'gross' area */
+    }
+
+    .grosstax {
+        grid-area: grosstax;
+        /* Border for 'grosstax' area */
+    }
+
+    .grosscomm {
+        grid-area: grosscomm;
+        /* Border for 'grosscomm' area */
+    }
+
+    .salary {
+        grid-area: salary;
+        /* Border for 'salary' area */
+    }
+
+    .salarytax {
+        grid-area: salarytax;
+        /* Border for 'salarytax' area */
+    }
+
+    .salarycomm {
+        grid-area: salarycomm;
+        /* Border for 'salarycomm' area */
+    }
+
+    .income {
+        grid-area: income;
+        /* Border for 'income' area */
+    }
+
+    .incometax {
+        grid-area: incometax;
+        /* Border for 'incometax' area */
+    }
+
+    .incomecomm {
+        grid-area: incomecomm;
+        /* Border for 'incomecomm' area */
+    }
+
+    .total {
+        grid-area: total;
+        /* Border for 'total' area */
+    }
+
+    .interest {
+        grid-area: interest;
+        /* Border for 'interest' area */
+    }
+
+    .paid {
+        grid-area: paid;
+        /* Border for 'paid' area */
+    }
+
+    .tres {
+        grid-area: tres;
+        /* Border for 'tres' area */
+    }
+
+    .actions {
+        grid-area: actions;
+        /* Border for 'actions' area */
+    }
+</style>
