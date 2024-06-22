@@ -1122,7 +1122,7 @@
                             </TablixColumns>
                             <TablixRows>
                               <TablixRow>
-                                <Height>0.09444in</Height>
+                                <Height>0.10833in</Height>
                                 <TablixCells>
                                   <TablixCell>
                                     <CellContents>
@@ -1235,7 +1235,6 @@
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="Textbox89">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -1378,7 +1377,6 @@
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="Textbox92">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -1521,7 +1519,6 @@
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="Textbox96">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -1556,7 +1553,6 @@
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="DateIssued32">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -1767,7 +1763,7 @@
                           <DataSetName>CedulaDataset</DataSetName>
                           <Top>0.08611in</Top>
                           <Left>0.06944in</Left>
-                          <Height>0.09444in</Height>
+                          <Height>0.10833in</Height>
                           <Width>2.16553in</Width>
                           <ZIndex>1</ZIndex>
                           <Style>
@@ -1937,38 +1933,37 @@
                           <TablixBody>
                             <TablixColumns>
                               <TablixColumn>
-                                <Width>0.1249in</Width>
+                                <Width>0.14034in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.10531in</Width>
+                                <Width>0.12075in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.10531in</Width>
+                                <Width>0.12075in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.71239in</Width>
+                                <Width>0.72783in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.10531in</Width>
+                                <Width>0.12075in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.11583in</Width>
+                                <Width>0.13127in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.09934in</Width>
+                                <Width>0.11478in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>0.71236in</Width>
+                                <Width>0.7278in</Width>
                               </TablixColumn>
                             </TablixColumns>
                             <TablixRows>
                               <TablixRow>
-                                <Height>0.09722in</Height>
+                                <Height>0.11111in</Height>
                                 <TablixCells>
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="Textbox177">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -1996,7 +1991,6 @@
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="Textbox180">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -2028,7 +2022,6 @@
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="Textbox181">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -2036,7 +2029,7 @@
                                               <TextRun>
                                                 <Value>1</Value>
                                                 <Style>
-                                                  <FontSize>5pt</FontSize>
+                                                  <FontSize>6pt</FontSize>
                                                 </Style>
                                               </TextRun>
                                             </TextRuns>
@@ -2051,14 +2044,18 @@
                                             <Style>Solid</Style>
                                             <Width>0.5pt</Width>
                                           </Border>
+                                          <PaddingLeft>1pt</PaddingLeft>
+                                          <PaddingRight>1pt</PaddingRight>
+                                          <PaddingTop>1pt</PaddingTop>
+                                          <PaddingBottom>1pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
+                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="Textbox179">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -2090,7 +2087,6 @@
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="Textbox188">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -2118,7 +2114,6 @@
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="Textbox183">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -2150,7 +2145,6 @@
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="Textbox182">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -2158,7 +2152,7 @@
                                               <TextRun>
                                                 <Value>2</Value>
                                                 <Style>
-                                                  <FontSize>5pt</FontSize>
+                                                  <FontSize>6pt</FontSize>
                                                 </Style>
                                               </TextRun>
                                             </TextRuns>
@@ -2173,14 +2167,18 @@
                                             <Style>Solid</Style>
                                             <Width>0.5pt</Width>
                                           </Border>
+                                          <PaddingLeft>1pt</PaddingLeft>
+                                          <PaddingRight>1pt</PaddingRight>
+                                          <PaddingTop>1pt</PaddingTop>
+                                          <PaddingBottom>1pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
+                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
                                       <Textbox Name="Textbox191">
-                                        <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
@@ -2231,10 +2229,10 @@
                             </TablixMembers>
                           </TablixRowHierarchy>
                           <DataSetName>CedulaDataset</DataSetName>
-                          <Top>0.02778in</Top>
-                          <Left>0.21943in</Left>
-                          <Height>0.09722in</Height>
-                          <Width>2.08075in</Width>
+                          <Top>0.11111in</Top>
+                          <Left>0.06944in</Left>
+                          <Height>0.11111in</Height>
+                          <Width>2.20428in</Width>
                           <ZIndex>1</ZIndex>
                           <Style>
                             <Border>
