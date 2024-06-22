@@ -3,6 +3,7 @@
 @inject ICedulaService CedulaService
 @inject IPaymentTypeService PaymentTypeService
 @inject ISnackbar SnackBar
+@inject IReportService ReportService
 
 @if (ShowList)
 {
@@ -49,7 +50,7 @@
                             <MudText Typo='Typo.body2'>Remove</MudText>
                         </div>
                     </MudMenuItem>
-                    <MudMenuItem OnClick="()=> { ShowList = !ShowList; ShowReport = !ShowReport; }">
+                    <MudMenuItem OnClick="()=> GetReport()">
                         <div class='d-flex align-center gap-2 '>
                             <MudIcon Icon='@Icons.Material.Filled.PictureAsPdf' Size='Size.Small' />
                             <MudText Typo='Typo.body2'>Print</MudText>
@@ -322,6 +323,19 @@ else
         StateHasChanged();
         ShowList = false;
         StateHasChanged();
+    }
+    private void GetReport()
+    {
+        List<CedulaModel> list = new();
+        IActionResult report = ReportService.GetCedulaReport(list);
+        if (report is FileContentResult fileContentResult)
+        {
+            byte[] pdfBytes = fileContentResult.FileContents;
+            PDFContent = "data:application/pdf;base64," + Convert.ToBase64String(pdfBytes);
+            ShowList = !ShowList; 
+            ShowReport = !ShowReport;
+            StateHasChanged();
+        }
     }
 }
 <style>
