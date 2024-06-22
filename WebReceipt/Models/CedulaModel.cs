@@ -43,7 +43,7 @@ namespace WebReceipt.Models
         public Enums.CivilStatus CivilStatus { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public decimal Paid { get; set; }
-        public int Tin { get; set; }
+        public string Tin { get; set; }
         public string CityTreasurer { get; set; }
         public Enums.Sex Sex {  get; set; }
         public long PaymentTypeId { get; set; }

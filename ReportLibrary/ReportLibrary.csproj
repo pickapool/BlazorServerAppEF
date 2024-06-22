@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Update="CedulaDataSet.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CedulaDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Update="NatureDataset.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -20,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="CedulaDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CedulaDataSet.Designer.cs</LastGenOutput>
+    </None>
     <None Update="NatureDataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>NatureDataset.Designer.cs</LastGenOutput>

@@ -37,7 +37,7 @@ namespace WebReceipt.Server.Services.ReportServices
         [Route(template: "GetCedulareport")]
         public IActionResult GetCedulaReport([FromBody] List<CedulaModel> cedula)
         {
-            using var rs = Assembly.GetExecutingAssembly().GetManifestResourceStream("WebReceipt.Reports.RecordsReport.rdlc");
+            using var rs = Assembly.GetExecutingAssembly().GetManifestResourceStream("WebReceipt.Reports.ReportCedula.rdlc");
 
             LocalReport report = new();
             report.LoadReportDefinition(rs);
