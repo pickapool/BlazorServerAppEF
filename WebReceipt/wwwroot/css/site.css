@@ -135,13 +135,13 @@ h5{
 }
 .parent {
     display: grid;
-    grid-template-columns: repeat(5, 1fr) 1.5fr;
-    grid-template-rows: repeat(13, 1fr) repeat(2, 0.8fr);
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(12, 1fr) repeat(2, 0.8fr);
     grid-column-gap: 0;
     grid-row-gap: 0;
     grid-template-areas:
         "place place place date-issued taxpayers taxpayers"
-        "surename surename surename surename tin tin"
+        "surename surename surename surename or tin"
         "address address address address sex sex"
         "citizenship citizenship icr birth birth height"
         "civil civil civil civil dateofbirth weight"

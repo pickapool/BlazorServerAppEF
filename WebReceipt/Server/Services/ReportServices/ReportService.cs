@@ -33,5 +33,16 @@ namespace WebReceipt.Server.Services.ReportServices
             report.DataSources.Add(new ReportDataSource("ReceiptDataset", receipt));
             return File(report.Render("PDF"), "application/pdf", "report." + "pdf");
         }
+        [HttpPost]
+        [Route(template: "GetCedulareport")]
+        public IActionResult GetCedulaReport([FromBody] List<CedulaModel> cedula)
+        {
+            using var rs = Assembly.GetExecutingAssembly().GetManifestResourceStream("WebReceipt.Reports.RecordsReport.rdlc");
+
+            LocalReport report = new();
+            report.LoadReportDefinition(rs);
+            report.DataSources.Add(new ReportDataSource("CedulaDataset", cedula));
+            return File(report.Render("PDF"), "application/pdf", "report." + "pdf");
+        }
     }
 }

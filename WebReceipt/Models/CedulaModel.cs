@@ -12,6 +12,7 @@ namespace WebReceipt.Models
         {
             PlaceOfIssue = "Barbaza, Antique";
             DateIssued = DateTime.Now;
+            DateOfBirth = DateTime.Now;
         }
         public int CedulaId { get; set; }
         public DateTime? DateIssued { get; set;  }
@@ -35,7 +36,6 @@ namespace WebReceipt.Models
         public decimal SalaryCommunity { get; set;}
         public decimal IncomeTax { get; set; }
         public decimal IncomeCommunity { get; set; }
-        public string Municipality { get; set; } = string.Empty;
         public decimal Total {  get; set; }
         public decimal Interest { get; set; }
         public int Weight { get; set; }
@@ -46,5 +46,8 @@ namespace WebReceipt.Models
         public int Tin { get; set; }
         public string CityTreasurer { get; set; }
         public Enums.Sex Sex {  get; set; }
+        public long PaymentTypeId { get; set; }
+        [ForeignKey("PaymentTypeId")]
+        public PaymentTypeModel? PaymentType { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace WebReceipt.Server.Services.CedulaServices
         [HttpPost]
         public async Task<List<CedulaModel>> GetListOfCedula(FilterParameter param)
         {
-            List<CedulaModel> current = _context.Cedulas.ToList();
+            List<CedulaModel> current = _context.Cedulas.Include( e => e.PaymentType).ToList();
             //if (param.IsDate)
             //{
             //    current = current.Where(sa => sa.DateRecorded >= param._dateRange.Start && sa.DateRecorded <= param._dateRange.End).ToList();
