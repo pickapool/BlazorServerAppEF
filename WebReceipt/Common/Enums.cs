@@ -31,5 +31,10 @@ namespace WebReceipt.Common
             Widow = 2,
             Divorced = 3
         }
+        public enum  TaxType
+        {
+            BasicTax,
+            SpecialEducationFund
+        }
     }
 }
