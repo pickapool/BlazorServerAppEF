@@ -2050,7 +2050,6 @@
                                           <PaddingBottom>1pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
-                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
                                   <TablixCell>
@@ -2173,7 +2172,6 @@
                                           <PaddingBottom>1pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
-                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
                                   <TablixCell>
@@ -2232,7 +2230,7 @@
                           <Top>0.11111in</Top>
                           <Left>0.06944in</Left>
                           <Height>0.11111in</Height>
-                          <Width>2.20428in</Width>
+                          <Width>2.20427in</Width>
                           <ZIndex>1</ZIndex>
                           <Style>
                             <Border>
@@ -4768,7 +4766,6 @@
                                     <rd:DefaultName>Total</rd:DefaultName>
                                     <Style>
                                       <Border>
-                                        <Color>LightGrey</Color>
                                         <Style>Solid</Style>
                                         <Width>0.5pt</Width>
                                       </Border>
@@ -4809,7 +4806,6 @@
                                     <rd:DefaultName>Textbox355</rd:DefaultName>
                                     <Style>
                                       <Border>
-                                        <Color>LightGrey</Color>
                                         <Style>Solid</Style>
                                         <Width>0.5pt</Width>
                                       </Border>
@@ -4845,7 +4841,6 @@
                                     <rd:DefaultName>Interest</rd:DefaultName>
                                     <Style>
                                       <Border>
-                                        <Color>LightGrey</Color>
                                         <Style>Solid</Style>
                                         <Width>0.5pt</Width>
                                       </Border>
@@ -4899,7 +4894,6 @@
                                     <rd:DefaultName>Textbox357</rd:DefaultName>
                                     <Style>
                                       <Border>
-                                        <Color>LightGrey</Color>
                                         <Style>Solid</Style>
                                         <Width>0.5pt</Width>
                                       </Border>
@@ -4935,7 +4929,6 @@
                                     <rd:DefaultName>Paid</rd:DefaultName>
                                     <Style>
                                       <Border>
-                                        <Color>LightGrey</Color>
                                         <Style>Solid</Style>
                                         <Width>0.5pt</Width>
                                       </Border>
@@ -4990,6 +4983,7 @@
                                             <Style>Solid</Style>
                                           </TopBorder>
                                           <VerticalAlign>Middle</VerticalAlign>
+                                          <PaddingLeft>2pt</PaddingLeft>
                                         </Style>
                                       </Textbox>
                                     </ReportItems>
