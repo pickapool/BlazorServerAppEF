@@ -1,0 +1,214 @@
+﻿@page "/form56"
+
+@if (ShowList)
+{
+
+} else
+{
+     <MudPaper class="pa-1 d-flex flex-column" Height="calc(100vh - 90px)" Width="auto">
+        <MudText Typo="Typo.subtitle2">ACCOUNTABLE FORM No. 56</MudText>
+        <div class="second">
+            <div class="rec">
+                <span>Previous Tax Receipt</span>
+                <MudTextField Margin="Margin.Dense" @bind-Value="@form56.PreviousReceiptNo"></MudTextField>
+            </div>
+            <div class="dated">
+                <span>DATED</span>
+                 <MudDatePicker Margin="Margin.Dense" @bind-Value="@form56.Dated" ></MudDatePicker>
+            </div>
+            <div class="no">
+                <span>NO</span>
+                 <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.FormNo" ></MudTextField>
+            </div>
+            <div class="prov">
+                <span>PROVINCE</span>
+                <MudTextField Margin="Margin.Dense" @bind-Value="@form56.Province"></MudTextField>
+            </div>
+            <div class="city">
+                <span>CITY/MUNICIPALITY</span>
+                 <MudTextField Margin="Margin.Dense" @bind-Value="@form56.City"></MudTextField>
+            </div>
+            <div class="date">
+                <span>DATE</span>
+                 <MudDatePicker Margin="Margin.Dense" @bind-Value="@form56.Date" ></MudDatePicker>
+            </div>
+             <div class="from">
+                <span>Received From</span>
+                <MudTextField Margin="Margin.Dense" @bind-Value="@form56.ReceiveFrom"></MudTextField>
+            </div>
+            <div class="peso">
+                <span>Amount</span>
+                 <MudTextField Margin="Margin.Dense" @bind-Value="@form56.Pesos"></MudTextField>
+            </div>
+            <div class="option d-flex justify-content-center align-items-center">
+                 <MudRadioGroup @bind-Value="@form56.TaxType">
+                    <MudRadio Value="@Enums.TaxType.BasicTax" Color="Color.Primary" Size="Size.Small">Basic Tax</MudRadio>
+                    <MudRadio Value="@Enums.TaxType.SpecialEducationFund" Color="Color.Secondary" Size="Size.Small">Special Education Fund</MudRadio>
+                </MudRadioGroup>
+            </div>
+            <div class="grid">
+                <MudTable Elevation="0" Class="mt-1" Items="@form56.Details" Height="calc(100vh - 420px)" Dense With="100%">
+                    <ToolBarContent>
+                            <MudText Typo="Typo.body1">Details</MudText>
+                        <MudSpacer />
+                        <MudIconButton OnClick="AddNew" Icon="@Icons.Material.Filled.Add" Size="Size.Small"></MudIconButton>
+                    </ToolBarContent>
+                        <ColGroup>
+                        <col />
+                        <col />
+                        <col />
+                        <col style="width: 10px !important;" />
+                    </ColGroup>
+                    <HeaderContent>
+                        <MudTh>Nature</MudTh>
+                        <MudTh>Account Code</MudTh>
+                        <MudTh Class="text-center">Amount</MudTh>
+                        <MudTh></MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Nature">
+                        
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </div>
+            <div class="bot">
+                <div class="checkdate">
+                    <span>Check Date</span>
+                    <MudDatePicker Margin="Margin.Dense" @bind-Value="@form56.CheckDate" ></MudDatePicker>
+                </div>
+                <div class="checkno">
+                    <span>Check No</span>
+                 <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.CheckNo" ></MudTextField>
+                </div>
+                <div class="tres">
+                    <span>Treasurer</span>
+                    <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.Treasurere" ></MudTextField>
+                </div>
+                <div class="deputy">
+                    <span>DeputyO</span>
+                 <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.Deputy" ></MudTextField>
+                </div>
+            </div>
+        </div>
+     </MudPaper>
+}
+
+@code {
+    private bool ShowList;
+    private Form56Model form56 = new();
+
+    private void AddNew()
+    {
+        form56.Details.Add(new());
+    }
+
+}
+<style>
+    .second {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 0.2fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        grid-template-areas: 
+        "rec dated no"
+        "prov city date"
+        "from peso option"
+        "grid grid grid"
+        "bot bot bot"
+        ;
+        
+    }
+    .bot
+    {
+        grid-area: bot;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(1, 0.2fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        grid-template-areas: 
+        "checkno checkdate tres deputy"
+        ;
+    }
+    .checkno
+    {
+        grid-area: checkno;
+    }
+    .checkdate
+    {
+        grid-area: checkdate;
+    }
+    .tres
+    {
+        grid-area: tres;
+    }
+    .deputy
+    {
+        grid-area: deputy;
+    }
+    .second .mud-input,.bot .mud-input
+    {
+        margin-top: unset !important;
+        text-align: center;
+    }
+    .second .mud-input .mud-input-slot,.bot .mud-input .mud-input-slot
+    {
+        text-align: center;
+        padding: unset !important;
+    }
+    .rec,.dated,.no,.prov,.city,.date,.from,.peso,.option,.checkno,.checkdate,.tres,.deputy
+    {
+        padding: 4px;
+        display: flex;
+        flex-direction: column;
+        border: 0.3px black solid;
+        border-color: #d3d3d3;
+    }
+    .mud-table
+    {
+         border: 0.3px black solid;
+        border-color: #d3d3d3;
+    }
+    .rec
+    {
+        grid-area: rec;
+    }
+    .dated
+    {
+        grid-area: dated;
+    }
+    .no
+    {
+        grid-area: no;
+    }
+    .prov
+    {
+        grid-area: prov;
+    }
+    .city
+    {
+        grid-area: city;
+    }
+    .date
+    {
+        grid-area: date;
+    }
+    .from
+    {
+        grid-area: from;
+    }
+    .peso
+    {
+        grid-area: peso;
+    }
+    .option
+    {
+        grid-area: option;
+    }
+    .grid
+    {
+        grid-area: grid;
+    }
+</style>
