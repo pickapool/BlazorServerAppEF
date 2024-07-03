@@ -49,5 +49,13 @@ namespace WebReceipt.Models
         public long PaymentTypeId { get; set; }
         [ForeignKey("PaymentTypeId")]
         public PaymentTypeModel? PaymentType { get; set; }
+        [NotMapped]
+        public string Name
+        {
+            get
+            {
+                return $"{FirstName}{(String.IsNullOrEmpty(MiddleName) ? " " : " " + MiddleName.Substring(0,1))}. {SureName}";
+            }
+        }
     }
 }

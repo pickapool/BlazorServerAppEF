@@ -309,7 +309,7 @@ else
     }
     private async Task Delete(CedulaModel c)
     {
-        Task t  = CedulaService.RemoveCedula(cedula);
+        Task t  = CedulaService.RemoveCedula(c);
         await t;
         if(t.Status == TaskStatus.RanToCompletion)
         {
@@ -435,12 +435,21 @@ else
     {
         width: 70% !important;
     }
+   .tres .mud-input>input.mud-input-root, div.mud-input-slot.mud-input-root
+   {
+    margin-top: unset !important;
+   } 
 
     .date-issued {
         grid-area: date-issued;
         /* Border for 'date-issued' area */
     }
 
+.mud-input.mud-input-outlined.mud-input-adorned-start
+    {
+        margin-top: 20px !important;
+        height: 30px !important;
+    }
     .taxpayers {
         grid-area: taxpayers;
         /* Border for 'taxpayers' area */

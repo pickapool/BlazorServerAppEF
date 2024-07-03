@@ -1,8 +1,66 @@
 ﻿@page "/form56"
 
+@inject IForm456Service Form56Service
+@inject ISnackbar Snackbar
+@inject IPaymentTypeService PaymentTypeService
 @if (ShowList)
 {
-
+    <MudTable Items="@ListForm56" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)">
+        <ToolBarContent>
+            <MudIconButton OnClick="()=> Createnew()" class="ml-0" Icon="@Icons.Material.Filled.Add" Color="Color.Primary"
+                aria-label="github"></MudIconButton>
+            <MudText Typo="Typo.subtitle2">Form 56</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense" Placeholder="Search"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small"
+                Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <ColGroup>
+            <col />
+            <col />
+            <col />
+            <col style="width: 200px;" />
+            <col style="width: 1%;" />
+        </ColGroup>
+        <HeaderContent>
+            <MudTh>OR Number</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>Issued</MudTh>
+            <MudTh>Amount paid</MudTh>
+            <MudTh class="text-center">Action</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nr">@context.FormNo</MudTd>
+            <MudTd DataLabel="Nr">@context.ReceiveFrom</MudTd>
+            <MudTd DataLabel="Sign">@context.Date?.ToString("MM/dd/yyyy")</MudTd>
+            <MudTd DataLabel="Nr">@context.Pesos.ToString("N2")</MudTd>
+            <MudTd>
+                <MudMenu Icon="@Icons.Material.Filled.MoreVert" Class="pa-1" Size="Size.Small" ActivationEvent="@MouseEvent.MouseOver" AnchorOrigin="Origin.CenterLeft" TransformOrigin="Origin.TopRight" Dense Color="Color.Inherit">
+                     <MudMenuItem OnClick="()=> Edit(context)">
+                        <a class='d-flex align-center gap-2 '>
+                            <MudIcon Icon='@Icons.Material.Filled.Edit' Size='Size.Small' />
+                            <MudText Typo='Typo.body2'>Edit</MudText>
+                        </a>
+                    </MudMenuItem>
+                     <MudMenuItem OnClick="()=> Delete(context)">
+                        <div class='d-flex align-center gap-2 '>
+                            <MudIcon Icon='@Icons.Material.Filled.Cancel' Size='Size.Small' />
+                            <MudText Typo='Typo.body2'>Remove</MudText>
+                        </div>
+                    </MudMenuItem>
+                    <MudMenuItem OnClick="()=> GetReport(context)">
+                        <div class='d-flex align-center gap-2 '>
+                            <MudIcon Icon='@Icons.Material.Filled.PictureAsPdf' Size='Size.Small' />
+                            <MudText Typo='Typo.body2'>Print</MudText>
+                        </div>
+                    </MudMenuItem>
+                </MudMenu>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+        </PagerContent>
+    </MudTable>
 } else
 {
      <MudPaper class="pa-1 d-flex flex-column" Height="calc(100vh - 90px)" Width="auto">
@@ -14,7 +72,7 @@
             </div>
             <div class="dated">
                 <span>DATED</span>
-                 <MudDatePicker Margin="Margin.Dense" @bind-Value="@form56.Dated" ></MudDatePicker>
+                 <MudDatePicker Margin="Margin.Dense" @bind-Date="@form56.Dated" ></MudDatePicker>
             </div>
             <div class="no">
                 <span>NO</span>
@@ -30,7 +88,7 @@
             </div>
             <div class="date">
                 <span>DATE</span>
-                 <MudDatePicker Margin="Margin.Dense" @bind-Value="@form56.Date" ></MudDatePicker>
+                 <MudDatePicker Margin="Margin.Dense" @bind-Date="@form56.Date" ></MudDatePicker>
             </div>
              <div class="from">
                 <span>Received From</span>
@@ -57,25 +115,84 @@
                         <col />
                         <col />
                         <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
                         <col style="width: 10px !important;" />
                     </ColGroup>
                     <HeaderContent>
-                        <MudTh>Nature</MudTh>
-                        <MudTh>Account Code</MudTh>
-                        <MudTh Class="text-center">Amount</MudTh>
+                        <MudTh Class="text-center">Owner</MudTh>
+                        <MudTh Class="text-center">Location</MudTh>
+                        <MudTh Class="text-center">LOT</MudTh>
+                        <MudTh Class="text-center">Tax No.</MudTh>
+                        <MudTh Class="text-center">Land</MudTh>
+                        <MudTh Class="text-center">Improvements</MudTh>
+                        <MudTh Class="text-center">Assesed Total</MudTh>
+                        <MudTh Class="text-center">Tax Due</MudTh>
+                        <MudTh Class="text-center">Ins. No.</MudTh>
+                        <MudTh Class="text-center">Ins. Payment</MudTh>
+                        <MudTh Class="text-center">Full Payment</MudTh>
+                        <MudTh Class="text-center">Penalty</MudTh>
+                        <MudTh Class="text-center">Total</MudTh>
                         <MudTh></MudTh>
                     </HeaderContent>
                     <RowTemplate>
                         <MudTd DataLabel="Nature">
-                        
+                            <MudTextField @bind-Value="@context.Owner" Variant="Variant.Text"></MudTextField>
                         </MudTd>
+                         <MudTd DataLabel="Nature">
+                            <MudTextField @bind-Value="@context.Location" Variant="Variant.Text"></MudTextField>
+                        </MudTd>
+                         <MudTd DataLabel="Nature">
+                            <MudTextField @bind-Value="@context.Block" Variant="Variant.Text"></MudTextField>
+                        </MudTd>
+                         <MudTd DataLabel="Nature">
+                            <MudTextField @bind-Value="@context.TaxNo" Variant="Variant.Text"></MudTextField>
+                        </MudTd>
+                         <MudTd DataLabel="Nature">
+                            <MudTextField @bind-Value="@context.Land" Variant="Variant.Text"></MudTextField>
+                        </MudTd>
+                         <MudTd DataLabel="Nature">
+                            <MudTextField @bind-Value="@context.Improvements" Variant="Variant.Text"></MudTextField>
+                        </MudTd>
+                         <MudTd DataLabel="Nature">
+                            <MudTextField @bind-Value="@context.AssesedTotal" Variant="Variant.Text"></MudTextField>
+                        </MudTd>
+                         <MudTd DataLabel="Nature">
+                            <MudTextField @bind-Value="@context.TaxDue" Variant="Variant.Text"></MudTextField>
+                        </MudTd>
+                         <MudTd DataLabel="Nature">
+                            <MudTextField @bind-Value="@context.InstallmentNo" Variant="Variant.Text"></MudTextField>
+                        </MudTd>
+                         <MudTd DataLabel="Nature">
+                            <MudTextField @bind-Value="@context.InstallmentPayment" Variant="Variant.Text"></MudTextField>
+                        </MudTd>
+                         <MudTd DataLabel="Nature">
+                            <MudTextField @bind-Value="@context.FullPayment" Variant="Variant.Text"></MudTextField>
+                        </MudTd>
+                         <MudTd DataLabel="Nature">
+                             <MudTextField @bind-Value="@context.Penalty" Variant="Variant.Text"></MudTextField>
+                         </MudTd>
+                         <MudTd DataLabel="Nature">
+                             <MudTextField @bind-Value="@context.Total" Variant="Variant.Text"></MudTextField>
+                         </MudTd>
+                         <MudTd DataLabel="Nature">
+                            <MudIconButton OnClick="()=> RemoveDetail(context)" Size="Size.Small" Icon="@Icons.Material.Filled.RemoveCircle"></MudIconButton>
+                         </MudTd>
                     </RowTemplate>
                 </MudTable>
             </div>
             <div class="bot">
                 <div class="checkdate">
                     <span>Check Date</span>
-                    <MudDatePicker Margin="Margin.Dense" @bind-Value="@form56.CheckDate" ></MudDatePicker>
+                    <MudDatePicker Margin="Margin.Dense" @bind-Date="@form56.CheckDate" ></MudDatePicker>
                 </div>
                 <div class="checkno">
                     <span>Check No</span>
@@ -86,9 +203,15 @@
                     <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.Treasurere" ></MudTextField>
                 </div>
                 <div class="deputy">
-                    <span>DeputyO</span>
+                    <span>Deputy</span>
                  <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.Deputy" ></MudTextField>
                 </div>
+            </div>
+            <div class="action mt-1 d-flex justify-content-center align-items-center">
+                <MudButton OnClick="Cancel" Class="center" Size="Size.Small" Color="Color.Error" Variant="Variant.Text">Cancel</MudButton>
+                <MudButton OnClick="SaveForm56" Class="center" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">
+                    @(form56.Form56Id == 0 ? "Add Form 56" : "Update Form 56")
+                </MudButton>
             </div>
         </div>
      </MudPaper>
@@ -97,10 +220,97 @@
 @code {
     private bool ShowList;
     private Form56Model form56 = new();
-
+    private List<Form56Model> ListForm56 = new();
+    List<PaymentTypeModel> paymentTypes = new();
+    private string searchString1 = "", PDFContent = "";
+    protected override async Task OnInitializedAsync()
+    {
+        Task<List<Form56Model>> c = Form56Service.GetListOfForm56(new());
+        await c;
+        if (c.Status == TaskStatus.RanToCompletion)
+        {
+            ListForm56 = c.Result;
+            Task<IEnumerable<PaymentTypeModel>> p = PaymentTypeService.GetPayments();
+            await p;
+            if (p.Status == TaskStatus.RanToCompletion)
+            {
+                paymentTypes = p.Result.ToList();
+                ShowList = true;
+            }
+            StateHasChanged();
+        }
+    }
+    private void Cancel()
+    {
+        form56 = new();
+        ShowList = !ShowList;
+        StateHasChanged();
+    }
+    private async Task Edit(Form56Model c)
+    {
+        form56 = c;
+        StateHasChanged();
+        ShowList = false;
+        StateHasChanged();
+    }
+    private async Task RemoveDetail(Form56DetailModel d)
+    {
+        form56.Details.Remove(d);
+    }
     private void AddNew()
     {
         form56.Details.Add(new());
+    }
+    private async Task AddForm56()
+    {
+        await Form56Service.AddForm56(form56);
+    } 
+    private async Task UpdateForm56()
+    {
+        //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(form56, Newtonsoft.Json.Formatting.Indented));
+        await Form56Service.UpdateForm56(form56);
+    } 
+    private async Task SaveForm56()
+    {
+        Task t = form56.Form56Id == 0 ? AddForm56() : UpdateForm56();
+        await t;
+        if(t.Status == TaskStatus.RanToCompletion)
+        {
+            Extensions.ShowSnackbar("Form 56 has been saved", Variant.Filled, Snackbar, Severity.Success);
+            Cancel();
+        }
+    }
+    private void Createnew()
+    {
+        ShowList = false;
+        form56 = new();
+        form56.PaymentTypeId = (paymentTypes.Where(e => e.PaymentTypeName.Contains("Form 56", StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault() ?? new()).PaymentTypeId;
+        StateHasChanged();
+    }
+    private async Task Delete(Form56Model c)
+    {
+        Task t = Form56Service.RemoveForm56(c);
+        await t;
+        if(t.Status == TaskStatus.RanToCompletion)
+        {
+            Extensions.ShowSnackbar("Form 56 has been removed.", Variant.Filled, Snackbar, Severity.Success);
+            Cancel();
+            await OnInitializedAsync();
+        }
+    }
+    private void GetReport(Form56Model c)
+    {
+        List<Form56Model> list = new();
+        list.Add(c);
+        // IActionResult report = ReportService.GetCedulaReport(list);
+        // if (report is FileContentResult fileContentResult)
+        // {
+        //     byte[] pdfBytes = fileContentResult.FileContents;
+        //     PDFContent = "data:application/pdf;base64," + Convert.ToBase64String(pdfBytes);
+        //     ShowList = !ShowList;
+        //     ShowReport = !ShowReport;
+        //     StateHasChanged();
+        // }
     }
 
 }
@@ -117,8 +327,20 @@
         "from peso option"
         "grid grid grid"
         "bot bot bot"
-        ;
-        
+        "action action action";
+    }
+    .grid .mud-table-cell
+    {
+        padding: 2px !important;
+        font-size: 11px !important;
+    }
+    .grid input
+    {
+        font-size: 11px !important;
+    }
+    .grid .mud-icon-size-small
+    {
+        font-size: 14px !important;
     }
     .bot
     {
@@ -131,6 +353,10 @@
         grid-template-areas: 
         "checkno checkdate tres deputy"
         ;
+    }
+    .action
+    {
+        grid-area: action;
     }
     .checkno
     {
@@ -210,5 +436,17 @@
     .grid
     {
         grid-area: grid;
+    }
+    .mud-popover-provider .mud-picker-container .mud-toolbar
+    {
+        height: 100px !important;
+    }
+    .mud-table-container {
+        margin-top: 20px;
+    }
+    .mud-input.mud-input-outlined.mud-input-adorned-start
+    {
+        margin-top: 20px !important;
+        height: 30px !important;
     }
 </style>

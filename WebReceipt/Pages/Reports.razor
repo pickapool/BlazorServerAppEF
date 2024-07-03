@@ -5,6 +5,8 @@
 @inject ISnackbar SnackbarService
 @inject IReportService ReportService
 @inject IPaymentTypeService PaymentTypeService
+@inject ICedulaService CedulaService
+@inject IForm456Service Form56Service
 
 @if(IsShowReport)
 {
@@ -158,6 +160,8 @@
     private IEnumerable<PaymentTypeModel> Payments { get; set; }
     private Enums.TransactionType? tType { get; set; } = Enums.TransactionType.Mayors;
     FilterParameter parameter = new();
+    List<CedulaModel> ListOfCedula = new();
+    List<Form56Model> ListOfForm56 = new();
     protected override async Task OnInitializedAsync()
     {
         GlobalClass.Title = "Reports";
@@ -177,6 +181,29 @@
             if (p.Status == TaskStatus.RanToCompletion)
             {
                 Payments = p.Result;
+                ListOfCedula = await CedulaService.GetListOfCedula(new());
+                ListOfForm56 = await Form56Service.GetListOfForm56(new());
+
+                foreach(var cedula in ListOfCedula)
+                {
+                    ReceiptModel r = new();
+                    r.Number = cedula.ORNumber.ToString();
+                    r.Payor = cedula.Name;
+                    r.DateRecorded = cedula.DateIssued;
+                    r.Total = (double) cedula.Total;
+                    r.PaymentTypeId = cedula.PaymentTypeId;
+                    ListOfReceipts.Add(r);
+                }
+                foreach(var form in ListOfForm56)
+                {
+                    ReceiptModel r = new();
+                    r.Number = form.FormNo.ToString();
+                    r.Payor = form.ReceiveFrom;
+                    r.DateRecorded = form.Date;
+                    r.Total = (double) form.Pesos;
+                    r.PaymentTypeId = form.PaymentTypeId;
+                    ListOfReceipts.Add(r);
+                }
                 await AppState.NotifyStateChangedAsync();
                 IsLoading = false;
             }

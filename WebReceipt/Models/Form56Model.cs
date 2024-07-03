@@ -26,5 +26,8 @@ namespace WebReceipt.Models
         public string Deputy { get; set; }
         [ForeignKey("Form56Id")]
         public List<Form56DetailModel> Details { get; set; } = new();
+        public long PaymentTypeId { get; set; }
+        [ForeignKey("PaymentTypeId")]
+        public PaymentTypeModel? PaymentType { get; set; }
     }
 }
