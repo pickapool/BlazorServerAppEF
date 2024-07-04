@@ -192,6 +192,7 @@
                     r.DateRecorded = cedula.DateIssued;
                     r.Total = (double) cedula.Total;
                     r.PaymentTypeId = cedula.PaymentTypeId;
+                    r.PaymentType = cedula.PaymentType;
                     ListOfReceipts.Add(r);
                 }
                 foreach(var form in ListOfForm56)
@@ -202,6 +203,7 @@
                     r.DateRecorded = form.Date;
                     r.Total = (double) form.Pesos;
                     r.PaymentTypeId = form.PaymentTypeId;
+                    r.PaymentType = form.PaymentType;
                     ListOfReceipts.Add(r);
                 }
                 await AppState.NotifyStateChangedAsync();

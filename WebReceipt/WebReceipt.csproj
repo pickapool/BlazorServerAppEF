@@ -10,6 +10,7 @@
     <None Remove="Reports\ReceiptReport.rdlc" />
     <None Remove="Reports\RecordsReport.rdlc" />
     <None Remove="Reports\ReportCedula.rdlc" />
+    <None Remove="Reports\ReportForm56.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +21,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReportCedula.rdlc" />
+    <EmbeddedResource Include="Reports\ReportForm56.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,6 +69,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="Reports\Datasets\Form56Dataset.Designer.cs">
+      <DependentUpon>Form56Dataset.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Reports\Datasets\ReceiptDataset.Designer.cs">
       <DependentUpon>ReceiptDataset.xsd</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -78,6 +85,11 @@
     <None Update="Reports\Datasets\CedulaDataSet.xsd">
       <SubType>Designer</SubType>
       <LastGenOutput>CedulaDataSet.Designer.cs</LastGenOutput>
+      <Generator>MSDataSetGenerator</Generator>
+    </None>
+    <None Update="Reports\Datasets\Form56Dataset.xsd">
+      <SubType>Designer</SubType>
+      <LastGenOutput>Form56Dataset.Designer.cs</LastGenOutput>
       <Generator>MSDataSetGenerator</Generator>
     </None>
     <None Update="Reports\Datasets\ReceiptDataset.xsd">

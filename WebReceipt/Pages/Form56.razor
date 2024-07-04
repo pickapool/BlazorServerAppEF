@@ -3,6 +3,8 @@
 @inject IForm456Service Form56Service
 @inject ISnackbar Snackbar
 @inject IPaymentTypeService PaymentTypeService
+@inject IReportService ReportService
+
 @if (ShowList)
 {
     <MudTable Items="@ListForm56" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)">
@@ -61,7 +63,12 @@
             <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
         </PagerContent>
     </MudTable>
-} else
+} 
+else if (ShowReport)
+{
+    <iframe src='@PDFContent' />
+}
+else
 {
      <MudPaper class="pa-1 d-flex flex-column" Height="calc(100vh - 90px)" Width="auto">
         <MudText Typo="Typo.subtitle2">ACCOUNTABLE FORM No. 56</MudText>
@@ -218,7 +225,7 @@
 }
 
 @code {
-    private bool ShowList;
+    private bool ShowList,ShowReport = false;
     private Form56Model form56 = new();
     private List<Form56Model> ListForm56 = new();
     List<PaymentTypeModel> paymentTypes = new();
@@ -302,15 +309,15 @@
     {
         List<Form56Model> list = new();
         list.Add(c);
-        // IActionResult report = ReportService.GetCedulaReport(list);
-        // if (report is FileContentResult fileContentResult)
-        // {
-        //     byte[] pdfBytes = fileContentResult.FileContents;
-        //     PDFContent = "data:application/pdf;base64," + Convert.ToBase64String(pdfBytes);
-        //     ShowList = !ShowList;
-        //     ShowReport = !ShowReport;
-        //     StateHasChanged();
-        // }
+        IActionResult report = ReportService.GetForm56Report(list);
+        if (report is FileContentResult fileContentResult)
+        {
+            byte[] pdfBytes = fileContentResult.FileContents;
+            PDFContent = "data:application/pdf;base64," + Convert.ToBase64String(pdfBytes);
+            ShowList = !ShowList;
+            ShowReport = !ShowReport;
+            StateHasChanged();
+        }
     }
 
 }

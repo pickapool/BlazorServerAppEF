@@ -8,5 +8,6 @@ namespace WebReceipt.Server.Services.ReportServices
         IActionResult GetMasterListReport([FromBody] ReceiptModel receipt);
         IActionResult GetRecordReport([FromBody] List<ReceiptModel> receipt);
         IActionResult GetCedulaReport([FromBody] List<CedulaModel> cedula);
+        IActionResult GetForm56Report([FromBody] List<Form56Model> cedula);
     }
 }
