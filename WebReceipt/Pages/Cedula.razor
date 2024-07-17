@@ -16,6 +16,46 @@
             <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense" Placeholder="Search"
                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small"
                 Class="mt-0"></MudTextField>
+            <MudMenu Class="mt-4" StartIcon='@Icons.Material.Filled.MoreVert' AnchorOrigin='Origin.TopLeft'
+                TransformOrigin='Origin.TopRight' Dense='true' Size='Size.Small' Label='More'>
+                <MudMenuItem OnClick="Toggle">
+                    <div class='d-flex align-center gap-2 '>
+                        <MudIcon Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
+                        <MudText Typo='Typo.body2'>Filter</MudText>
+                    </div>
+                </MudMenuItem>
+            </MudMenu>
+            <MudPopover Open="@_isOpen" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="px-4 pt-4 width400px">
+                <MudGrid Spacing="1">
+                   <MudItem Class="d-flex" xs="12">
+                        <MudIcon Class="mr-2" Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
+                        <MudText Typo="Typo.button">FILTER</MudText>
+                    </MudItem>
+                    <MudItem Class="mb-2" xs="12">
+                        <MudDivider/>
+                    </MudItem> 
+                    <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsDate"></MudCheckBox></MudItem>
+                    <MudItem xs="10">
+                        <MudDateRangePicker Label="Date" @bind-DateRange="parameter._dateRange" 
+                        IconSize='Size.Small' DisableToolbar AnchorOrigin='Origin.BottomLeft' TransformOrigin='Origin.BottomRight'
+                        Placeholder="Date" Variant='Variant.Outlined' Margin='Margin.Dense' Disabled="!parameter.IsDate"/>
+                    </MudItem>
+                    <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsORNumber"></MudCheckBox></MudItem>
+                    <MudItem xs="10">
+                        <MudTextField @bind-Value="parameter.ORNumber" Label="OR Number" Margin="Margin.Dense"
+                        Variant="Variant.Outlined" Disabled="!parameter.IsORNumber"/>
+                    </MudItem>
+                    <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsPayor"></MudCheckBox></MudItem>
+                    <MudItem xs="10">
+                        <MudTextField @bind-Value="parameter.PayorName" Label="Payor" Margin="Margin.Dense"
+                        Variant="Variant.Outlined" Disabled="!parameter.IsPayor"/>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudButton OnClick="@Toggle" Class="ml-auto mr-1 mb-3" Color="Color.Default">Close</MudButton>
+                        <MudButton OnClick="@Filter" Class="ml-auto mr-n3 mb-3" Variant="Variant.Filled" Color="Color.Info">Filter</MudButton> 
+                    </MudItem>
+                </MudGrid>
+            </MudPopover>
         </ToolBarContent>
         <ColGroup>
             <col />
@@ -263,13 +303,17 @@ else
     private List<CedulaModel> cedulas = new();
     List<PaymentTypeModel> paymentTypes;
     private CedulaModel cedula = new();
+    private PaymentTypeModel? pType { get; set;} = new();
+    public bool _isOpen;
     private bool ShowList = true, ShowReport = false;
     private string searchString1 = "", PDFContent = "";
+    
+    FilterParameter parameter = new();
 
     protected override async Task OnInitializedAsync()
     {
         GlobalClass.Title = "Community Tax Cetificate";
-        Task<List<CedulaModel>> c = CedulaService.GetListOfCedula(new());
+        Task<List<CedulaModel>> c = CedulaService.GetListOfCedula(parameter);
         await c;
         if (c.Status == TaskStatus.RanToCompletion)
         {
@@ -282,6 +326,11 @@ else
             }
             StateHasChanged();
         }
+    }
+    private async Task Filter()
+    {
+        await OnInitializedAsync();
+        Toggle();
     }
     private void Createnew()
     {
@@ -339,6 +388,14 @@ else
             ShowReport = !ShowReport;
             StateHasChanged();
         }
+    }
+    public void Toggle()
+    {
+        if (_isOpen)
+            _isOpen = false;
+        else
+            _isOpen = true;
+        StateHasChanged();
     }
 }
 <style>
