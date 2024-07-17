@@ -179,8 +179,8 @@
             if (p.Status == TaskStatus.RanToCompletion)
             {
                 Payments = p.Result;
-                ListOfCedula = await CedulaService.GetListOfCedula(new());
-                ListOfForm56 = await Form56Service.GetListOfForm56(new());
+                ListOfCedula = await CedulaService.GetListOfCedula(param);
+                ListOfForm56 = await Form56Service.GetListOfForm56(param);
 
                 foreach(var cedula in ListOfCedula)
                 {

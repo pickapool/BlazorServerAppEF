@@ -29,10 +29,10 @@ namespace WebReceipt.Server.Services.ReceiptService
             {
                 current = current.Where( e => e.Number.Contains(param.ORNumber, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
-            //if(param.IsTransactionType)
-            //{
-            //    current = current.Where( e => param.ListOfTransaction.Any( b => e.TransactionType == b)).ToList();
-            //}
+            if(param.IsTransactionType)
+            {
+               current = current.Where( e => param.ListOfPayments.Any( b => e.PaymentTypeId == b.PaymentTypeId)).ToList();
+            }
             return current;
         }
         [HttpPost]

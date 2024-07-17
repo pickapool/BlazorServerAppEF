@@ -17,22 +17,22 @@ namespace WebReceipt.Server.Services.Form56Services
         public async Task<List<Form56Model>> GetListOfForm56(FilterParameter param)
         {
             List<Form56Model> current = _context.Form56s.Include( e => e.Details).Include( c => c.PaymentType).ToList();
-            //if (param.IsDate)
-            //{
-            //    current = current.Where(sa => sa.DateRecorded >= param._dateRange.Start && sa.DateRecorded <= param._dateRange.End).ToList();
-            //}
-            //if(param.IsPayor)
-            //{
-            //    current = current.Where( e => e.Payor.Contains(param.PayorName, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            //}
-            //if(param.IsORNumber)
-            //{
-            //    current = current.Where( e => e.Number.Contains(param.ORNumber, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            //}
-            //if(param.IsTransactionType)
-            //{
-            //    current = current.Where( e => param.ListOfTransaction.Any( b => e.TransactionType == b)).ToList();
-            //}
+            if (param.IsDate)
+            {
+               current = current.Where(sa => sa.Date >= param._dateRange.Start && sa.Date <= param._dateRange.End).ToList();
+            }
+            if(param.IsPayor)
+            {
+               current = current.Where( e => e.ReceiveFrom.Contains(param.PayorName, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+            if(param.IsORNumber)
+            {
+               current = current.Where( e => e.FormNo.ToString().Contains(param.ORNumber, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+            if(param.IsTransactionType)
+            {
+               current = current.Where( e => param.ListOfPayments.Any( b => e.PaymentTypeId == b.PaymentTypeId)).ToList();
+            }
             return current;
         }
         [HttpPost]
