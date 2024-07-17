@@ -193,6 +193,7 @@
                 <Value>=First(Fields!Dated.Value, "Form56Dataset")</Value>
                 <Style>
                   <FontSize>8pt</FontSize>
+                  <Format>MMMM</Format>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -264,6 +265,7 @@
                 <Value>=First(Fields!Year.Value, "Form56Dataset")</Value>
                 <Style>
                   <FontSize>8pt</FontSize>
+                  <Format>yy</Format>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -2288,7 +2290,7 @@
         <Top>2.13in</Top>
         <Left>0.305in</Left>
         <Height>0.68333in</Height>
-        <Width>9.16666in</Width>
+        <Width>9.16663in</Width>
         <ZIndex>15</ZIndex>
         <Style>
           <Border>
@@ -2315,7 +2317,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>0.1125in</Top>
+            <Top>0.0375in</Top>
             <Left>0.025in</Left>
             <Height>0.16667in</Height>
             <Width>3.26944in</Width>
@@ -2345,7 +2347,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>0.1125in</Top>
+            <Top>0.0375in</Top>
             <Left>3.29444in</Left>
             <Height>0.16667in</Height>
             <Width>1.38418in</Width>
@@ -2377,7 +2379,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>0.1125in</Top>
+            <Top>0.0375in</Top>
             <Left>4.67862in</Left>
             <Height>0.16667in</Height>
             <Width>0.40473in</Width>
@@ -2402,6 +2404,7 @@
                     <Value>=First(Fields!CheckDate.Value, "Form56Dataset")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
+                      <Format>MMMM</Format>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -2411,7 +2414,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>0.1125in</Top>
+            <Top>0.0375in</Top>
             <Left>5.07306in</Left>
             <Height>0.16667in</Height>
             <Width>1.68891in</Width>
@@ -2448,7 +2451,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>0.1125in</Top>
+            <Top>0.0375in</Top>
             <Left>6.76197in</Left>
             <Height>0.16667in</Height>
             <Width>0.32414in</Width>
@@ -2469,6 +2472,7 @@
                     <Value>=First(Fields!CheckDate.Value, "Form56Dataset")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
+                      <Format>yy</Format>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -2478,7 +2482,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>0.1125in</Top>
+            <Top>0.0375in</Top>
             <Left>7.08611in</Left>
             <Height>0.16667in</Height>
             <Width>0.75974in</Width>
@@ -2498,9 +2502,9 @@
           </Textbox>
         </ReportItems>
         <KeepTogether>true</KeepTogether>
-        <Top>4.13278in</Top>
+        <Top>4.20778in</Top>
         <Left>0.305in</Left>
-        <Height>0.31667in</Height>
+        <Height>0.24167in</Height>
         <Width>8.8889in</Width>
         <ZIndex>16</ZIndex>
         <Style>
@@ -2831,6 +2835,7 @@
                     <Value>=First(Fields!Date.Value, "Form56Dataset")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
+                      <Format>MM/dd/yyyy</Format>
                     </Style>
                   </TextRun>
                 </TextRuns>
