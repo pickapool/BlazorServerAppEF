@@ -13,5 +13,6 @@ namespace WebReceipt.Models
         public string ORNumber { get; set; }
         public bool IsTransactionType { get; set; }
         public IEnumerable<Enums.TransactionType?> ListOfTransaction { get; set; } = new HashSet<Enums.TransactionType?>();
+        public IEnumerable<PaymentTypeModel?> ListOfPayments { get; set; } = new HashSet<PaymentTypeModel?>();
     }
 }

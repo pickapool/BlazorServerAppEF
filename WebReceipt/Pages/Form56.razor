@@ -232,6 +232,7 @@ else
     private string searchString1 = "", PDFContent = "";
     protected override async Task OnInitializedAsync()
     {
+        GlobalClass.Title = "Form 56";
         Task<List<Form56Model>> c = Form56Service.GetListOfForm56(new());
         await c;
         if (c.Status == TaskStatus.RanToCompletion)

@@ -32,7 +32,7 @@
                 </div>
             </MudMenuItem>
         </MudMenu>
-        <MudPopover Open="@_isOpen" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="px-4 pt-4 width400px">
+        <MudPopover Open="@_isOpen" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="none px-4 pt-4 width400px">
                 <MudGrid Spacing="1">
                    <MudItem Class="d-flex" xs="12">
                         <MudIcon Class="mr-2" Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
@@ -59,11 +59,11 @@
                     </MudItem>
                     <MudItem xs=2><MudCheckBox @bind-Checked="parameter.IsTransactionType"></MudCheckBox></MudItem>
                     <MudItem xs=10>
-                        <MudSelect T="Enums.TransactionType?" 
+                        <MudSelect T="PaymentTypeModel?" 
                             Class="w300px" 
-                            @bind-SelectedValues="parameter.ListOfTransaction" 
-                            Label="Transaction Type"
-                            @bind-Value="tType"  
+                            @bind-SelectedValues="parameter.ListOfPayments" 
+                            Label="Payment Type"
+                            @bind-Value="pType"  
                             Clearable 
                             Margin="Margin.Dense" 
                             MultiSelectionTextFunc="@(new Func<List<string>, string>(SelectedType))"
@@ -71,13 +71,13 @@
                             Dense 
                             MultiSelection 
                             Disabled='!parameter.IsTransactionType' 
-                            Placeholder='Transaction Type' 
+                            Placeholder='Payment Type' 
                             Variant='Variant.Outlined'
                             AnchorOrigin='Origin.BottomCenter' 
                             TransformOrigin='Origin.TopCenter'>
-                            @foreach (Enums.TransactionType transactionType in Enum.GetValues(typeof(Enums.TransactionType)))
+                            @foreach (var transactionType in Payments)
                             {
-                                <MudSelectItem T="Enums.TransactionType?" Value="@transactionType">@Extensions.GetEnumDescription(transactionType)</MudSelectItem>
+                                <MudSelectItem T="PaymentTypeModel?" Value="@transactionType">@transactionType.PaymentTypeName</MudSelectItem>
                             }
                         </MudSelect>
                     </MudItem>
@@ -262,6 +262,7 @@
     private bool IsLoading = false;
     public bool _isOpen, isCreate;
     private Enums.TransactionType? tType { get; set; }
+    private PaymentTypeModel? pType { get; set;} = new();
     FilterParameter parameter = new();
     protected override async Task OnInitializedAsync()
     {
@@ -358,9 +359,9 @@
     }
     private string SelectedType(List<string> types)
     {
-        var tTypeDescriptions = parameter.ListOfTransaction
+        var tTypeDescriptions = parameter.ListOfPayments
             .Where(x => x != null) // Filter out null values
-            .Select(x => Extensions.GetEnumDescription(x)); // Select descriptions for non-null values
+            .Select(x => x.PaymentTypeName); // Select descriptions for non-null values
         var tType = string.Join(", ", tTypeDescriptions);
 
         return tType;
