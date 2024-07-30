@@ -347,6 +347,7 @@ else
     {
         ShowList = false;
         form56 = new();
+        form56.Treasurere = GlobalClass.UserAccount.EmployeeName;
         form56.PaymentTypeId = (paymentTypes.Where(e => e.PaymentTypeName.Contains("Form 56", StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault() ?? new()).PaymentTypeId;
         StateHasChanged();
     }

@@ -336,6 +336,7 @@ else
     {
         ShowList = false;
         cedula = new();
+        cedula.CityTreasurer = GlobalClass.UserAccount.EmployeeName;
         cedula.PaymentTypeId = (paymentTypes.Where( e => e.PaymentTypeName.Contains("Cedula", StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()?? new()).PaymentTypeId;
         StateHasChanged();
     }

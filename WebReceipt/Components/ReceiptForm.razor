@@ -127,6 +127,7 @@
     private void AddNew()
     {
         ReceiptModel.ListOfNatures.Add(new());
+        ReceiptModel.CollectionOfficer = GlobalClass.UserAccount.EmployeeName;
         StateHasChanged();
     }
     private void Cancel()

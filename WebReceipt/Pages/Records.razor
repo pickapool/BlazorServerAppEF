@@ -370,6 +370,7 @@
     {
         if (!isCreate)
             ReceiptModel = new();
+        ReceiptModel.CollectionOfficer = GlobalClass.UserAccount.EmployeeName;
         isCreate = true;
         StateHasChanged();
     }

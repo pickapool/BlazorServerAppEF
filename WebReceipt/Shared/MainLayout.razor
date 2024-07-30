@@ -14,7 +14,8 @@
             <div class="top-row px-4">
                 <MudText Class="title fw-bolder" Typo="Typo.h5">@GlobalClass.Title</MudText>
                 <MudSpacer/>
-                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+                <a class="mr-4" href="https://docs.microsoft.com/aspnet/" target="_blank">Welcome, @GlobalClass.UserAccount.EmployeeName</a>
+                <MudButton Size="Size.Small" OnClick="Logout" Variant="Variant.Filled" Color="Color.Info">Logout</MudButton>
             </div>
 
             <article class="content px-4 h90">
@@ -40,7 +41,13 @@
         await b;
         if (b.IsCompleted)
         {
-            GlobalClass.IsLogin = b.Result;
+            ValueTask<UserAccountModel> account = LocalStorage.GetItemAsync<UserAccountModel>("account");
+            await account;
+            if(account.IsCompleted)
+            {
+                GlobalClass.IsLogin = b.Result;
+                GlobalClass.UserAccount = account.Result;
+            }
             StateHasChanged();
         }
     }
@@ -50,6 +57,14 @@
         {
             StateHasChanged();
         });
+    }
+    private async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("token");
+        await LocalStorage.RemoveItemAsync("account");
+        GlobalClass.IsLogin = false;
+        GlobalClass.UserAccount = new();
+        await AppState.NotifyStateChangedAsync();
     }
 }
 <style>

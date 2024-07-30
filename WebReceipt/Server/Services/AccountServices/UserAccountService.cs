@@ -103,10 +103,10 @@ namespace WebReceipt.Server.Services.AccountServices
         {
             return _context.Accounts.Any(e => e.UserAccountId == id);
         }
-        public bool Authenticated(string username, string password)
+        public UserAccountModel Authenticated(string username, string password)
         {
             return _context.Accounts.FirstOrDefaultAsync( e => e.UserAccountName == username &&
-            e.UserAccountPassword == password).Result == null ? false : true;
+            e.UserAccountPassword == password).Result;
         }
     }
 }

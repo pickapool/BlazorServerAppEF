@@ -65,13 +65,16 @@
 
     private async Task Authenticate()
     {
-        bool isAuth = UserAccountService.Authenticated(username, password);
-        if(!isAuth)
+        UserAccountModel isAuth = UserAccountService.Authenticated(username, password);
+        if(isAuth == null)
         {
             Extensions.ShowSnackbar("Sorry, we can't find your account.", Variant.Filled, SnackbarService, Severity.Error);
         } else {
+            Console.WriteLine(isAuth);
             await LocalStorage.SetItemAsync<bool>("token", true);
+            await LocalStorage.SetItemAsync<UserAccountModel>("account", isAuth);
             GlobalClass.IsLogin = true;
+            GlobalClass.UserAccount = isAuth;
             await  AppState.NotifyStateChangedAsync();
         }
         StateHasChanged();
