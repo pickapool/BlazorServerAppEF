@@ -10,20 +10,20 @@ namespace WebReceipt.Models
     {
         public int Form56Id { get; set; }
         public int FormNo { get; set; }
-        public string PreviousReceiptNo { get; set; }
+        public string PreviousReceiptNo { get; set; } = string.Empty;
         public DateTime? Dated {  get; set; }
         public DateTime? Year { get; set; }
-        public string Province { get; set; }
-        public string City { get; set; }
+        public string Province { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
         public DateTime? Date {  get; set; }
-        public string ReceiveFrom { get; set; }
+        public string ReceiveFrom { get; set; } = string.Empty;
         public decimal Sum { get; set; }
         public decimal Pesos { get; set; }
         public Enums.TaxType TaxType { get; set; }
-        public string CheckNo { get; set; }
+        public string CheckNo { get; set; } = string.Empty;
         public DateTime? CheckDate { get; set; }
-        public string Treasurere {  get; set; }
-        public string Deputy { get; set; }
+        public string Treasurere { get; set; } = string.Empty;
+        public string Deputy { get; set; } = string.Empty;
         [ForeignKey("Form56Id")]
         public List<Form56DetailModel> Details { get; set; } = new();
         public long PaymentTypeId { get; set; }

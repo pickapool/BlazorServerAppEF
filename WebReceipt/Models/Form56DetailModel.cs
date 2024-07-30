@@ -9,18 +9,18 @@ namespace WebReceipt.Models
     {
         public int Form56DetailId { get; set; }
         public int Form56Id { get; set; }
-        public string Owner {  get; set; }
-        public string Location { get; set; }
-        public string Block { get; set; }
-        public string TaxNo { get; set; }
-        public string Land { get; set; }
-        public string Improvements { get; set; }
+        public string Owner { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
+        public string Block { get; set; } = string.Empty;
+        public string TaxNo { get; set; } = string.Empty;
+        public string Land { get; set; } = string.Empty;
+        public string Improvements { get; set; } = string.Empty;
         public decimal AssesedTotal { get; set; }
-        public string TaxDue { get; set; }
-        public string InstallmentNo { get; set; }
-        public string InstallmentPayment {  get; set; }
-        public string FullPayment { get; set; }
-        public string Penalty { get; set; }
+        public string TaxDue { get; set; } = string.Empty;
+        public string InstallmentNo { get; set; } = string.Empty;
+        public string InstallmentPayment { get; set; } = string.Empty;
+        public string FullPayment { get; set; } = string.Empty;
+        public string Penalty { get; set; } = string.Empty;
         public decimal Total { get; set; }
     }
 }

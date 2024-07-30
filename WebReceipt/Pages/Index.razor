@@ -15,6 +15,64 @@
 @if (IsLoaded)
 {
     <Chart Config="_config"></Chart>
+    <MudIconButton OnClick="Toggle" Class="dash-setting" Size="Size.Small" Icon="@Icons.Material.Filled.Settings" Variant="Variant.Filled" Color="Color.Info"></MudIconButton>
+    <MudPopover Open="@_isOpen" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="px-4 pt-4 width400px">
+        <MudGrid Spacing="1">
+            <MudItem Class="d-flex" xs="12">
+                <MudIcon Class="mr-2" Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
+                <MudText Typo="Typo.button">FILTER</MudText>
+            </MudItem>
+            <MudItem Class="mb-2" xs="12">
+                <MudDivider/>
+            </MudItem> 
+            <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsDate"></MudCheckBox></MudItem>
+            <MudItem xs="10">
+                <MudDateRangePicker Label="Date" @bind-DateRange="parameter._dateRange" 
+                IconSize='Size.Small'    
+        DisableToolbar AnchorOrigin='Origin.BottomLeft' TransformOrigin='Origin.BottomRight'
+                    Placeholder="Date" Variant='Variant.Outlined' Margin='Margin.Dense' Disabled="!parameter.IsDate"/>
+                </MudItem>
+                <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsORNumber"></MudCheckBox></MudItem>
+                <MudItem xs="10">
+                    <MudTextField @bind-Value="parameter.ORNumber" Label="OR Number" Margin="Margin.Dense"
+                    Variant="Variant.Outlined" Disabled="!parameter.IsORNumber"/>
+                </MudItem>
+                <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsPayor"></MudCheckBox></MudItem>
+                <MudItem xs="10">
+                    <MudTextField @bind-Value="parameter.PayorName" Label="Payor" Margin="Margin.Dense"
+                    Variant="Variant.Outlined" Disabled="!parameter.IsPayor"/>
+                </MudItem>
+                <MudItem xs=2><MudCheckBox @bind-Checked="parameter.IsTransactionType"></MudCheckBox></MudItem>
+                <MudItem xs=10>
+                <MudSelect T="PaymentTypeModel?" 
+                    Class="w300px" 
+                    @bind-SelectedValues="parameter.ListOfPayments" 
+                    Label="Payment Type"
+                    @bind-Value="pType"  
+                    Clearable 
+                    Margin="Margin.Dense" 
+                    MultiSelectionTextFunc="@(new Func<List<string>, string>(SelectedType))"
+                    IconSize='Size.Small' 
+                    Dense 
+                    MultiSelection 
+                    Disabled='!parameter.IsTransactionType' 
+                    Placeholder='Payment Type' 
+                    Variant='Variant.Outlined'
+                    AnchorOrigin='Origin.BottomCenter' 
+                    TransformOrigin='Origin.TopCenter'>
+                    @foreach (var transactionType in Payments)
+                    {
+                        <MudSelectItem T="PaymentTypeModel?" Value="@transactionType">@transactionType.PaymentTypeName</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="7"></MudItem>
+            <MudItem xs="5">
+                <MudButton OnClick="@Toggle" Class="ml-auto mr-1 mb-3" Color="Color.Default">Close</MudButton>
+                <MudButton OnClick="@Filter" Class="ml-auto mr-n3 mb-3" Variant="Variant.Filled" Color="Color.Info">Filter</MudButton> 
+            </MudItem>
+        </MudGrid>
+    </MudPopover>
 }
 @code
 {
@@ -26,6 +84,9 @@
     List<Form56Model> ListOfForm56 = new();
     List<ReceiptModel> ListOfReceipts = new();
     FilterParameter parameter = new();
+    public bool _isOpen;
+    private Enums.TransactionType? tType { get; set; }
+    private PaymentTypeModel? pType { get; set;} = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -76,6 +137,27 @@
             }
         }
     }
+    private string SelectedType(List<string> types)
+    {
+        var tTypeDescriptions = parameter.ListOfPayments
+            .Where(x => x != null) // Filter out null values
+            .Select(x => x.PaymentTypeName); // Select descriptions for non-null values
+        var tType = string.Join(", ", tTypeDescriptions);
+
+        return tType;
+    }
+    public void Toggle()
+    {
+        if (_isOpen)
+            _isOpen = false;
+        else
+            _isOpen = true;
+    }
+    private async Task Filter()
+    {
+        await GetReceipts(parameter);
+        Toggle();
+    }
 
     private void SetPie()
     {
@@ -87,7 +169,7 @@
                 Title = new OptionsTitle
                 {
                     Display = true,
-                    Text = "ChartJs.Blazor Pie Chart"
+                    Text = "Total Transaction"
                 }
             }
         };
@@ -139,3 +221,13 @@
         StateHasChanged();
     }
 }
+<style>
+    .dash-setting
+    {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+</style>
