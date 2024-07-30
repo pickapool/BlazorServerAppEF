@@ -5,55 +5,137 @@
 
 @inject ISnackbar SnackBar
 @inject AppState AppState
+@inject IReceiptService ReceiptService
+@inject IPaymentTypeService PaymentTypeService
+@inject ICedulaService CedulaService
+@inject IForm456Service Form56Service
 
 <PageTitle>Dashboard</PageTitle>
 
-<Chart Config="_config"></Chart>
-
+@if (IsLoaded)
+{
+    <Chart Config="_config"></Chart>
+}
 @code
 {
+    bool IsLoaded = false;
     private const int InitalCount = 5;
     private PieConfig _config;
-
+    private IEnumerable<PaymentTypeModel> Payments { get; set; }
+    List<CedulaModel> ListOfCedula = new();
+    List<Form56Model> ListOfForm56 = new();
+    List<ReceiptModel> ListOfReceipts = new();
+    FilterParameter parameter = new();
 
     protected override async Task OnInitializedAsync()
     {
         GlobalClass.Title = "Dashboard";
-        SetPie();
+        await GetReceipts(new());
         await AppState.NotifyStateChangedAsync();
     }    
+    private async Task GetReceipts(FilterParameter param)
+    {
+        IsLoaded = false;
+        Task<List<ReceiptModel>> list = ReceiptService.GetListOfReceipt(param);
+        await list;
+        if (list.Status == TaskStatus.RanToCompletion)
+        {
+            ListOfReceipts = list.Result.ToList();
+            Task<IEnumerable<PaymentTypeModel>> p = PaymentTypeService.GetPayments();
+            await p;
+            if (p.Status == TaskStatus.RanToCompletion)
+            {
+                Payments = p.Result;
+                ListOfCedula = await CedulaService.GetListOfCedula(param);
+                ListOfForm56 = await Form56Service.GetListOfForm56(param);
+
+                foreach (var cedula in ListOfCedula)
+                {
+                    ReceiptModel r = new();
+                    r.Number = cedula.ORNumber.ToString();
+                    r.Payor = cedula.Name;
+                    r.DateRecorded = cedula.DateIssued;
+                    r.Total = (double)cedula.Total;
+                    r.PaymentTypeId = cedula.PaymentTypeId;
+                    r.PaymentType = cedula.PaymentType?? new();
+                    ListOfReceipts.Add(r);
+                }
+                foreach (var form in ListOfForm56)
+                {
+                    ReceiptModel r = new();
+                    r.Number = form.FormNo.ToString();
+                    r.Payor = form.ReceiveFrom;
+                    r.DateRecorded = form.Date;
+                    r.Total = (double)form.Pesos;
+                    r.PaymentTypeId = form.PaymentTypeId;
+                    r.PaymentType = form.PaymentType?? new();
+                    ListOfReceipts.Add(r);
+                }
+                SetPie();
+                await AppState.NotifyStateChangedAsync();
+            }
+        }
+    }
+
     private void SetPie()
     {
         _config = new PieConfig
-    {
-        Options = new PieOptions
         {
-            Responsive = true,
-            Title = new OptionsTitle
+            Options = new PieOptions
             {
-                Display = true,
-                Text = "ChartJs.Blazor Pie Chart"
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "ChartJs.Blazor Pie Chart"
+                }
             }
-        }
-    };
+        };
+        List<string> dynamicLabels = new List<string>();
+        List<int> counts = new List<int>();
 
-        foreach (string color in new[] { "Red", "Yellow", "Green", "Blue" })
+        foreach (var receipt in Payments)
         {
-            _config.Data.Labels.Add(color);
+            int count = ListOfReceipts.Count(e => e.PaymentTypeId == receipt.PaymentTypeId);
+            counts.Add(count);
+            dynamicLabels.Add(receipt.PaymentTypeName + " (" + count.ToString("N0") + ")");
         }
 
-        PieDataset<int> dataset = new PieDataset<int>(new[] { 6, 5, 3, 7 })
+        foreach (string label in dynamicLabels)
         {
-            BackgroundColor = new[]
+            _config.Data.Labels.Add(label);
+        }
+
+        PieDataset<int> dataset = new PieDataset<int>(counts.ToArray())
             {
-            ColorUtil.ColorHexString(255, 99, 132), // Slice 1 aka "Red"
-            ColorUtil.ColorHexString(255, 205, 86), // Slice 2 aka "Yellow"
-            ColorUtil.ColorHexString(75, 192, 192), // Slice 3 aka "Green"
-            ColorUtil.ColorHexString(54, 162, 235), // Slice 4 aka "Blue"
+                BackgroundColor = new[]
+                {
+                "#FF6384",
+                "#FF9F40",
+                "#FFCD56",
+                "#4BC0C0",
+                "#36A2EB",
+                "#9966FF",
+                "#FF66B2",
+                "#8B4513",
+                "#D3D3D3",
+                "#00FFFF",
+                "#FF00FF",
+                "#00FF00",
+                "#008080",
+                "#800000",
+                "#808000",
+                "#000080",
+                "#C0C0C0",
+                "#FFD700",
+                "#4B0082",
+                "#FF7F50"
             }
         };
 
 
         _config.Data.Datasets.Add(dataset);
+        IsLoaded = true;
+        StateHasChanged();
     }
 }
