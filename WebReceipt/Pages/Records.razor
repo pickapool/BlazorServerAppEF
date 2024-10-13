@@ -165,7 +165,7 @@
             <MudItem xs="4">
                 <MudSelect Class="mr-1" @bind-Value="ReceiptModel.PaymentType" Text="ReceiptModel.PaymentType" Placeholder="Transaction Type" Margin='Margin.Dense'
                     AnchorOrigin="Origin.BottomCenter">
-                    @foreach (var type in Payments)
+                    @foreach (var type in Payments.Where( e => e.PaymentTypeName != "Cedula" && e.PaymentTypeName != "Form 56").ToList())
                     {
                         <MudSelectItem Value="@type">@type.PaymentTypeName</MudSelectItem>
                     }

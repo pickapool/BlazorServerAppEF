@@ -15,6 +15,14 @@
 @if (IsLoaded)
 {
     <Chart Config="_config"></Chart>
+    <MudPaper Elevation="3" Class="d-flex flex-column position-absolute left-0 top-0 pa-2 mt-2">
+        <MudText Typo="Typo.subtitle2">Total</MudText>
+        <MudDivider/>
+        @foreach (var receipt in Payments)
+        {   
+            <span>@receipt.PaymentTypeName : ₱ @ListOfReceipts.Where( e => e.PaymentTypeId == receipt.PaymentTypeId).Sum( e => e.Total).ToString("N2")</span>
+        }
+    </MudPaper>
     <MudIconButton OnClick="Toggle" Class="dash-setting" Size="Size.Small" Icon="@Icons.Material.Filled.Settings" Variant="Variant.Filled" Color="Color.Info"></MudIconButton>
     <MudPopover Open="@_isOpen" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="px-4 pt-4 width400px">
         <MudGrid Spacing="1">
@@ -179,8 +187,12 @@
         foreach (var receipt in Payments)
         {
             int count = ListOfReceipts.Count(e => e.PaymentTypeId == receipt.PaymentTypeId);
+            double total  = ListOfReceipts.Sum( e => e.Total);
             counts.Add(count);
-            dynamicLabels.Add(receipt.PaymentTypeName + " (" + count.ToString("N0") + ")");
+            int totalReceipts = ListOfReceipts.Count();
+            double percentage = totalReceipts > 0 ? (double)count / totalReceipts * 100 : 0;
+
+            dynamicLabels.Add(receipt.PaymentTypeName + " (" + percentage.ToString("N2") + "%)");
         }
 
         foreach (string label in dynamicLabels)

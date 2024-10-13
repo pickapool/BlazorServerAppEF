@@ -3,14 +3,14 @@
 @inject IPaymentTypeService PaymentService
 @inject IDialogService DialogService
 
-<MudTable Items="@paymentTypes" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)">
+<MudTable Items="@paymentTypes" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)" Filter="new Func<PaymentTypeModel,bool>(FilterFunc1)">
     <ToolBarContent>
         <MudIconButton OnClick="()=> OpenDialog(new())" class="ml-0" Icon="@Icons.Material.Filled.Add" Color="Color.Primary" aria-label="github"></MudIconButton>
         <MudText Typo="Typo.subtitle2">Payment Type</MudText>
        <MudSpacer />
         <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
          Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
-          IconSize="Size.Small" Class="mt-0"></MudTextField>
+          IconSize="Size.Small" Class="mt-7" Immediate></MudTextField>
     </ToolBarContent>
     <ColGroup>
         <col />
