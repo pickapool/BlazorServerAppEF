@@ -20,28 +20,21 @@
 
                                     <form>
 
-                                        <div class="d-flex align-items-center mb-3 pb-1">
+                                        <div class="d-flex align-items-center pb-1">
                                             <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                                            <span class="h1 fw-bold mb-0">Logo</span>
+                                            <span class="h1 fw-bold mb-0">Welcome</span>
                                         </div>
 
-                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your
-                                            account</h5>
+                                        @* <h5 class="fw-normal pb-3" style="letter-spacing: 1px;">Sign into your
+                                            account</h5> *@
 
-                                        <div class="form-outline mb-4">
-                                            <input @bind-value="@username" type="text" id="form2Example17"
-                                                class="form-control form-control-lg" />
-                                            <label class="form-label" for="form2Example17">Username</label>
+                                        <div class="d-flex flex-column gap-4 mb-2">
+                                            <MudTextField  @bind-Value="username" @onkeydown="HandleKeyDown" Label="Username" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Person" />
+                                            <MudTextField  @bind-Value="password" @onkeydown="HandleKeyDown" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowPassword" AdornmentAriaLabel="Show Password" />
                                         </div>
 
-                                        <div class="form-outline mb-4">
-                                            <input @bind-value="@password" type="password" id="form2Example27"
-                                                class="form-control form-control-lg" />
-                                            <label class="form-label" for="form2Example27">Password</label>
-                                        </div>
-
-                                        <div class="pt-1 mb-4">
-                                            <button @onclick="@Authenticate" class="btn btn-primary btn-lg btn-block" type="button">Login</button>
+                                        <div class="d-flex justify-content-center align-items-center mt-2">
+                                            <button @onclick="@Authenticate" @onkeydown="HandleKeyDown" class="btn btn-primary btn-lg btn-block" type="button">Login</button>
                                         </div>
                                     </form>
 
@@ -59,8 +52,18 @@
 @code
 {
     string username = string.Empty, password = string.Empty;
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
     protected override void OnInitialized(){
         
+    }
+     private async Task HandleKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+        {
+            await Authenticate();
+        }
     }
 
     private async Task Authenticate()
@@ -68,9 +71,8 @@
         UserAccountModel isAuth = UserAccountService.Authenticated(username, password);
         if(isAuth == null)
         {
-            Extensions.ShowSnackbar("Sorry, we can't find your account.", Variant.Filled, SnackbarService, Severity.Error);
+            Extensions.ShowSnackbar("Invalid username or passsword.", Variant.Filled, SnackbarService, Severity.Error);
         } else {
-            Console.WriteLine(isAuth);
             await LocalStorage.SetItemAsync<bool>("token", true);
             await LocalStorage.SetItemAsync<UserAccountModel>("account", isAuth);
             GlobalClass.IsLogin = true;
@@ -78,5 +80,19 @@
             await  AppState.NotifyStateChangedAsync();
         }
         StateHasChanged();
+    }
+    void ShowPassword()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
     }
 }

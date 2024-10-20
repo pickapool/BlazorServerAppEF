@@ -6,7 +6,7 @@
 <MudTable Items="@accounts" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)" Filter="new Func<UserAccountModel,bool>(FilterFunc1)">
     <ToolBarContent>
         <MudIconButton OnClick="()=> OpenDialog(new())" class="ml-0" Icon="@Icons.Material.Filled.Add" Color="Color.Primary" aria-label="github"></MudIconButton>
-        <MudText Typo="Typo.subtitle2">Accounts</MudText>
+        <MudText Typo="Typo.subtitle2">Add Account</MudText>
         <MudSpacer />
         <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
          Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
@@ -40,6 +40,7 @@
     private string searchString1 = "";
     protected override async Task OnInitializedAsync()
     {
+        GlobalClass.Title = "Accounts";
         accounts = await UserAccountService.GetAccounts();
         StateHasChanged();
     }

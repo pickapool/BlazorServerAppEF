@@ -14,6 +14,11 @@
 
 @if (IsLoaded)
 {
+    <div class="d-flex flex-row gap-5 align-center justify-content-center">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="()=> SingleFilter(false, true, false)">Form 51</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="()=> SingleFilter(false, false, true)">Form 56</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="()=> SingleFilter(true, false , false)">Cedula</MudButton>
+    </div>
     <Chart Config="_config"></Chart>
     <MudPaper Elevation="3" Class="d-flex flex-column position-absolute left-0 top-0 pa-2 mt-2">
         <MudText Typo="Typo.subtitle2">Total</MudText>
@@ -99,10 +104,10 @@
     protected override async Task OnInitializedAsync()
     {
         GlobalClass.Title = "Dashboard";
-        await GetReceipts(new());
+        await GetReceipts(new(), false);
         await AppState.NotifyStateChangedAsync();
     }    
-    private async Task GetReceipts(FilterParameter param)
+    private async Task GetReceipts(FilterParameter param, bool isSingle)
     {
         IsLoaded = false;
         Task<List<ReceiptModel>> list = ReceiptService.GetListOfReceipt(param);
@@ -114,7 +119,8 @@
             await p;
             if (p.Status == TaskStatus.RanToCompletion)
             {
-                Payments = p.Result;
+                if(!isSingle)
+                    Payments = p.Result;
                 ListOfCedula = await CedulaService.GetListOfCedula(param);
                 ListOfForm56 = await Form56Service.GetListOfForm56(param);
 
@@ -161,9 +167,35 @@
         else
             _isOpen = true;
     }
+    private async Task SingleFilter(bool isCedula, bool is51, bool is56)
+    {
+        var param = new FilterParameter();
+        param.IsTransactionType = true;
+        List<PaymentTypeModel> list = new();
+        if(isCedula)
+        {
+            var t = new PaymentTypeModel();
+            t = Payments.Where( e => e.PaymentTypeName.Contains("Cedula")).FirstOrDefault();
+            list.Add(t);
+        }
+        if(is56)
+        {
+            var t = new PaymentTypeModel();
+            t = Payments.Where( e => e.PaymentTypeName.Contains("Form 56")).FirstOrDefault();
+            list.Add(t);
+        }
+        if(is51)
+        {
+            var t = new List<PaymentTypeModel>();
+            t = Payments.Where( e => !e.PaymentTypeName.Contains("Form 56") && !e.PaymentTypeName.Contains("Cedula")).ToList();
+            list.AddRange(t);
+        }
+        param.ListOfPayments = list;
+        await GetReceipts(param, true);
+    }
     private async Task Filter()
     {
-        await GetReceipts(parameter);
+        await GetReceipts(parameter, false);
         Toggle();
     }
 
@@ -174,6 +206,10 @@
             Options = new PieOptions
             {
                 Responsive = true,
+                Legend = new Legend
+                {
+                    Display = false // Hide the legend
+                },
                 Title = new OptionsTitle
                 {
                     Display = true,

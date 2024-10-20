@@ -7,16 +7,16 @@
 
 @if (ShowList)
 {
-    <MudTable Items="@ListForm56" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)">
+    <MudTable Items="@ListForm56" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)" Filter="new Func<Form56Model,bool>(FilterFunc1)">
         <ToolBarContent>
-            <MudIconButton OnClick="()=> Createnew()" class="ml-0" Icon="@Icons.Material.Filled.Add" Color="Color.Primary"
+            <MudIconButton OnClick="()=> Createnew()" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Primary"
                 aria-label="github"></MudIconButton>
-            <MudText Typo="Typo.subtitle2">Form 56</MudText>
+            <MudText Class="mt-5" Typo="Typo.subtitle2">Add Form 56</MudText>
             <MudSpacer />
-            @* <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense" Placeholder="Search"
-                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small"
-                Class="mt-0"></MudTextField> *@
-            <MudMenu Class="mt-4" StartIcon='@Icons.Material.Filled.MoreVert' AnchorOrigin='Origin.TopLeft'
+            <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
+                Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                IconSize="Size.Small" Immediate></MudTextField>
+            <MudMenu Class="mt-5" StartIcon='@Icons.Material.Filled.MoreVert' AnchorOrigin='Origin.TopLeft'
                 TransformOrigin='Origin.TopRight' Dense='true' Size='Size.Small' Label='More'>
                 <MudMenuItem OnClick="Toggle">
                     <div class='d-flex align-center gap-2 '>
@@ -75,7 +75,7 @@
             <MudTd DataLabel="Nr">@context.FormNo</MudTd>
             <MudTd DataLabel="Nr">@context.ReceiveFrom</MudTd>
             <MudTd DataLabel="Sign">@context.Date?.ToString("MM/dd/yyyy")</MudTd>
-            <MudTd DataLabel="Nr">@context.Pesos.ToString("N2")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">₱ @context.Pesos.ToString("N2")</MudTd>
             <MudTd>
                 <MudMenu Icon="@Icons.Material.Filled.MoreVert" Class="pa-1" Size="Size.Small" ActivationEvent="@MouseEvent.MouseOver" AnchorOrigin="Origin.CenterLeft" TransformOrigin="Origin.TopRight" Dense Color="Color.Inherit">
                      <MudMenuItem OnClick="()=> Edit(context)">
@@ -106,7 +106,10 @@
 } 
 else if (ShowReport)
 {
-    <iframe src='@PDFContent' />
+    <div class="d-flex flex-column align-end gap-2" style="height: calc(100vh - 100px);">
+        <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="()=> { ShowReport = !ShowReport; ShowList = true; }" Style="width: 100px;">Close</MudButton>
+        <iframe height="100%" src='@PDFContent' />
+    </div>
 }
 else
 {
@@ -289,6 +292,30 @@ else
             }
             StateHasChanged();
         }
+    }
+    private bool FilterFunc1(Form56Model element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(Form56Model element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.ReceiveFrom.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.PreviousReceiptNo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.FormNo.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Province.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Treasurere.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Deputy.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.CheckNo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Date.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
     }
     public void Toggle()
     {
@@ -512,5 +539,12 @@ else
     {
         margin-top: 20px !important;
         height: 30px !important;
+    }
+</style>
+<style>
+
+    .mud-table-container
+    {
+        margin-top: 20px;
     }
 </style>

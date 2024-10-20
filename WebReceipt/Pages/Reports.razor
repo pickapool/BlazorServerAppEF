@@ -18,7 +18,7 @@
     @if (!IsLoading)
     {
         <MudTable Items ="ListOfReceipts"
-        Dense="true" Hover="true" Height="80vh"
+        Dense="true" Hover="true" Height="80vh" style="width: calc(100vw - 300px);"
         Filter="new Func<ReceiptModel,bool>(FilterFunc1)"
         Loading="IsLoading"
         >
@@ -119,7 +119,7 @@
             <RowTemplate>
                 <MudTd DataLabel="Number">
                     <div class="chip-number pa-1">
-                        @context.Number
+                        @(String.IsNullOrEmpty(context.Number) ? "NA" : context.Number)
                     </div>
                 </MudTd>
                 <MudTd DataLabel="Payor">@context.Payor</MudTd>
@@ -181,6 +181,12 @@
                 Payments = p.Result;
                 ListOfCedula = await CedulaService.GetListOfCedula(param);
                 ListOfForm56 = await Form56Service.GetListOfForm56(param);
+
+                Payments = Payments.Where(e =>
+                    ListOfCedula.Any(c => c.PaymentTypeId == e.PaymentTypeId) ||
+                    ListOfForm56.Any(f => f.PaymentTypeId == e.PaymentTypeId) ||
+                    ListOfReceipts.Any(r => r.PaymentTypeId == e.PaymentTypeId)
+                ).ToList();
 
                 foreach(var cedula in ListOfCedula)
                 {

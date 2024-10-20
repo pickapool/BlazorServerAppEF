@@ -399,7 +399,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value />
+                <Value>=First(Fields!FormNo.Value, "Form56Dataset")</Value>
                 <Style>
                   <FontSize>12pt</FontSize>
                 </Style>

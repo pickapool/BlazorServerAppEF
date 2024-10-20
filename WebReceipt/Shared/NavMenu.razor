@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">WebReceipt</a>
+        <a class="navbar-brand" href="">Receipt System</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -20,38 +20,36 @@
                 <span>Transactions</span>
             </NavLink>
         </div> *@
-        <div class="nav-item px-3">
-            <NavLink class="nav-link gap-2" href="records">
-                <MudIcon Icon="@Icons.Material.Filled.FolderCopy"></MudIcon>
-                <span>Records</span>
-            </NavLink>
-        </div>
+        <div class="nav-item">
+            <MudNavGroup style="color: white;" Class="nav-link gap-2" Title="Forms" Icon="@Icons.Material.Filled.FileCopy">
+                <MudNavLink Class="nav-link" Href="/cedula">
+                    <MudIcon Icon="@Icons.Material.Filled.FileOpen"></MudIcon>
+                    <span>Cedula</span>
+                </MudNavLink>
+                <MudNavLink Class="nav-link" Href="/records">
+                    <MudIcon Icon="@Icons.Material.Filled.DriveFileMove"></MudIcon>
+                    <span>Form 51</span>
+                </MudNavLink>
+                <MudNavLink Class="nav-link" Href="/form56">
+                    <MudIcon Icon="@Icons.Material.Filled.DocumentScanner"></MudIcon>
+                    <span>Form 56</span>
+                </MudNavLink>
+            </MudNavGroup>
+         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link gap-2" href="reports">
                 <MudIcon Icon="@Icons.Material.Filled.PictureAsPdf"></MudIcon>
                 <span>Reports</span>
             </NavLink>
         </div>
-        <div class="nav-item">
-            <MudNavGroup style="color: white;" Class="nav-link gap-2" Title="Forms" Icon="@Icons.Material.Filled.PictureAsPdf">
-                <MudNavLink Class="nav-link" Href="/cedula">
-                    <MudIcon Icon="@Icons.Material.Filled.PictureAsPdf"></MudIcon>
-                    <span>Cedula</span>
-                </MudNavLink>
-                <MudNavLink Class="nav-link" Href="/form56">
-                    <MudIcon Icon="@Icons.Material.Filled.PictureAsPdf"></MudIcon>
-                    <span>Form 56</span>
-                </MudNavLink>
-            </MudNavGroup>
-         </div>
          <div class="nav-item">
             <MudNavGroup style="color: white;" Class="nav-link gap-2" Title="Settings" Icon="@Icons.Material.Filled.Settings">
                 <MudNavLink Class="nav-link" Href="/accounts">
-                    <MudIcon Icon="@Icons.Material.Filled.PictureAsPdf"></MudIcon>
+                    <MudIcon Icon="@Icons.Material.Filled.ManageAccounts"></MudIcon>
                     <span>Accounts</span>
                 </MudNavLink>
                 <MudNavLink Class="nav-link" Href="/paymenttype">
-                    <MudIcon Icon="@Icons.Material.Filled.PictureAsPdf"></MudIcon>
+                    <MudIcon Icon="@Icons.Material.Filled.Payments"></MudIcon>
                     <span>Payment Types</span>
                 </MudNavLink>
             </MudNavGroup>

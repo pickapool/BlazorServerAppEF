@@ -10,25 +10,23 @@
 @if(!isCreate)
 {
 <MudTable Items="ListOfReceipts"
-          Dense="true" Hover="true" Height="80vh"
+          Dense="true" Hover="true" Height="calc(100vh - 160px)"
           Filter="new Func<ReceiptModel,bool>(FilterFunc1)"
             Loading="IsLoading"
             >
     <ToolBarContent>
-        <MudText Typo="Typo.h6">Receipts</MudText>
+        <MudIconButton OnClick="Add" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Primary"></MudIconButton>
+        <MudText Class="mt-5" Typo="Typo.subtitle2">Add Form 51</MudText>
         <MudSpacer />
-        <MudMenu StartIcon='@Icons.Material.Filled.MoreVert' AnchorOrigin='Origin.TopLeft'
+        <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
+         Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+          IconSize="Size.Small" Immediate></MudTextField>
+        <MudMenu Class="mt-5" StartIcon='@Icons.Material.Filled.MoreVert' AnchorOrigin='Origin.TopLeft'
             TransformOrigin='Origin.TopRight' Dense='true' Size='Size.Small' Label='More'>
             <MudMenuItem OnClick="Toggle">
                 <div class='d-flex align-center gap-2 '>
                     <MudIcon Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
                     <MudText Typo='Typo.body2'>Filter</MudText>
-                </div>
-            </MudMenuItem>
-            <MudMenuItem OnClick="Add">
-                <div class='d-flex align-center gap-2 '>
-                    <MudIcon Icon='@Icons.Material.Filled.Add' Size='Size.Small' />
-                    <MudText Typo='Typo.body2'>Add</MudText>
                 </div>
             </MudMenuItem>
         </MudMenu>
@@ -163,13 +161,20 @@
                 <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Number" Label="No." Margin="Margin.Dense"></MudTextField>
             </MudItem>
             <MudItem xs="4">
-                <MudSelect Class="mr-1" @bind-Value="ReceiptModel.PaymentType" Text="ReceiptModel.PaymentType" Placeholder="Transaction Type" Margin='Margin.Dense'
+                <MudAutocomplete Class="mr-1" @bind-Value="ReceiptModel.PaymentType"
+                             SearchFunc="Search"
+                             Variant="Variant.Text"
+                             ToStringFunc="GetPaymentTypeName"
+                             Margin="Margin.Dense"
+                             Dense
+                             Placeholder="Search"/>
+                @* <MudSelect Class="mr-1" @bind-Value="ReceiptModel.PaymentType" Text="ReceiptModel.PaymentType" Placeholder="Transaction Type" Margin='Margin.Dense'
                     AnchorOrigin="Origin.BottomCenter">
                     @foreach (var type in Payments.Where( e => e.PaymentTypeName != "Cedula" && e.PaymentTypeName != "Form 56").ToList())
                     {
                         <MudSelectItem Value="@type">@type.PaymentTypeName</MudSelectItem>
                     }
-                </MudSelect>
+                </MudSelect> *@
             </MudItem>
             <MudItem xs="12">
                 <MudTextField Class="mr-1" @bind-Value="ReceiptModel.Agency" Label="Agency" Margin="Margin.Dense"></MudTextField>
@@ -211,7 +216,13 @@
                         </RowTemplate>
                         <RowEditingTemplate>
                             <MudTd DataLabel="Nature">
-                                <MudTextField @bind-Value="@context.NatureName" Margin="Margin.Dense"></MudTextField>
+                                <MudAutocomplete Class="mr-1" @bind-Value="context.NatureName"
+                                    SearchFunc="Search1"
+                                    Variant="Variant.Text"
+                                    Margin="Margin.Dense"
+                                    Dense/>
+
+                                @* <MudTextField @bind-Value="@context.NatureName" Margin="Margin.Dense"></MudTextField> *@
                             </MudTd>
                             <MudTd DataLabel="Nature">
                                 <MudTextField @bind-Value="@context.AccountCode" Margin="Margin.Dense"></MudTextField>
@@ -264,9 +275,10 @@
     private Enums.TransactionType? tType { get; set; }
     private PaymentTypeModel? pType { get; set;} = new();
     FilterParameter parameter = new();
+    PaymentTypeModel paymentType = new();
     protected override async Task OnInitializedAsync()
     {
-        GlobalClass.Title = "Records";
+        GlobalClass.Title = "Form 51";
         await AppState.NotifyStateChangedAsync();
         await GetReceipts(new());
     }
@@ -405,5 +417,42 @@
         isCreate = false;
         StateHasChanged();
     }
+    private async Task<IEnumerable<PaymentTypeModel>> Search(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
 
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return Payments.Where( e => !e.PaymentTypeName.Contains("Form 56") && !e.PaymentTypeName.Contains("Cedula")).ToList();
+
+        return Payments.Where( e => !e.PaymentTypeName.Contains("Form 56") && !e.PaymentTypeName.Contains("Cedula")).ToList().Where(x => x.PaymentTypeName.Contains(value, StringComparison.InvariantCultureIgnoreCase)).ToList();
+    }
+    private async Task<IEnumerable<string>> Search1(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return Payments.Select( e => e.PaymentTypeName).ToList();
+
+        return Payments.Where(x => x.PaymentTypeName.Contains(value, StringComparison.InvariantCultureIgnoreCase)).Select( e => e.PaymentTypeName).ToList();
+    }
+    private string GetPaymentTypeName(PaymentTypeModel paymentType)
+    {
+        return paymentType.PaymentTypeName;
+    }
 }
+<style>
+
+    .mud-table-container
+    {
+        margin-top: 20px;
+    }
+    .mud-input.mud-input-outlined.mud-input-adorned-start
+    {
+        margin-top: 20px !important;
+        height: 30px !important;
+    }
+</style>

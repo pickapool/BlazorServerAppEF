@@ -1211,14 +1211,14 @@ of the</Value>
                       <TablixCells>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="NatureOfCollectionId">
+                            <Textbox Name="NatureName">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=First(Fields!NatureName.Value, "NatureDataset")</Value>
+                                      <Value>=Fields!NatureName.Value</Value>
                                       <Style>
                                         <FontSize>9pt</FontSize>
                                       </Style>
@@ -1227,7 +1227,7 @@ of the</Value>
                                   <Style />
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>NatureOfCollectionId</rd:DefaultName>
+                              <rd:DefaultName>NatureName</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1285,6 +1285,7 @@ of the</Value>
                                       <Value>=Fields!Amount.Value</Value>
                                       <Style>
                                         <FontSize>9pt</FontSize>
+                                        <Format>#,0.00;- #,0.00</Format>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
