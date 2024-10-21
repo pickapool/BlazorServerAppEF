@@ -5,8 +5,8 @@
 
 <MudTable Items="@accounts" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)" Filter="new Func<UserAccountModel,bool>(FilterFunc1)">
     <ToolBarContent>
-        <MudIconButton OnClick="()=> OpenDialog(new())" class="ml-0" Icon="@Icons.Material.Filled.Add" Color="Color.Primary" aria-label="github"></MudIconButton>
-        <MudText Typo="Typo.subtitle2">Add Account</MudText>
+        <MudIconButton OnClick="()=> OpenDialog(new())" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Primary" aria-label="github"></MudIconButton>
+        <MudText Class="mt-5" Typo="Typo.subtitle2">Add Account</MudText>
         <MudSpacer />
         <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
          Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
@@ -84,5 +84,9 @@
     .mud-table-container
     {
         margin-top: 20px;
+    }
+    .mud-input.mud-input-outlined.mud-input-adorned-start
+    {
+        height: 30px !important;
     }
 </style>

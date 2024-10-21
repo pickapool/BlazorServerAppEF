@@ -56,5 +56,16 @@ namespace WebReceipt.Server.Services.ReportServices
             report.DataSources.Add(new ReportDataSource("Form56DetailDataset",(cedula.FirstOrDefault()?? new()).Details));
             return File(report.Render("PDF"), "application/pdf", "report." + "pdf");
         }
+        [HttpPost]
+        [Route(template: "GetReceiptHistoryReport")]
+        public IActionResult GetReceiptHistoryReport([FromBody] List<ReceiptModel> receipts)
+        {
+            using var rs = Assembly.GetExecutingAssembly().GetManifestResourceStream("WebReceipt.Reports.PaymentHistoryReport.rdlc");
+
+            LocalReport report = new();
+            report.LoadReportDefinition(rs);
+            report.DataSources.Add(new ReportDataSource("receiptdatasest", receipts));
+            return File(report.Render("PDF"), "application/pdf", "report." + "pdf");
+        }
     }
 }

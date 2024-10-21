@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="PaymentHistoryReport.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="PaymentHistoryReport.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="CedulaDataSet.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -22,11 +30,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>NatureDataset.xsd</DependentUpon>
     </Compile>
-    <Compile Update="ReceiptDataset.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ReceiptDataset.xsd</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -41,10 +44,6 @@
     <None Update="NatureDataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>NatureDataset.Designer.cs</LastGenOutput>
-    </None>
-    <None Update="ReceiptDataset.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>ReceiptDataset.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

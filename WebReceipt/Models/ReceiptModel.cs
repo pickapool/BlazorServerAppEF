@@ -34,5 +34,7 @@ namespace WebReceipt.Models
         public string PDF { get; set; } = string.Empty;
         [NotMapped]
         public string PaymentTypeName { get; set; } = string.Empty;
+        [NotMapped]
+        public bool IsShowHistory { get; set; }
     }
 }

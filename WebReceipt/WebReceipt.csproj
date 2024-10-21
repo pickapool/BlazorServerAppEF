@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Reports\PaymentHistoryReport.rdlc" />
     <None Remove="Reports\ReceiptReport.rdlc" />
     <None Remove="Reports\RecordsReport.rdlc" />
     <None Remove="Reports\ReportCedula.rdlc" />
@@ -16,6 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Reports\PaymentHistoryReport.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReceiptReport.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>

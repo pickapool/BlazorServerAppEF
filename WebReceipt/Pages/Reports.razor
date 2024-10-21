@@ -99,6 +99,7 @@
                 </MudPopover>
             </ToolBarContent>
             <ColGroup>
+                <col style="width: 1%;"/>
                 <col style="width: 120px;"/>
                 <col/>
                 <col style="width: 120px;" />
@@ -108,6 +109,7 @@
                 }
             </ColGroup>
             <HeaderContent>
+                <MudTh class="text-center"><MudTableSortLabel Class="text-center" SortLabel="h" T="ReceiptModel">History</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortLabel="f_number" T="ReceiptModel">OR No.</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortLabel="f_payor" T="ReceiptModel">Payor</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortLabel="f_date" T="ReceiptModel">Date</MudTableSortLabel></MudTh>
@@ -117,6 +119,11 @@
                 }
             </HeaderContent>
             <RowTemplate>
+                <MudTd class="text-center">
+                    <MudTooltip Text="Payment History">
+                        <MudIconButton OnClick="()=> ShowHistory(context)" Icon="@Icons.Material.Filled.WorkHistory" Size="Size.Small" Color="Color.Default"></MudIconButton>
+                    </MudTooltip>
+                </MudTd>
                 <MudTd DataLabel="Number">
                     <div class="chip-number pa-1">
                         @(String.IsNullOrEmpty(context.Number) ? "NA" : context.Number)
@@ -137,6 +144,16 @@
             @* <MudTd Class="text-end" DataLabel="Fund">₱ @context.Total.ToString("N2")</MudTd> *@
                     @* <MudTd DataLabel="Agency">@Extensions.GetEnumDescription(context.TransactionType)</MudTd> *@
         </RowTemplate>
+        <ChildRowContent>
+            @if(context.IsShowHistory) {
+                <td class="pa-2" colspan="@(Payments.Count() + 4)">
+                    <div class="d-flex flex-column align-end gap-2" style="height: calc(100vh - 100px);">
+                        <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="()=> { context.IsShowHistory = !context.IsShowHistory; }" Style="width: 100px;">Close</MudButton>
+                         <iframe src='@context.PDF' style='height:50vh;' />
+                    </div>
+                </td>
+            }
+        </ChildRowContent>
         <NoRecordsContent>
             <MudText>No matching records found</MudText>
         </NoRecordsContent>
@@ -237,19 +254,19 @@
             return true;
         return false;
     }
-    private void GetReport(ReceiptModel receipt)
+    private void GetHistoryReport(List<ReceiptModel> receipts, ReceiptModel receipt)
     {
-        IsLoading = true;
-        StateHasChanged();
-        receipt.IsShowReceipt = !receipt.IsShowReceipt;
-        IActionResult report = ReportService.GetMasterListReport(receipt);
+        receipts.ForEach( e => {
+            e.PaymentTypeName = Payments.Where( c => c.PaymentTypeId == e.PaymentTypeId).Select( d => d.PaymentTypeName).FirstOrDefault();
+        });
+        IActionResult report = ReportService.GetReceiptHistoryReport(receipts);
         if (report is FileContentResult fileContentResult)
         {
             byte[] pdfBytes = fileContentResult.FileContents;
             receipt.PDF = "data:application/pdf;base64," + Convert.ToBase64String(pdfBytes);
-            IsLoading = false;
+            receipt.IsShowHistory = !receipt.IsShowReceipt;
+            StateHasChanged();
         }
-
     }
     public void Toggle()
     {
@@ -288,6 +305,17 @@
             PDF = "data:application/pdf;base64," + Convert.ToBase64String(pdfBytes);
             IsLoading = false;
         }
+    }
+    private void ShowHistory(ReceiptModel receipt)
+    {
+        if(receipt.IsShowHistory)
+        {
+            receipt.IsShowHistory = !receipt.IsShowHistory;
+            StateHasChanged();
+            return;
+        }
+        GetHistoryReport(ListOfReceipts.Where( e => e.Payor.Contains(receipt.Payor)).ToList(), receipt);
+        StateHasChanged();
     }
 }
 <style>
