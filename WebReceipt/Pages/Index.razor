@@ -16,19 +16,20 @@
 {
     <div class="d-flex flex-row gap-5 align-center justify-content-center">
         <MudButton Variant="Variant.Filled" Color="Color.Info" OnClick="()=> SingleFilter(false, true, false)">Form 51</MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Info" OnClick="()=> SingleFilter(false, false, true)">Form 56</MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Info" OnClick="()=> SingleFilter(true, false , false)">Cedula</MudButton>
+        @* <MudButton Variant="Variant.Filled" Color="Color.Info" OnClick="()=> SingleFilter(false, false, true)">Form 56</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Info" OnClick="()=> SingleFilter(true, false , false)">Cedula</MudButton> *@
     </div>
     <Chart Config="_config"></Chart>
-    <MudPaper Elevation="3" Class="d-flex flex-column position-absolute left-0 top-0 pa-2 mt-2">
+    @* <MudPaper Elevation="3" Class="d-flex flex-column position-absolute left-0 top-0 pa-2 mt-2">
         <MudText Typo="Typo.subtitle2">Total</MudText>
         <MudDivider/>
         @foreach (var receipt in Payments)
         {   
             <span>@receipt.PaymentTypeName : ₱ @ListOfReceipts.Where( e => e.PaymentTypeId == receipt.PaymentTypeId).Sum( e => e.Total).ToString("N2")</span>
         }
-    </MudPaper>
+    </MudPaper> *@
     <MudIconButton OnClick="Toggle" Class="dash-setting" Size="Size.Small" Icon="@Icons.Material.Filled.Settings" Variant="Variant.Filled" Color="Color.Info"></MudIconButton>
+    <MudIconButton OnClick="()=> GetReceipts(new(), false)" Class="dash-reset" Size="Size.Small" Icon="@Icons.Material.Filled.Refresh" Variant="Variant.Filled" Color="Color.Info"></MudIconButton>
     <MudPopover Open="@_isOpen" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="px-4 pt-4 width400px">
         <MudGrid Spacing="1">
             <MudItem Class="d-flex" xs="12">
@@ -276,6 +277,14 @@
         top: 0;
         right: 0;
         margin-right: 10px;
+        margin-top: 10px;
+    }
+    .dash-reset
+    {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-right: 50px;
         margin-top: 10px;
     }
 </style>

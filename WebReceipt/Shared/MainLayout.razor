@@ -47,6 +47,9 @@
             {
                 GlobalClass.IsLogin = b.Result;
                 GlobalClass.UserAccount = account.Result;
+                //Initiala
+                await LocalStorage.RemoveItemAsync("token");
+                await LocalStorage.RemoveItemAsync("account");
             }
             StateHasChanged();
         }
