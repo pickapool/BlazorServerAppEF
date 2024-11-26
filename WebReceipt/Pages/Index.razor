@@ -29,7 +29,7 @@
         }
     </MudPaper> *@
     <MudIconButton OnClick="Toggle" Class="dash-setting" Size="Size.Small" Icon="@Icons.Material.Filled.Settings" Variant="Variant.Filled" Color="Color.Info"></MudIconButton>
-    <MudIconButton OnClick="()=> GetReceipts(new(), false)" Class="dash-reset" Size="Size.Small" Icon="@Icons.Material.Filled.Refresh" Variant="Variant.Filled" Color="Color.Info"></MudIconButton>
+    <MudIconButton OnClick="()=> GetReceipts(new(), false, true)" Class="dash-reset" Size="Size.Small" Icon="@Icons.Material.Filled.Refresh" Variant="Variant.Filled" Color="Color.Info"></MudIconButton>
     <MudPopover Open="@_isOpen" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="px-4 pt-4 width400px">
         <MudGrid Spacing="1">
             <MudItem Class="d-flex" xs="12">
@@ -105,10 +105,10 @@
     protected override async Task OnInitializedAsync()
     {
         GlobalClass.Title = "Dashboard";
-        await GetReceipts(new(), false);
+        await GetReceipts(new(), false, true);
         await AppState.NotifyStateChangedAsync();
     }    
-    private async Task GetReceipts(FilterParameter param, bool isSingle)
+    private async Task GetReceipts(FilterParameter param, bool isSingle, bool isReset)
     {
         IsLoaded = false;
         Task<List<ReceiptModel>> list = ReceiptService.GetListOfReceipt(param);
@@ -147,7 +147,7 @@
                     r.PaymentType = form.PaymentType?? new();
                     ListOfReceipts.Add(r);
                 }
-                SetPie();
+                SetPie(isReset);
                 await AppState.NotifyStateChangedAsync();
             }
         }
@@ -188,19 +188,19 @@
         if(is51)
         {
             var t = new List<PaymentTypeModel>();
-            t = Payments.Where( e => !e.PaymentTypeName.Contains("Form 56") && !e.PaymentTypeName.Contains("Cedula")).ToList();
+            t = Payments.Where( e => !e.PaymentTypeName.Contains("Form 51") && !e.PaymentTypeName.Contains("Cedula")).ToList();
             list.AddRange(t);
         }
         param.ListOfPayments = list;
-        await GetReceipts(param, true);
+        await GetReceipts(param, true, false);
     }
     private async Task Filter()
     {
-        await GetReceipts(parameter, false);
+        await GetReceipts(parameter, false, false);
         Toggle();
     }
 
-    private void SetPie()
+    private void SetPie(bool isReset)
     {
         _config = new PieConfig
         {
@@ -221,17 +221,32 @@
         List<string> dynamicLabels = new List<string>();
         List<int> counts = new List<int>();
 
-        foreach (var receipt in Payments)
+        List<PaymentTypeModel> listPayments = new();
+        if(isReset) {
+            listPayments = Payments.Where( e => e.PaymentTypeName == "Form 56" || e.PaymentTypeName == "Cedula").ToList();
+        } else {
+            listPayments = Payments.ToList();
+        }
+        foreach (var receipt in listPayments)
         {
             int count = ListOfReceipts.Count(e => e.PaymentTypeId == receipt.PaymentTypeId);
-            double total  = ListOfReceipts.Sum( e => e.Total);
+            double total  = ListOfReceipts.Where(e => e.PaymentTypeId == receipt.PaymentTypeId).Sum( e => e.Total);
             counts.Add(count);
             int totalReceipts = ListOfReceipts.Count();
             double percentage = totalReceipts > 0 ? (double)count / totalReceipts * 100 : 0;
-
             dynamicLabels.Add(receipt.PaymentTypeName + " (" + percentage.ToString("N2") + "%)");
         }
 
+        if(isReset)
+        {
+            int countss = ListOfReceipts.Where( e => e.PaymentType.PaymentTypeName != "Form 56" && e.PaymentType.PaymentTypeName != "Cedula").ToList().Count;
+            double totals  = ListOfReceipts.Where( e => e.PaymentType.PaymentTypeName != "Form 56" && e.PaymentType.PaymentTypeName != "Cedula").ToList().Sum( e => e.Total);
+            counts.Add(countss);
+            int totalReceiptss = ListOfReceipts.Count();
+            double percentages = totalReceiptss > 0 ? (double)countss / totalReceiptss * 100 : 0;
+            dynamicLabels.Add("Form 51" + " (" + percentages.ToString("N2") + "%)");
+        }
+        
         foreach (string label in dynamicLabels)
         {
             _config.Data.Labels.Add(label);
