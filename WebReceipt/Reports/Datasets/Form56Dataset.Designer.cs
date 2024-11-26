@@ -346,6 +346,10 @@ namespace WebReceipt.Reports.Datasets {
             
             private global::System.Data.DataColumn columnDeputy;
             
+            private global::System.Data.DataColumn columnIsBasic;
+            
+            private global::System.Data.DataColumn columnIsSpecial;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Form56DataTableDataTable() {
@@ -509,6 +513,22 @@ namespace WebReceipt.Reports.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn IsBasicColumn {
+                get {
+                    return this.columnIsBasic;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn IsSpecialColumn {
+                get {
+                    return this.columnIsSpecial;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -560,7 +580,9 @@ namespace WebReceipt.Reports.Datasets {
                         string CheckNo, 
                         string CheckDate, 
                         string Treasurere, 
-                        string Deputy) {
+                        string Deputy, 
+                        string IsBasic, 
+                        string IsSpecial) {
                 Form56DataTableRow rowForm56DataTableRow = ((Form56DataTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Form56Id,
@@ -578,7 +600,9 @@ namespace WebReceipt.Reports.Datasets {
                         CheckNo,
                         CheckDate,
                         Treasurere,
-                        Deputy};
+                        Deputy,
+                        IsBasic,
+                        IsSpecial};
                 rowForm56DataTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowForm56DataTableRow);
                 return rowForm56DataTableRow;
@@ -617,6 +641,8 @@ namespace WebReceipt.Reports.Datasets {
                 this.columnCheckDate = base.Columns["CheckDate"];
                 this.columnTreasurere = base.Columns["Treasurere"];
                 this.columnDeputy = base.Columns["Deputy"];
+                this.columnIsBasic = base.Columns["IsBasic"];
+                this.columnIsSpecial = base.Columns["IsSpecial"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -654,6 +680,10 @@ namespace WebReceipt.Reports.Datasets {
                 base.Columns.Add(this.columnTreasurere);
                 this.columnDeputy = new global::System.Data.DataColumn("Deputy", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDeputy);
+                this.columnIsBasic = new global::System.Data.DataColumn("IsBasic", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIsBasic);
+                this.columnIsSpecial = new global::System.Data.DataColumn("IsSpecial", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIsSpecial);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1495,6 +1525,38 @@ namespace WebReceipt.Reports.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string IsBasic {
+                get {
+                    try {
+                        return ((string)(this[this.tableForm56DataTable.IsBasicColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'IsBasic\' in table \'Form56DataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableForm56DataTable.IsBasicColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string IsSpecial {
+                get {
+                    try {
+                        return ((string)(this[this.tableForm56DataTable.IsSpecialColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'IsSpecial\' in table \'Form56DataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableForm56DataTable.IsSpecialColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsForm56IdNull() {
                 return this.IsNull(this.tableForm56DataTable.Form56IdColumn);
             }
@@ -1683,6 +1745,30 @@ namespace WebReceipt.Reports.Datasets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetDeputyNull() {
                 this[this.tableForm56DataTable.DeputyColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsIsBasicNull() {
+                return this.IsNull(this.tableForm56DataTable.IsBasicColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetIsBasicNull() {
+                this[this.tableForm56DataTable.IsBasicColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsIsSpecialNull() {
+                return this.IsNull(this.tableForm56DataTable.IsSpecialColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetIsSpecialNull() {
+                this[this.tableForm56DataTable.IsSpecialColumn] = global::System.Convert.DBNull;
             }
         }
         

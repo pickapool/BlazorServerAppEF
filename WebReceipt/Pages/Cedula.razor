@@ -9,7 +9,7 @@
 {
     <MudTable Items="@cedulas" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)" Filter="new Func<CedulaModel,bool>(FilterFunc1)">
         <ToolBarContent>
-            <MudIconButton OnClick="()=> Createnew()" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Primary"
+            <MudIconButton OnClick="()=> Createnew()" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Info"
                 aria-label="github"></MudIconButton>
             <MudText Class="mt-5" Typo="Typo.subtitle2">Add Cedula</MudText>
             <MudSpacer />
@@ -106,7 +106,7 @@
 } else if(ShowReport)
 {
     <div class="d-flex flex-column align-end gap-2" style="height: calc(100vh - 100px);">
-        <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="()=> { ShowReport = !ShowReport; ShowList = true; }" Style="width: 100px;">Close</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Info" OnClick="()=> { ShowReport = !ShowReport; ShowList = true; }" Style="width: 100px;">Close</MudButton>
         <iframe height="100%" src='@PDFContent' />
     </div>
 }
@@ -130,11 +130,11 @@ else
             <div class="surename bbottom bright">
                 <div class="name1 d-flex flex-column align-items-start custom">
                     <span class="pl-5">Name(SureName)</span>
-                    <MudTextField @bind-Value="@cedula.SureName" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@cedula.SureName" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
                 </div>
                  <div class="name2 d-flex flex-column align-items-center custom">
                     <span>(First)</span>
-                    <MudTextField @bind-Value="@cedula.FirstName" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@cedula.FirstName" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
                 </div>
                 <div class="name3 d-flex flex-column align-items-center custom">
                     <span>(Middle)</span>
@@ -145,23 +145,23 @@ else
                     <span>
                         TIN
                     </span>
-                     <MudTextField @bind-Value="@cedula.Tin" onclick="this.select()" Mask="@(new PatternMask("000-000-000-00000"))" Variant="Variant.Text"></MudTextField>
+                     <MudTextField @bind-Value="@cedula.Tin" onclick="this.select()" Mask="@(new PatternMask("000-000-000-00000"))" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
                 </div>
                
                 <div class="address bbottom bright d-flex flex-column align-items-start custom">
                     <span class="pl-5">Address</span>
-                    <MudTextField @bind-Value="@cedula.Address" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@cedula.Address" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
                 </div>
                 <div class="sex bbottom d-flex flex-column align-items-start custom">
                     <span class="pl-5">Sex</span>
                     <MudRadioGroup @bind-Value="@cedula.Sex">
-                        <MudRadio Value="@Enums.Sex.Male" Color="Color.Primary" Size="Size.Small">Male</MudRadio>
+                        <MudRadio Value="@Enums.Sex.Male" Color="Color.Info" Size="Size.Small">Male</MudRadio>
                         <MudRadio Value="@Enums.Sex.Female" Color="Color.Secondary" Size="Size.Small">Female</MudRadio>
                     </MudRadioGroup>
                 </div>
                 <div class="citizenship bbottom bright d-flex flex-column align-items-start custom">
                     <span class="pl-5">Citizenship</span>
-                    <MudTextField @bind-Value="@cedula.Citizenship" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@cedula.Citizenship" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
                 </div>
                 <div class="or bbottom bright d-flex flex-column align-items-start custom">
                     <span class="pl-5">OR Number</span>
@@ -173,7 +173,7 @@ else
                 </div>
                 <div class="birth bbottom bright d-flex flex-column align-items-start custom">
                     <span class="pl-5">Place of Birth</span>
-                    <MudTextField @bind-Value="@cedula.PlaceOfBirth" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@cedula.PlaceOfBirth" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
                 </div>
                 <div class="height bbottom d-flex flex-column align-items-start custom">
                     <span class="pl-5">Height</span>
@@ -182,7 +182,7 @@ else
                 <div class="civil birth bright bbottom d-flex flex-column align-items-start custom">
                     <span class="pl-5">Civil Status</span>
                     <MudRadioGroup @bind-Value="@cedula.CivilStatus">
-                        <MudRadio Value="@Enums.CivilStatus.Single" Color="Color.Primary" Size="Size.Small">Single</MudRadio>
+                        <MudRadio Value="@Enums.CivilStatus.Single" Color="Color.Info" Size="Size.Small">Single</MudRadio>
                         <MudRadio Value="@Enums.CivilStatus.Widow" Color="Color.Secondary" Size="Size.Small">Married</MudRadio>
                         <MudRadio Value="@Enums.CivilStatus.Married" Color="Color.Secondary" Size="Size.Small">Widow/Widower/Legally Separated</MudRadio>
                         <MudRadio Value="@Enums.CivilStatus.Divorced" Color="Color.Secondary" Size="Size.Small">Divorced</MudRadio>
@@ -198,7 +198,7 @@ else
                 </div>
                 <div class="profession bbottom bright d-flex flex-column align-items-start custom">
                     <span class="pl-5">Profession/Occupation/Business</span>
-                    <MudTextField @bind-Value="@cedula.Occupation" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@cedula.Occupation" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
                 </div>
                 <div class="taxamount bbottom bright d-flex flex-column center justify-content-center" style="background-color: #3e3e3e; color:white;">
                     <span>TAXABLE AMOUNT</span>
@@ -288,7 +288,7 @@ else
                 </div>
                 <div class="tres bbottom bright d-flex flex-column custom">
                     <span>MUNICIPALITY/CITY TREASURER</span>
-                    <MudTextField @bind-Value="@cedula.CityTreasurer" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@cedula.CityTreasurer" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
                 </div>
                 <div class="actions d-flex justify-content-center align-center">
                     <MudIconButton OnClick="()=> Cancel()" class="ml-0" Color="Color.Error" aria-label="github">Cancel</MudIconButton>
@@ -308,7 +308,7 @@ else
     private CedulaModel cedula = new();
     private PaymentTypeModel? pType { get; set;} = new();
     public bool _isOpen;
-    private bool ShowList = true, ShowReport = false;
+    private bool ShowList = false, ShowReport = false;
     private string searchString1 = "", PDFContent = "";
     
     FilterParameter parameter = new();
@@ -326,6 +326,7 @@ else
             if(p.Status == TaskStatus.RanToCompletion)
             {
                 paymentTypes = p.Result.ToList();
+                Createnew();
             }
             StateHasChanged();
         }
@@ -351,14 +352,25 @@ else
     }
     private async Task Save()
     {
+        foreach (var property in typeof(CedulaModel).GetProperties().Where(p => p.PropertyType == typeof(string)))
+        {
+            var value = property.GetValue(cedula)?.ToString();
+            var isRequired = Attribute.IsDefined(property, typeof(RequiredAttribute));
+            if(String.IsNullOrEmpty(value) && isRequired)
+            {
+                Extensions.ShowSnackbar("Please input in a field that required.", Variant.Filled, SnackBar, Severity.Error);
+                return;
+            }
+        }
+
         cedula.Tin = cedula.Tin.Replace("-", "");
         Task t  = cedula.CedulaId == 0? CedulaService.AddCedula(cedula) : CedulaService.UpdateCedula(cedula);
         await t;
         if(t.Status == TaskStatus.RanToCompletion)
         {
             Extensions.ShowSnackbar("Cedula has been saved.", Variant.Filled, SnackBar, Severity.Success);
-            Cancel();
             await OnInitializedAsync();
+            Cancel();
         }
     }
     private async Task Delete(CedulaModel c)
@@ -519,7 +531,7 @@ else
     }
     .tres div
     {
-        width: 70% !important;
+        width: 100% !important;
     }
    .tres .mud-input>input.mud-input-root, div.mud-input-slot.mud-input-root
    {

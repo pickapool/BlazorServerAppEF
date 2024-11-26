@@ -5,7 +5,7 @@
 
 <MudTable Items="@accounts" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)" Filter="new Func<UserAccountModel,bool>(FilterFunc1)">
     <ToolBarContent>
-        <MudIconButton OnClick="()=> OpenDialog(new())" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Primary" aria-label="github"></MudIconButton>
+        <MudIconButton OnClick="()=> OpenDialog(new())" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Info" aria-label="github"></MudIconButton>
         <MudText Class="mt-5" Typo="Typo.subtitle2">Add Account</MudText>
         <MudSpacer />
         <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
@@ -26,8 +26,8 @@
         <MudTd DataLabel="Nr">@context.UserAccountName</MudTd>
         <MudTd DataLabel="Sign">@context.EmployeeName</MudTd>
         <MudTd class="d-flex justify-center">
-            <MudIconButton OnClick="()=> OpenDialog(context)" class="ml-0" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" aria-label="github"></MudIconButton>
-            <MudIconButton OnClick="()=> DeleteUser(context)" class="ml-0" Icon="@Icons.Material.Filled.Delete" Color="Color.Primary" aria-label="github"></MudIconButton>
+            <MudIconButton OnClick="()=> OpenDialog(context)" class="ml-0" Icon="@Icons.Material.Filled.Edit" Color="Color.Info" aria-label="github"></MudIconButton>
+            <MudIconButton OnClick="()=> DeleteUser(context)" class="ml-0" Icon="@Icons.Material.Filled.Delete" Color="Color.Info" aria-label="github"></MudIconButton>
         </MudTd>
     </RowTemplate>
     <PagerContent>

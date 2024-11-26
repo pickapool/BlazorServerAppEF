@@ -15,7 +15,7 @@
             Loading="IsLoading"
             >
     <ToolBarContent>
-        <MudIconButton OnClick="Add" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Primary"></MudIconButton>
+        <MudIconButton OnClick="Add" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Info"></MudIconButton>
         <MudText Class="mt-5" Typo="Typo.subtitle2">Add Form 51</MudText>
         <MudSpacer />
         <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
@@ -132,7 +132,7 @@
         {
             <td class="pa-1" colspan="6">
                 <div class="d-flex flex-column justify-content-end gap-1 w-100">
-                    <MudButton OnClick="()=> context.IsShowReceipt = !context.IsShowReceipt" Class="ml-auto mr-1 mb-3" Variant="Variant.Filled" Color="Color.Error" Label="true">Close</MudButton>
+                    <MudButton OnClick="()=> context.IsShowReceipt = !context.IsShowReceipt" Class="ml-auto mr-1 mb-3" Variant="Variant.Filled" Color="Color.Info" Label="true">Close</MudButton>
                     <iframe src='@context.PDF' style='height:81vh;' />
                 </div>
             </td>
@@ -158,7 +158,7 @@
                 <MudDatePicker Class="mr-1" @bind-Date="ReceiptModel.DateRecorded" Label="Date" Margin="Margin.Dense"></MudDatePicker>
             </MudItem>
             <MudItem xs="4">
-                <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Number" Label="No." Margin="Margin.Dense"></MudTextField>
+                <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Number" Label="No." Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
             </MudItem>
             <MudItem xs="4">
                 <MudAutocomplete Class="mr-1" @bind-Value="ReceiptModel.PaymentType"
@@ -167,7 +167,9 @@
                              ToStringFunc="GetPaymentTypeName"
                              Margin="Margin.Dense"
                              Dense
-                             Placeholder="Search"/>
+                             Placeholder="Search"
+                             Required RequiredError="Required*"
+                             />
                 @* <MudSelect Class="mr-1" @bind-Value="ReceiptModel.PaymentType" Text="ReceiptModel.PaymentType" Placeholder="Transaction Type" Margin='Margin.Dense'
                     AnchorOrigin="Origin.BottomCenter">
                     @foreach (var type in Payments.Where( e => e.PaymentTypeName != "Cedula" && e.PaymentTypeName != "Form 56").ToList())
@@ -177,13 +179,13 @@
                 </MudSelect> *@
             </MudItem>
             <MudItem xs="12">
-                <MudTextField Class="mr-1" @bind-Value="ReceiptModel.Agency" Label="Agency" Margin="Margin.Dense"></MudTextField>
+                <MudTextField Class="mr-1" @bind-Value="ReceiptModel.Agency" Label="Agency" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
             </MudItem>
             <MudItem xs="6">
-                <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Payor" Label="Payor" Margin="Margin.Dense"></MudTextField>
+                <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Payor" Label="Payor" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
             </MudItem>
             <MudItem xs="6">
-                <MudTextField @bind-Value="ReceiptModel.Fund" Label="Funds" Margin="Margin.Dense"></MudTextField>
+                <MudTextField @bind-Value="ReceiptModel.Fund" Label="Funds" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
             </MudItem>
             <MudItem xs="12">
                 <MudTable Class="nature-table mt-1" Items="ReceiptModel.ListOfNatures" Dense Hover FixedHeader FixedFooter
@@ -243,21 +245,21 @@
                     <MudCheckBox @bind-Checked="ReceiptModel.MoneyOrder" Size="Size.Small" Label="Money Order"></MudCheckBox>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudTextField Class="mr-1" @bind-Value="ReceiptModel.DraweeBank" Label="Drawee Bank" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField Class="mr-1" @bind-Value="ReceiptModel.DraweeBank" Label="Drawee Bank" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudTextField Class="ml-1 mr-1" @bind-Value="ReceiptModel.DraweeNumber" Label="Drawee Number" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField Class="ml-1 mr-1" @bind-Value="ReceiptModel.DraweeNumber" Label="Drawee Number" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
                 </MudItem>
                 <MudItem xs="4">
                     <MudDatePicker Class="mr-1" @bind-Date="ReceiptModel.DraweeDate" Label="Drawee Date" Margin="Margin.Dense"></MudDatePicker>
                 </MudItem>
                 <MudItem xs="6"></MudItem>
                 <MudItem xs="6">
-                    <MudTextField @bind-Value="ReceiptModel.CollectionOfficer" Label="Collection Officer" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField @bind-Value="ReceiptModel.CollectionOfficer" Label="Collection Officer" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" Class="d-flex justify-content-center align-items-center mt-4">
                     <MudButton OnClick="Cancel" Class="center" Size="Size.Small" Color="Color.Error" Variant="Variant.Text">Cancel</MudButton>
-                    <MudButton OnClick="AddReceipt" Class="center" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">
+                    <MudButton OnClick="AddReceipt" Class="center" Size="Size.Small" Color="Color.Info" Variant="Variant.Filled">
                         @(ReceiptModel.ReceiptId == 0 ? "Add Receipt" : "Update Receipt")
                     </MudButton>
                 </MudItem>
@@ -279,8 +281,10 @@
     protected override async Task OnInitializedAsync()
     {
         GlobalClass.Title = "Form 51";
+        isCreate = true;
         await AppState.NotifyStateChangedAsync();
         await GetReceipts(new());
+        Add();
     }
     private async Task GetReceipts(FilterParameter param)
     {
@@ -400,6 +404,16 @@
     }
     private async Task AddReceipt()
     {
+        foreach (var property in typeof(ReceiptModel).GetProperties().Where(p => p.PropertyType == typeof(string)))
+        {
+            var value = property.GetValue(ReceiptModel)?.ToString();
+            var isRequired = Attribute.IsDefined(property, typeof(RequiredAttribute));
+            if(String.IsNullOrEmpty(value) && isRequired)
+            {
+                Extensions.ShowSnackbar("Please input in a field that required.", Variant.Filled, SnackbarService, Severity.Error);
+                return;
+            }
+        }
         ReceiptModel.Total = ReceiptModel.ListOfNatures.Sum(e => e.Amount);
         Task t = ReceiptModel.ReceiptId == 0 ? ReceiptService.AddReceipt(ReceiptModel) : ReceiptService.UpdateReceipt(ReceiptModel);
         await t;
@@ -441,7 +455,7 @@
     }
     private string GetPaymentTypeName(PaymentTypeModel paymentType)
     {
-        return paymentType.PaymentTypeName;
+        return paymentType == null ? "" : paymentType.PaymentTypeName;
     }
 }
 <style>

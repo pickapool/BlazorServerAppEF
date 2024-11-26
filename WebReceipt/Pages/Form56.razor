@@ -9,7 +9,7 @@
 {
     <MudTable Items="@ListForm56" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)" Filter="new Func<Form56Model,bool>(FilterFunc1)">
         <ToolBarContent>
-            <MudIconButton OnClick="()=> Createnew()" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Primary"
+            <MudIconButton OnClick="()=> Createnew()" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Info"
                 aria-label="github"></MudIconButton>
             <MudText Class="mt-5" Typo="Typo.subtitle2">Add Form 56</MudText>
             <MudSpacer />
@@ -107,55 +107,55 @@
 else if (ShowReport)
 {
     <div class="d-flex flex-column align-end gap-2" style="height: calc(100vh - 100px);">
-        <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="()=> { ShowReport = !ShowReport; ShowList = true; }" Style="width: 100px;">Close</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Info" OnClick="()=> { ShowReport = !ShowReport; ShowList = true; }" Style="width: 100px;">Close</MudButton>
         <iframe height="100%" src='@PDFContent' />
     </div>
 }
 else
 {
-     <MudPaper class="pa-1 d-flex flex-column" Height="calc(100vh - 90px)" Width="auto">
+     <MudPaper class="pa-1 d-flex flex-column" Height="auto" Width="auto">
         <MudText Typo="Typo.subtitle2">ACCOUNTABLE FORM No. 56</MudText>
         <div class="second">
             <div class="rec">
                 <span>Previous Tax Receipt</span>
-                <MudTextField Margin="Margin.Dense" @bind-Value="@form56.PreviousReceiptNo"></MudTextField>
+                <MudTextField Margin="Margin.Dense" @bind-Value="@form56.PreviousReceiptNo" Required RequiredError="Required*"></MudTextField>
             </div>
             <div class="dated">
                 <span>DATED</span>
-                 <MudDatePicker Margin="Margin.Dense" @bind-Date="@form56.Dated" ></MudDatePicker>
+                 <MudDatePicker Margin="Margin.Dense" @bind-Date="@form56.Dated" Required RequiredError="Required*"></MudDatePicker>
             </div>
             <div class="no">
                 <span>NO</span>
-                 <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.FormNo" ></MudTextField>
+                 <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.FormNo" Required RequiredError="Required*"></MudTextField>
             </div>
             <div class="prov">
                 <span>PROVINCE</span>
-                <MudTextField Margin="Margin.Dense" @bind-Value="@form56.Province"></MudTextField>
+                <MudTextField Margin="Margin.Dense" @bind-Value="@form56.Province" Required RequiredError="Required*"></MudTextField>
             </div>
             <div class="city">
                 <span>CITY/MUNICIPALITY</span>
-                 <MudTextField Margin="Margin.Dense" @bind-Value="@form56.City"></MudTextField>
+                 <MudTextField Margin="Margin.Dense" @bind-Value="@form56.City" Required RequiredError="Required*"></MudTextField>
             </div>
             <div class="date">
                 <span>DATE</span>
-                 <MudDatePicker Margin="Margin.Dense" @bind-Date="@form56.Date" ></MudDatePicker>
+                 <MudDatePicker Margin="Margin.Dense" @bind-Date="@form56.Date" Required RequiredError="Required*"></MudDatePicker>
             </div>
              <div class="from">
                 <span>Received From</span>
-                <MudTextField Margin="Margin.Dense" @bind-Value="@form56.ReceiveFrom"></MudTextField>
+                <MudTextField Margin="Margin.Dense" @bind-Value="@form56.ReceiveFrom" Required RequiredError="Required*"></MudTextField>
             </div>
             <div class="peso">
                 <span>Amount</span>
-                 <MudTextField Margin="Margin.Dense" @bind-Value="@form56.Pesos"></MudTextField>
+                 <MudTextField Margin="Margin.Dense" @bind-Value="@form56.Pesos" Required RequiredError="Required*" Format="N2"></MudTextField>
             </div>
-            <div class="option d-flex justify-content-center align-items-center">
-                 <MudRadioGroup @bind-Value="@form56.TaxType">
-                    <MudRadio Value="@Enums.TaxType.BasicTax" Color="Color.Primary" Size="Size.Small">Basic Tax</MudRadio>
-                    <MudRadio Value="@Enums.TaxType.SpecialEducationFund" Color="Color.Secondary" Size="Size.Small">Special Education Fund</MudRadio>
-                </MudRadioGroup>
+            <div class="option d-flex flex-row justify-content-center align-items-center">
+                 
+                    <MudCheckBox @bind-Value="@form56.IsBasic" Color="Color.Info" Size="Size.Small">Basic Tax</MudCheckBox>
+                    <MudCheckBox @bind-Value="@form56.IsSpecial" Color="Color.Info" Size="Size.Small">Special Education Fund</MudCheckBox>
+              
             </div>
             <div class="grid">
-                <MudTable Elevation="0" Class="mt-1" Items="@form56.Details" Height="calc(100vh - 420px)" Dense With="100%">
+                <MudTable Elevation="0" Class="mt-1" Items="@form56.Details" Height="calc(100vh - 600px)" Dense With="100%">
                     <ToolBarContent>
                             <MudText Typo="Typo.body1">Details</MudText>
                         <MudSpacer />
@@ -181,7 +181,7 @@ else
                         <MudTh Class="text-center">Owner</MudTh>
                         <MudTh Class="text-center">Location</MudTh>
                         <MudTh Class="text-center">LOT</MudTh>
-                        <MudTh Class="text-center">Tax No.</MudTh>
+                        <MudTh Class="text-center">Tax Declaration No.</MudTh>
                         <MudTh Class="text-center">Land</MudTh>
                         <MudTh Class="text-center">Improvements</MudTh>
                         <MudTh Class="text-center">Assesed Total</MudTh>
@@ -207,13 +207,13 @@ else
                             <MudTextField @bind-Value="@context.TaxNo" Variant="Variant.Text"></MudTextField>
                         </MudTd>
                          <MudTd DataLabel="Nature">
-                            <MudTextField @bind-Value="@context.Land" Variant="Variant.Text"></MudTextField>
+                            <MudTextField T="string" Value="@context.Land" ValueChanged="(string e)=> Calculate(context, e)" Variant="Variant.Text"></MudTextField>
                         </MudTd>
                          <MudTd DataLabel="Nature">
                             <MudTextField @bind-Value="@context.Improvements" Variant="Variant.Text"></MudTextField>
                         </MudTd>
                          <MudTd DataLabel="Nature">
-                            <MudTextField @bind-Value="@context.AssesedTotal" Variant="Variant.Text"></MudTextField>
+                            <MudTextField @bind-Value="@context.AssesedTotal" Variant="Variant.Text" Format="N2"></MudTextField>
                         </MudTd>
                          <MudTd DataLabel="Nature">
                             <MudTextField @bind-Value="@context.TaxDue" Variant="Variant.Text"></MudTextField>
@@ -228,10 +228,10 @@ else
                             <MudTextField @bind-Value="@context.FullPayment" Variant="Variant.Text"></MudTextField>
                         </MudTd>
                          <MudTd DataLabel="Nature">
-                             <MudTextField @bind-Value="@context.Penalty" Variant="Variant.Text"></MudTextField>
+                             <MudTextField Value="@context.Penalty" ValueChanged="(string e) => Penalty(context, e)" Variant="Variant.Text"></MudTextField>
                          </MudTd>
                          <MudTd DataLabel="Nature">
-                             <MudTextField @bind-Value="@context.Total" Variant="Variant.Text"></MudTextField>
+                             <MudTextField @bind-Value="@context.Total" Variant="Variant.Text" Format="N2"></MudTextField>
                          </MudTd>
                          <MudTd DataLabel="Nature">
                             <MudIconButton OnClick="()=> RemoveDetail(context)" Size="Size.Small" Icon="@Icons.Material.Filled.RemoveCircle"></MudIconButton>
@@ -242,7 +242,7 @@ else
             <div class="bot">
                 <div class="checkdate">
                     <span>Check Date</span>
-                    <MudDatePicker Margin="Margin.Dense" @bind-Date="@form56.CheckDate" ></MudDatePicker>
+                    <MudDatePicker Margin="Margin.Dense" @bind-Date="@form56.CheckDate" Required RequiredError="Required*"></MudDatePicker>
                 </div>
                 <div class="checkno">
                     <span>Check No</span>
@@ -250,16 +250,16 @@ else
                 </div>
                 <div class="tres">
                     <span>Treasurer</span>
-                    <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.Treasurere" ></MudTextField>
+                    <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.Treasurere" Required RequiredError="Required*"></MudTextField>
                 </div>
                 <div class="deputy">
                     <span>Deputy</span>
-                 <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.Deputy" ></MudTextField>
+                 <MudTextField  Margin="Margin.Dense" @bind-Value="@form56.Deputy" Required RequiredError="Required*"></MudTextField>
                 </div>
             </div>
             <div class="action mt-1 d-flex justify-content-center align-items-center">
                 <MudButton OnClick="Cancel" Class="center" Size="Size.Small" Color="Color.Error" Variant="Variant.Text">Cancel</MudButton>
-                <MudButton OnClick="SaveForm56" Class="center" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">
+                <MudButton OnClick="SaveForm56" Class="center" Size="Size.Small" Color="Color.Info" Variant="Variant.Filled">
                     @(form56.Form56Id == 0 ? "Add Form 56" : "Update Form 56")
                 </MudButton>
             </div>
@@ -288,9 +288,36 @@ else
             if (p.Status == TaskStatus.RanToCompletion)
             {
                 paymentTypes = p.Result.ToList();
-                ShowList = true;
+                ShowList = false;
+                Createnew();    
             }
             StateHasChanged();
+        }
+    }
+    void Penalty(Form56DetailModel detail, string penalty) {
+        try {
+            detail.Penalty = penalty;
+            decimal currentPenalty = Decimal.Parse(penalty);
+            detail.Total = detail.Total + currentPenalty;
+            form56.Pesos = form56.Details.Sum( e => e.Total);
+        } catch(Exception ee) {
+            Extensions.ShowSnackbar("Not a valid number.", Variant.Filled, Snackbar, Severity.Error);
+        }
+    }
+    private void Calculate(Form56DetailModel detail, string amount) {
+        
+        
+        try {
+            decimal current = Decimal.Parse(amount);
+            detail.Land = current.ToString("N2");
+            detail.AssesedTotal = current;
+            decimal currentTax = current * 0.01m;
+            detail.TaxDue = (currentTax).ToString("N2");
+            detail.FullPayment = (currentTax).ToString("N2");
+            detail.Total = currentTax;
+            form56.Pesos = form56.Details.Sum( e => e.Total);
+        } catch(Exception ee) {
+            Extensions.ShowSnackbar("Not a valid number.", Variant.Filled, Snackbar, Severity.Error);
         }
     }
     private bool FilterFunc1(Form56Model element) => FilterFunc(element, searchString1);
@@ -362,6 +389,16 @@ else
     } 
     private async Task SaveForm56()
     {
+        foreach (var property in typeof(Form56Model).GetProperties().Where(p => p.PropertyType == typeof(string)))
+        {
+            var value = property.GetValue(form56)?.ToString();
+            var isRequired = Attribute.IsDefined(property, typeof(RequiredAttribute));
+            if(String.IsNullOrEmpty(value) && isRequired)
+            {
+                Extensions.ShowSnackbar("Please input in a field that required.", Variant.Filled, Snackbar, Severity.Error);
+                return;
+            }
+        }
         Task t = form56.Form56Id == 0 ? AddForm56() : UpdateForm56();
         await t;
         if(t.Status == TaskStatus.RanToCompletion)

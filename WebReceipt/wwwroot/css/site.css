@@ -195,3 +195,9 @@ h5{
     margin-top: 5px;
     text-align: center;
 }
+.mud-input-control-helper-container {
+    margin-top: unset !important;
+}
+.mud-input-helper-text.mud-input-error {
+    font-size: 10px !important;
+}

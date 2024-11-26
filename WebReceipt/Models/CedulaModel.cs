@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WebReceipt.Common;
 
@@ -17,14 +18,21 @@ namespace WebReceipt.Models
         public int CedulaId { get; set; }
         public DateTime? DateIssued { get; set;  }
         public int ORNumber {  get; set; }
+        [Required]
         public string PlaceOfIssue { get; set; }
+        [Required]
         public string SureName { get; set; } = string.Empty;
+        [Required]
         public string FirstName { get; set; } = string.Empty;
         public string MiddleName { get; set; } = string.Empty;
+        [Required]
         public string Address { get; set; } = string.Empty;
+        [Required]
         public string Citizenship { get; set; } = string.Empty;
         public string ICRNo { get; set; } = string.Empty;
+        [Required]
         public string PlaceOfBirth { get; set; } = string.Empty;
+        [Required]
         public string Occupation { get; set; } = string.Empty;
         public decimal BasicTax { get; set; }
         public decimal BasicCommunity { get; set; }
@@ -43,7 +51,9 @@ namespace WebReceipt.Models
         public Enums.CivilStatus CivilStatus { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public decimal Paid { get; set; }
+        [Required]
         public string Tin { get; set; }
+        [Required]
         public string CityTreasurer { get; set; }
         public Enums.Sex Sex {  get; set; }
         public long PaymentTypeId { get; set; }

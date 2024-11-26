@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WebReceipt.Common;
 
@@ -10,9 +11,13 @@ namespace WebReceipt.Models
     {
         public int ReceiptId { get; set; }
         public DateTime? DateRecorded { get; set; } = DateTime.Now;
+        [Required]
         public string Number { get; set; } = string.Empty;
+        [Required]
         public string Agency { get; set; } = string.Empty;
+        [Required]
         public string Payor { get; set; } = string.Empty;
+        [Required]
         public string Fund { get; set; } = string.Empty;
         public double Total { get; set; }
         [ForeignKey("ReceiptId")]
@@ -20,8 +25,11 @@ namespace WebReceipt.Models
         public bool Cash { get; set; } = false;
         public bool Check { get; set; } = false;
         public bool MoneyOrder { get; set; } = false;
+        [Required]
         public string CollectionOfficer { get; set; } = string.Empty;
+        [Required]
         public string DraweeBank { get; set ;} = string.Empty;
+        [Required]
         public string DraweeNumber { get; set; } = string.Empty;
         public DateTime? DraweeDate { get; set; } = DateTime.Now;
         public long PaymentTypeId { get; set; }
