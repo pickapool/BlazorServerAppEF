@@ -17,6 +17,10 @@ namespace WebReceipt.Server.Services.ReceiptService
         public async Task<List<ReceiptModel>> GetListOfReceipt(FilterParameter param)
         {
             List<ReceiptModel> current = _context.Receipts.Include( e => e.ListOfNatures).Include( e => e.PaymentType).ToList();
+            if (param.IsCollector)
+            {
+                current = current.Where(sa => sa.CollectionOfficer == param.CollectorName).ToList();
+            }
             if (param.IsDate)
             {
                 current = current.Where(sa => sa.DateRecorded >= param._dateRange.Start && sa.DateRecorded <= param._dateRange.End).ToList();

@@ -14,5 +14,7 @@ namespace WebReceipt.Models
         public bool IsTransactionType { get; set; }
         public IEnumerable<Enums.TransactionType?> ListOfTransaction { get; set; } = new HashSet<Enums.TransactionType?>();
         public IEnumerable<PaymentTypeModel?> ListOfPayments { get; set; } = new HashSet<PaymentTypeModel?>();
+        public bool IsCollector { get; set; }
+        public string CollectorName { get; set; }
     }
 }

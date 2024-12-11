@@ -1,0 +1,346 @@
+@page "/abstract"
+
+@inject AppState AppState
+@inject IReceiptService ReceiptService
+@inject ISnackbar SnackbarService
+@inject IReportService ReportService
+@inject IPaymentTypeService PaymentTypeService
+@inject ICedulaService CedulaService
+@inject IForm456Service Form56Service
+
+@if(IsShowReport)
+{
+    <div class="d-flex flex-column" style="width: 100%;height: 85vh;">
+        <MudButton OnClick="()=> IsShowReport = !IsShowReport" Class="ml-auto mr-1 mb-3" Variant="Variant.Filled" Color="Color.Info" Label="true">Close</MudButton>
+         <iframe src='@PDF' style='height:78vh;' />
+    </div>
+} else {
+    @if (!IsLoading)
+    {
+        <MudTable Items ="ListOfReceipts"
+        Dense="true" Hover="true" Height="80vh" style="width: calc(100vw - 300px);"
+        Filter="new Func<ReceiptModel,bool>(FilterFunc1)"
+        Loading="IsLoading"
+        >
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Receipts</MudText>
+                <MudSpacer />
+                <MudMenu StartIcon='@Icons.Material.Filled.MoreVert' AnchorOrigin='Origin.TopLeft'
+                TransformOrigin='Origin.TopRight' Dense='true' Size='Size.Small' Label='More'>
+                    <MudMenuItem OnClick="Toggle">
+                        <div class='d-flex align-center gap-2 '>
+                            <MudIcon Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
+                            <MudText Typo='Typo.body2'>Filter</MudText>
+                        </div>
+                    </MudMenuItem>
+                    <MudMenuItem OnClick="()=> ShowReport(true)">
+                        <div class='d-flex align-center gap-2 '>
+                            <MudIcon Icon='@Icons.Material.Filled.LocalPrintshop' Size='Size.Small' />
+                            <MudText Typo='Typo.body2'>COLLECTOR'S ABSTRACT</MudText>
+                        </div>
+                    </MudMenuItem>
+                    <MudMenuItem OnClick="()=> ShowReport(false)">
+                        <div class='d-flex align-center gap-2 '>
+                            <MudIcon Icon='@Icons.Material.Filled.LocalPrintshop' Size='Size.Small' />
+                            <MudText Typo='Typo.body2'>GENERAL ABSTRACT</MudText>
+                        </div>
+                    </MudMenuItem>
+                </MudMenu>
+                <MudPopover Open="@_isOpen" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="px-4 pt-4 width400px">
+                    <MudGrid Spacing="1">
+                        <MudItem Class="d-flex" xs="12">
+                            <MudIcon Class="mr-2" Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
+                            <MudText Typo="Typo.button">FILTER</MudText>
+                        </MudItem>
+                        <MudItem Class="mb-2" xs="12">
+                            <MudDivider/>
+                        </MudItem> 
+                        <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsDate"></MudCheckBox></MudItem>
+                        <MudItem xs="10">
+                            <MudDateRangePicker Label="Date" @bind-DateRange="parameter._dateRange" 
+                            IconSize='Size.Small'    
+                    DisableToolbar AnchorOrigin='Origin.BottomLeft' TransformOrigin='Origin.BottomRight'
+                             Placeholder="Date" Variant='Variant.Outlined' Margin='Margin.Dense' Disabled="!parameter.IsDate"/>
+                         </MudItem>
+                         <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsORNumber"></MudCheckBox></MudItem>
+                         <MudItem xs="10">
+                             <MudTextField @bind-Value="parameter.ORNumber" Label="OR Number" Margin="Margin.Dense"
+                             Variant="Variant.Outlined" Disabled="!parameter.IsORNumber"/>
+                         </MudItem>
+                         <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsPayor"></MudCheckBox></MudItem>
+                         <MudItem xs="10">
+                             <MudTextField @bind-Value="parameter.PayorName" Label="Payor" Margin="Margin.Dense"
+                             Variant="Variant.Outlined" Disabled="!parameter.IsPayor"/>
+                         </MudItem>
+                        <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsCollector"></MudCheckBox></MudItem>
+                        <MudItem xs="10">
+                            <MudTextField @bind-Value="parameter.CollectorName" Label="Collector" Margin="Margin.Dense"
+                                          Variant="Variant.Outlined" Disabled="!parameter.IsCollector" />
+                        </MudItem>
+                         <MudItem xs=2><MudCheckBox @bind-Checked="parameter.IsTransactionType"></MudCheckBox></MudItem>
+                         <MudItem xs=10>
+                            <MudSelect T="PaymentTypeModel?" 
+                                Class="w300px" 
+                                @bind-SelectedValues="parameter.ListOfPayments" 
+                                Label="Payment Type"
+                                @bind-Value="pType"  
+                                Clearable 
+                                Margin="Margin.Dense" 
+                                MultiSelectionTextFunc="@(new Func<List<string>, string>(SelectedType))"
+                                IconSize='Size.Small' 
+                                Dense 
+                                MultiSelection 
+                                Disabled='!parameter.IsTransactionType' 
+                                Placeholder='Payment Type' 
+                                Variant='Variant.Outlined'
+                                AnchorOrigin='Origin.BottomCenter' 
+                                TransformOrigin='Origin.TopCenter'>
+                                @foreach (var transactionType in Payments)
+                                {
+                                    <MudSelectItem T="PaymentTypeModel?" Value="@transactionType">@transactionType.PaymentTypeName</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="7"></MudItem>
+                        <MudItem xs="5">
+                            <MudButton OnClick="@Toggle" Class="ml-auto mr-1 mb-3" Color="Color.Default">Close</MudButton>
+                            <MudButton OnClick="@Filter" Class="ml-auto mr-n3 mb-3" Variant="Variant.Filled" Color="Color.Info">Filter</MudButton> 
+                        </MudItem>
+                    </MudGrid>
+                </MudPopover>
+            </ToolBarContent>
+            <ColGroup>
+                <col style="width: 1%;"/>
+                <col style="width: 120px;"/>
+                <col/>
+                <col style="width: 120px;" />
+                <col/>
+                @foreach (var type in Payments)
+                {
+                    <col style="width: 190px;"/>
+                }
+            </ColGroup>
+            <HeaderContent>
+                <MudTh class="text-center"><MudTableSortLabel Class="text-center" SortLabel="h" T="ReceiptModel">History</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortLabel="f_number" T="ReceiptModel">OR No.</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortLabel="f_payor" T="ReceiptModel">Payor</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortLabel="f_date" T="ReceiptModel">Date</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortLabel="f_date" T="ReceiptModel">Collector</MudTableSortLabel></MudTh>
+                @foreach (var type in Payments)
+                {
+                    <MudTh Class="text-center"><MudTableSortLabel SortLabel="@type.PaymentTypeName" T="ReceiptModel">@type.PaymentTypeName</MudTableSortLabel></MudTh>
+                }
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd class="text-center">
+                    <MudTooltip Text="Payment History">
+                        <MudIconButton OnClick="()=> ShowHistory(context)" Icon="@Icons.Material.Filled.WorkHistory" Size="Size.Small" Color="Color.Default"></MudIconButton>
+                    </MudTooltip>
+                </MudTd>
+                <MudTd DataLabel="Number">
+                    <div class="chip-number pa-1">
+                        @(String.IsNullOrEmpty(context.Number) ? "NA" : context.Number)
+                    </div>
+                </MudTd>
+                <MudTd DataLabel="Payor">@context.Payor</MudTd>
+                <MudTd DataLabel="Date">@context.DateRecorded?.ToString("MM/dd/yyyy")</MudTd>
+                <MudTd DataLabel="Payor">@context.CollectionOfficer</MudTd>
+                @foreach (var type in Payments)
+                {
+                    <MudTd Class="text-end" DataLabel="Fund">@(context.PaymentTypeId == type.PaymentTypeId ? "₱ " + @context.Total.ToString("N2") : "")</MudTd>
+                }
+                @* <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.ChairRental ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Mayors ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Laboratory ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.Electrilcal ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.WaterBilling ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">@(context.TransactionType == Enums.TransactionType.MarketStall ? "₱ "+ @context.Total.ToString("N2") : "")</MudTd> *@
+            @* <MudTd Class="text-end" DataLabel="Fund">₱ @context.Total.ToString("N2")</MudTd> *@
+                    @* <MudTd DataLabel="Agency">@Extensions.GetEnumDescription(context.TransactionType)</MudTd> *@
+        </RowTemplate>
+        <ChildRowContent>
+            @if(context.IsShowHistory) {
+                <td class="pa-2" colspan="@(Payments.Count() + 4)">
+                    <div class="d-flex flex-column align-end gap-2" style="height: calc(100vh - 100px);">
+                        <MudButton Variant="Variant.Filled" Color="Color.Info" OnClick="()=> { context.IsShowHistory = !context.IsShowHistory; }" Style="width: 100px;">Close</MudButton>
+                         <iframe src='@context.PDF' style='height:50vh;' />
+                    </div>
+                </td>
+            }
+        </ChildRowContent>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+    }
+}
+@code{
+    List<ReceiptModel> ListOfReceipts = new();
+    private string searchString1 = "", PDF = "";
+    private bool IsLoading = false,IsShowReport = false;
+    public bool _isOpen;
+    private IEnumerable<PaymentTypeModel> Payments { get; set; }
+    private Enums.TransactionType? tType { get; set; }
+    private PaymentTypeModel? pType { get; set;} = new();
+    FilterParameter parameter = new();
+    List<CedulaModel> ListOfCedula = new();
+    List<Form56Model> ListOfForm56 = new();
+    protected override async Task OnInitializedAsync()
+    {
+        GlobalClass.Title = "Reports";
+        await GetReceipts(new());
+    }
+    private async Task GetReceipts(FilterParameter param)
+    {
+        IsLoading = true;
+        StateHasChanged();
+        Task<List<ReceiptModel>> list = ReceiptService.GetListOfReceipt(param);
+        await list;
+        if(list.Status == TaskStatus.RanToCompletion)
+        {
+            ListOfReceipts = list.Result.ToList();
+            Task<IEnumerable<PaymentTypeModel>> p = PaymentTypeService.GetPayments();
+            await p;
+            if (p.Status == TaskStatus.RanToCompletion)
+            {
+                Payments = p.Result;
+                ListOfCedula = await CedulaService.GetListOfCedula(param);
+                ListOfForm56 = await Form56Service.GetListOfForm56(param);
+
+                Payments = Payments.Where(e =>
+                    ListOfCedula.Any(c => c.PaymentTypeId == e.PaymentTypeId) ||
+                    ListOfForm56.Any(f => f.PaymentTypeId == e.PaymentTypeId) ||
+                    ListOfReceipts.Any(r => r.PaymentTypeId == e.PaymentTypeId)
+                ).ToList();
+
+                foreach(var cedula in ListOfCedula)
+                {
+                    ReceiptModel r = new();
+                    r.Number = cedula.ORNumber.ToString();
+                    r.Payor = cedula.Name;
+                    r.DateRecorded = cedula.DateIssued;
+                    r.Total = (double) cedula.Total;
+                    r.PaymentTypeId = cedula.PaymentTypeId;
+                    r.PaymentType = cedula.PaymentType;
+                    r.CollectionOfficer = cedula.CityTreasurer;
+                    ListOfReceipts.Add(r);
+                }
+                foreach(var form in ListOfForm56)
+                {
+                    ReceiptModel r = new();
+                    r.Number = form.FormNo.ToString();
+                    r.Payor = form.ReceiveFrom;
+                    r.DateRecorded = form.Date;
+                    r.Total = (double) form.Pesos;
+                    r.PaymentTypeId = form.PaymentTypeId;
+                    r.PaymentType = form.PaymentType;
+                    r.CollectionOfficer = form.Treasurere;
+                    ListOfReceipts.Add(r);
+                }
+                await AppState.NotifyStateChangedAsync();
+                IsLoading = false;
+            }
+        }
+    }
+    private bool FilterFunc1(ReceiptModel element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(ReceiptModel element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Number.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Agency.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Payor.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Fund.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.CollectionOfficer.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.DraweeBank.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.DraweeNumber.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+    private void GetHistoryReport(List<ReceiptModel> receipts, ReceiptModel receipt)
+    {
+        receipts.ForEach( e => {
+            e.PaymentTypeName = Payments.Where( c => c.PaymentTypeId == e.PaymentTypeId).Select( d => d.PaymentTypeName).FirstOrDefault();
+        });
+        IActionResult report = ReportService.GetReceiptHistoryReport(receipts);
+        if (report is FileContentResult fileContentResult)
+        {
+            byte[] pdfBytes = fileContentResult.FileContents;
+            receipt.PDF = "data:application/pdf;base64," + Convert.ToBase64String(pdfBytes);
+            receipt.IsShowHistory = !receipt.IsShowReceipt;
+            StateHasChanged();
+        }
+    }
+    public void Toggle()
+    {
+        if (_isOpen)
+            _isOpen = false;
+        else
+            _isOpen = true;
+    }
+    private async Task Filter()
+    {
+        await GetReceipts(parameter);
+        Toggle();
+    }
+    private string SelectedType(List<string> types)
+    {
+        var tTypeDescriptions = parameter.ListOfPayments
+            .Where(x => x != null) // Filter out null values
+            .Select(x => x.PaymentTypeName); // Select descriptions for non-null values
+        var tType = string.Join(", ", tTypeDescriptions);
+
+        return tType;
+    }
+    private void ShowReport(bool isCollector)
+    {
+        if((!parameter.IsCollector || String.IsNullOrEmpty(parameter.CollectorName)) && isCollector) {
+            Extensions.ShowSnackbar("Please filter a collectors name.", Variant.Filled, SnackbarService, Severity.Error);
+            return;
+        }
+        IsShowReport = !IsShowReport;
+        IsLoading = true;
+        StateHasChanged();
+        ListOfReceipts.ForEach(e =>
+        {
+            e.PaymentTypeName = e.PaymentType.PaymentTypeName;
+        });
+        IActionResult report = !isCollector ? ReportService.GetCollectorReport(ListOfReceipts, parameter) : ReportService.GetAbstractReport(ListOfReceipts, parameter);
+        if (report is FileContentResult fileContentResult)
+        {
+            byte[] pdfBytes = fileContentResult.FileContents;
+            PDF = "data:application/pdf;base64," + Convert.ToBase64String(pdfBytes);
+            IsLoading = false;
+        }
+    }
+    private void ShowHistory(ReceiptModel receipt)
+    {
+        if(receipt.IsShowHistory)
+        {
+            receipt.IsShowHistory = !receipt.IsShowHistory;
+            StateHasChanged();
+            return;
+        }
+        GetHistoryReport(ListOfReceipts.Where( e => e.Payor.Contains(receipt.Payor)).ToList(), receipt);
+        StateHasChanged();
+    }
+}
+<style>
+    .mud-select .mud-input
+    {
+        height: 40px !important;
+    }
+</style>

@@ -67,5 +67,48 @@ namespace WebReceipt.Server.Services.ReportServices
             report.DataSources.Add(new ReportDataSource("receiptdatasest", receipts));
             return File(report.Render("PDF"), "application/pdf", "report." + "pdf");
         }
+
+        [HttpPost]
+        [Route(template: "GetAbstractReport")]
+        public IActionResult GetAbstractReport([FromBody] List<ReceiptModel> receipt, FilterParameter param)
+        {
+            using var rs = Assembly.GetExecutingAssembly().GetManifestResourceStream("WebReceipt.Reports.Abstract.rdlc");
+
+            LocalReport report = new();
+            report.LoadReportDefinition(rs);
+            report.DataSources.Add(new ReportDataSource("ReceiptDataset", receipt));
+            string period = "";
+            if(param.IsDate) {
+                period = $"{param._dateRange.Start?.ToString("MMMM dd, yyyy")} - {param._dateRange.End?.ToString("MMMM dd, yyyy")}, {param.CollectorName}";
+            } else {
+                period = $"As of {param._dateRange.Start?.ToString("MMMM dd, yyyy")}, {param.CollectorName}";
+            }
+            report.SetParameters(new[] {
+               new ReportParameter("Period", period) 
+            });
+
+            return File(report.Render("PDF"), "application/pdf", "report." + "pdf");
+        }
+        [HttpPost]
+        [Route(template: "GetACollectorReport")]
+        public IActionResult GetCollectorReport([FromBody] List<ReceiptModel> receipt, FilterParameter param)
+        {
+            using var rs = Assembly.GetExecutingAssembly().GetManifestResourceStream("WebReceipt.Reports.AbstractCollector.rdlc");
+
+            LocalReport report = new();
+            report.LoadReportDefinition(rs);
+            report.DataSources.Add(new ReportDataSource("ReceiptDataset", receipt));
+            string period = "";
+            if(param.IsDate) {
+                period = $"{param._dateRange.Start?.ToString("MMMM dd, yyyy")} - {param._dateRange.End?.ToString("MMMM dd, yyyy")}";
+            } else {
+                period = $"As of {param._dateRange.Start?.ToString("MMMM dd, yyyy")}";
+            }
+            report.SetParameters(new[] {
+               new ReportParameter("Period", period) 
+            });
+
+            return File(report.Render("PDF"), "application/pdf", "report." + "pdf");
+        }
     }
 }

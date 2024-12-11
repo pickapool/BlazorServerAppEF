@@ -16,7 +16,11 @@ namespace WebReceipt.Server.Services.Form56Services
         [HttpPost]
         public async Task<List<Form56Model>> GetListOfForm56(FilterParameter param)
         {
-            List<Form56Model> current = _context.Form56s.Include( e => e.Details).Include( c => c.PaymentType).ToList();
+            List<Form56Model> current = _context.Form56s.Include(e => e.Details).Include(c => c.PaymentType).ToList();
+            if (param.IsCollector)
+            {
+                current = current.Where(sa => sa.Treasurere == param.CollectorName).ToList();
+            }
             if (param.IsDate)
             {
                current = current.Where(sa => sa.Date >= param._dateRange.Start && sa.Date <= param._dateRange.End).ToList();
