@@ -13,6 +13,7 @@ namespace WebReceipt.Models
         public Form56Model() {
             Province = "Antique";
             City = "Barbaza";
+            Date = DateTime.Now;
         }
         public int Form56Id { get; set; }
         [Required]

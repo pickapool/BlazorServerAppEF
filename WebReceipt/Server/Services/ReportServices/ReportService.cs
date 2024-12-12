@@ -110,5 +110,26 @@ namespace WebReceipt.Server.Services.ReportServices
 
             return File(report.Render("PDF"), "application/pdf", "report." + "pdf");
         }
+        [HttpPost]
+        [Route(template: "GetAbstractForm56")]
+        public IActionResult GetAbstractForm56([FromBody] List<Form56ReportModel> receipt, FilterParameter param)
+        {
+            using var rs = Assembly.GetExecutingAssembly().GetManifestResourceStream("WebReceipt.Reports.AbstractForm56.rdlc");
+
+            LocalReport report = new();
+            report.LoadReportDefinition(rs);
+            report.DataSources.Add(new ReportDataSource("reportdataset", receipt));
+            string period = "";
+            if(param.IsDate) {
+                period = $"{param._dateRange.Start?.ToString("MMMM dd, yyyy")} - {param._dateRange.End?.ToString("MMMM dd, yyyy")}";
+            } else {
+                period = $"As of {param._dateRange.Start?.ToString("MMMM dd, yyyy")}";
+            }
+            report.SetParameters(new[] {
+               new ReportParameter("Period", period) 
+            });
+
+            return File(report.Render("PDF"), "application/pdf", "report." + "pdf");
+        }
     }
 }

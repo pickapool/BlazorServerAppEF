@@ -24,6 +24,12 @@
                         <MudText Typo='Typo.body2'>Filter</MudText>
                     </div>
                 </MudMenuItem>
+                <MudMenuItem OnClick="()=> ShowAbstract()">
+                        <div class='d-flex align-center gap-2 '>
+                            <MudIcon Icon='@Icons.Material.Filled.LocalPrintshop' Size='Size.Small' />
+                            <MudText Typo='Typo.body2'>Report</MudText>
+                        </div>
+                    </MudMenuItem>
             </MudMenu>
             <MudPopover Open="@_isOpen" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="px-4 pt-4 width400px">
                 <MudGrid Spacing="1">
@@ -450,6 +456,38 @@ else
         List<Form56Model> list = new();
         list.Add(c);
         IActionResult report = ReportService.GetForm56Report(list);
+        if (report is FileContentResult fileContentResult)
+        {
+            byte[] pdfBytes = fileContentResult.FileContents;
+            PDFContent = "data:application/pdf;base64," + Convert.ToBase64String(pdfBytes);
+            ShowList = !ShowList;
+            ShowReport = !ShowReport;
+            StateHasChanged();
+        }
+    }
+    private void ShowAbstract() {
+        List<Form56ReportModel> listOfDetails = new();
+        foreach(var form56 in ListForm56) {
+            Form56ReportModel reportModel = new();
+            reportModel.Date = form56.Date?.ToString("MM/dd/yyyy");
+            reportModel.TaxPayer = form56.ReceiveFrom;
+            reportModel.ORNo = form56.FormNo.ToString();
+            reportModel.CurrentYear = form56.Details.Where( e => e.InstallmentNo == DateTime.Now.ToString("yyyy")).Sum( e => e.Total);
+            reportModel.PriorYear = form56.Details.Where( e => e.InstallmentNo != DateTime.Now.ToString("yyyy")).Sum( e => e.Total);
+            reportModel.Discount = form56.Details.Sum( e => e.Discount);
+
+            reportModel.CurrentYearPenalty = form56.Details.Where( e => e.InstallmentNo == DateTime.Now.ToString("yyyy")).Sum( e => Decimal.Parse(e.Penalty));
+            reportModel.PrioYearPenalty = form56.Details.Where( e => e.InstallmentNo != DateTime.Now.ToString("yyyy")).Sum( e => Decimal.Parse(e.Penalty));
+
+            reportModel.Barangay = (form56.Details.FirstOrDefault()?? new()).Location;
+            if(form56.Details.Count > 1) {
+                reportModel.PeriodCovered = (form56.Details.FirstOrDefault()?? new()).InstallmentNo + "-" + (form56.Details.Last()?? new()).InstallmentNo;
+            } else {
+                reportModel.PeriodCovered = (form56.Details.FirstOrDefault()?? new()).InstallmentNo;
+            }
+            listOfDetails.Add(reportModel);
+        }
+        IActionResult report = ReportService.GetAbstractForm56(listOfDetails, parameter);
         if (report is FileContentResult fileContentResult)
         {
             byte[] pdfBytes = fileContentResult.FileContents;

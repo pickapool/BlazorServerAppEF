@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 
 namespace WebReceipt.Models
 {
@@ -7,6 +8,9 @@ namespace WebReceipt.Models
     [PrimaryKey("Form56DetailId")]
     public class Form56DetailModel
     {
+        public Form56DetailModel() {
+            Penalty = "0";
+        }
         public int Form56DetailId { get; set; }
         public int Form56Id { get; set; }
         public string Owner { get; set; } = string.Empty;

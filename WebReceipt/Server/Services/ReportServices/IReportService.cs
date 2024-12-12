@@ -12,5 +12,6 @@ namespace WebReceipt.Server.Services.ReportServices
         IActionResult GetReceiptHistoryReport([FromBody] List<ReceiptModel> receipts);
         IActionResult GetAbstractReport([FromBody] List<ReceiptModel> receipt, FilterParameter param);
         IActionResult GetCollectorReport([FromBody] List<ReceiptModel> receipt, FilterParameter param);
+        IActionResult GetAbstractForm56([FromBody] List<Form56ReportModel> receipt, FilterParameter param);
     }
 }
