@@ -802,7 +802,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>SUB-TOTOAL GROSS COL.</Value>
+                                                <Value>SUB-TOTAL GROSS COLL.</Value>
                                                 <Style>
                                                   <FontSize>7pt</FontSize>
                                                   <FontWeight>Bold</FontWeight>
@@ -839,7 +839,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>SUB-TOTOAL NET COL.</Value>
+                                                <Value>SUB-TOTAL NET COLL.</Value>
                                                 <Style>
                                                   <FontSize>7pt</FontSize>
                                                   <FontWeight>Bold</FontWeight>
@@ -1265,7 +1265,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>SUB-TOTOAL GROSS COLL.</Value>
+                                                <Value>SUB-TOTAL GROSS COLL.</Value>
                                                 <Style>
                                                   <FontSize>7pt</FontSize>
                                                   <FontWeight>Bold</FontWeight>
@@ -1302,7 +1302,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>SUB-TOTOAL NET COLL.</Value>
+                                                <Value>SUB-TOTAL NET COLL.</Value>
                                                 <Style>
                                                   <FontSize>7pt</FontSize>
                                                   <FontWeight>Bold</FontWeight>
@@ -1587,7 +1587,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CurrentYear.Value</Value>
+                                  <Value>=IIF(Fields!CurrentYear.Value &lt;= 0, "-", Fields!CurrentYear.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>n2</Format>
@@ -1623,7 +1623,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Discount.Value</Value>
+                                  <Value>=IIF(Fields!Discount.Value &lt;= 0 , "-", Fields!Discount.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>n2</Format>
@@ -1659,7 +1659,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PriorYear.Value</Value>
+                                  <Value>=IIF(Fields!PriorYear.Value &lt;= 0 , "-", Fields!PriorYear.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>n2</Format>
@@ -1695,7 +1695,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CurrentYearPenalty.Value</Value>
+                                  <Value>=IIF(Fields!CurrentYearPenalty.Value &lt;= 0, "-", Fields!CurrentYearPenalty.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>n2</Format>
@@ -1731,7 +1731,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PrioYearPenalty.Value</Value>
+                                  <Value>=IIF(Fields!PrioYearPenalty.Value &lt;= 0 , "-", Fields!PrioYearPenalty.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>n2</Format>
@@ -1839,7 +1839,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CurrentYear.Value</Value>
+                                  <Value>=IIF(Fields!CurrentYear.Value &lt;= 0, "-", Fields!CurrentYear.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>n2</Format>
@@ -1875,7 +1875,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Discount.Value</Value>
+                                  <Value>=IIF(Fields!Discount.Value &lt;= 0, "-", Fields!Discount.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>n2</Format>
@@ -1911,7 +1911,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PriorYear.Value</Value>
+                                  <Value>=IIF(Fields!PriorYear.Value &lt;= 0, "-", Fields!PriorYear.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>n2</Format>
@@ -1947,7 +1947,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CurrentYearPenalty.Value</Value>
+                                  <Value>=IIF(Fields!CurrentYearPenalty.Value &lt;= 0, "-", Fields!CurrentYearPenalty.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>n2</Format>
@@ -1983,7 +1983,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PrioYearPenalty.Value</Value>
+                                  <Value>=IIF(Fields!PrioYearPenalty.Value &lt;= 0, "-", Fields!PrioYearPenalty.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>n2</Format>

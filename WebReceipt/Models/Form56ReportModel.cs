@@ -22,7 +22,7 @@
         public decimal Net { 
             get
             {
-                return (Discount + Gross) + (CurrentYearPenalty + PrioYearPenalty) - Discount;
+                return (CurrentYearPenalty + PrioYearPenalty) + Gross - Discount;
             }
         }
     }
