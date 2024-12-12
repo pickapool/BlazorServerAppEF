@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using WebReceipt.Common;
 
 namespace WebReceipt.Models
@@ -9,6 +10,10 @@ namespace WebReceipt.Models
     [PrimaryKey("Form56Id")]
     public class Form56Model
     {
+        public Form56Model() {
+            Province = "Antique";
+            City = "Barbaza";
+        }
         public int Form56Id { get; set; }
         [Required]
         public int FormNo { get; set; }

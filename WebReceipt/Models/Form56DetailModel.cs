@@ -21,6 +21,7 @@ namespace WebReceipt.Models
         public string InstallmentPayment { get; set; } = string.Empty;
         public string FullPayment { get; set; } = string.Empty;
         public string Penalty { get; set; } = string.Empty;
+        public decimal Discount { get; set; }
         public decimal Total { get; set; }
     }
 }

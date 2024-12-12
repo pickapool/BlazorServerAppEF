@@ -175,6 +175,7 @@ else
                         <col />
                         <col />
                         <col />
+                        <col />
                         <col style="width: 10px !important;" />
                     </ColGroup>
                     <HeaderContent>
@@ -190,6 +191,7 @@ else
                         <MudTh Class="text-center">Ins. Payment</MudTh>
                         <MudTh Class="text-center">Full Payment</MudTh>
                         <MudTh Class="text-center">Penalty</MudTh>
+                        <MudTh Class="text-center">Discount</MudTh>
                         <MudTh Class="text-center">Total</MudTh>
                         <MudTh></MudTh>
                     </HeaderContent>
@@ -229,6 +231,9 @@ else
                         </MudTd>
                          <MudTd DataLabel="Nature">
                              <MudTextField Value="@context.Penalty" ValueChanged="(string e) => Penalty(context, e)" Variant="Variant.Text"></MudTextField>
+                         </MudTd>
+                         <MudTd DataLabel="Nature">
+                             <MudTextField Value="@context.Discount" ValueChanged="(decimal e) => Discount(context, e)" Variant="Variant.Text"></MudTextField>
                          </MudTd>
                          <MudTd DataLabel="Nature">
                              <MudTextField @bind-Value="@context.Total" Variant="Variant.Text" Format="N2"></MudTextField>
@@ -304,6 +309,20 @@ else
             Extensions.ShowSnackbar("Not a valid number.", Variant.Filled, Snackbar, Severity.Error);
         }
     }
+    void Discount(Form56DetailModel detail, decimal penalty)
+    {
+        try
+        {
+            detail.Discount = penalty;
+            detail.Total = detail.Total - penalty;
+            form56.Pesos = form56.Details.Sum(e => e.Total);
+        }
+        catch (Exception ee)
+        {
+            Extensions.ShowSnackbar("Not a valid number.", Variant.Filled, Snackbar, Severity.Error);
+        }
+    }
+    
     private void Calculate(Form56DetailModel detail, string amount) {
         
         
