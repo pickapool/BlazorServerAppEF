@@ -185,7 +185,7 @@
                 <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Payor" Label="Payor" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
             </MudItem>
             <MudItem xs="6">
-                <MudTextField @bind-Value="ReceiptModel.Fund" Label="Funds" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
+                <MudTextField @bind-Value="ReceiptModel.Fund" Label="Funds" Margin="Margin.Dense"></MudTextField>
             </MudItem>
             <MudItem xs="12">
                 <MudTable Class="nature-table mt-1" Items="ReceiptModel.ListOfNatures" Dense Hover FixedHeader FixedFooter

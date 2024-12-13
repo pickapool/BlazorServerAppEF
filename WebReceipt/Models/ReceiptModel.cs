@@ -17,7 +17,6 @@ namespace WebReceipt.Models
         public string Agency { get; set; } = string.Empty;
         [Required]
         public string Payor { get; set; } = string.Empty;
-        [Required]
         public string Fund { get; set; } = string.Empty;
         public double Total { get; set; }
         [ForeignKey("ReceiptId")]
