@@ -9,6 +9,10 @@ namespace WebReceipt.Models
     [PrimaryKey("ReceiptId")]
     public class ReceiptModel
     {
+        public ReceiptModel()
+        {
+            Agency = "MTO Barbaza";
+        }
         public int ReceiptId { get; set; }
         public DateTime? DateRecorded { get; set; } = DateTime.Now;
         [Required]
@@ -26,9 +30,7 @@ namespace WebReceipt.Models
         public bool MoneyOrder { get; set; } = false;
         [Required]
         public string CollectionOfficer { get; set; } = string.Empty;
-        [Required]
         public string DraweeBank { get; set ;} = string.Empty;
-        [Required]
         public string DraweeNumber { get; set; } = string.Empty;
         public DateTime? DraweeDate { get; set; } = DateTime.Now;
         public long PaymentTypeId { get; set; }
