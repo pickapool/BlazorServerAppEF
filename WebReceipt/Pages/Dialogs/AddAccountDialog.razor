@@ -6,6 +6,12 @@
         <MudTextField @bind-Value="@User.EmployeeName" Label="Employee Name" Variant="Variant.Outlined" Shrinkable=true></MudTextField>
         <MudTextField @bind-Value="@User.UserAccountName" Label="Username" Variant="Variant.Outlined" Shrinkable=false ></MudTextField>
         <MudTextField @bind-Value="@User.UserAccountPassword" InputType="InputType.Password" Label="Password" Variant="Variant.Outlined" Shrinkable=false></MudTextField>
+        <MudSelect @bind-Value="User.AccountType" Variant="Variant.Outlined" Label="Access Level" Style="height: 40px !important;">
+            @foreach (Enums.AccountType item in Enum.GetValues(typeof(Enums.AccountType)))
+            {
+                <MudSelectItem Value="@item">@Extensions.GetEnumDescription(item)</MudSelectItem>
+            }
+        </MudSelect>
         </div>
     </DialogContent>
     <DialogActions>
@@ -32,3 +38,9 @@
     }
     void Cancel() => MudDialog.Cancel();
 }
+<style>
+    .mud-input.mud-input-outlined.mud-input-adorned-end
+    {
+        height: 40px !important;
+    }
+</style>

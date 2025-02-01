@@ -2,6 +2,7 @@
 
 @inject IUserAccountService UserAccountService
 @inject IDialogService DialogService
+@inject NavigationManager NavigationManager
 
 <MudTable Items="@accounts" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)" Filter="new Func<UserAccountModel,bool>(FilterFunc1)">
     <ToolBarContent>
@@ -40,6 +41,10 @@
     private string searchString1 = "";
     protected override async Task OnInitializedAsync()
     {
+        if(GlobalClass.UserAccount.AccountType != Enums.AccountType.Admin)
+        {
+            NavigationManager.NavigateTo("/");
+        }
         GlobalClass.Title = "Accounts";
         accounts = await UserAccountService.GetAccounts();
         StateHasChanged();

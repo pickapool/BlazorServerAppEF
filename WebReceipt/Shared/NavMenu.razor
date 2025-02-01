@@ -1,12 +1,12 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <div class="d-flex gap-2 flex-row align-items-center pb-1">
-                                            @* <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i> *@
-                                            <img src="/images/logo.png"
-                                                    alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem; width: 30px;" />
-                                            <a class="navbar-brand" href="">Receipt System</a>
-                                        </div>
-        
+            @* <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i> *@
+            <img src="/images/logo.png"
+            alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem; width: 30px;" />
+            <a class="navbar-brand" href="">Receipt System</a>
+        </div>
+
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -20,7 +20,7 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Dashboard
             </NavLink>
         </div>
-@*         <div class="nav-item px-3">
+        @*         <div class="nav-item px-3">
         <NavLink class="nav-link gap-2" href="transactions">
                 <MudIcon Icon="@Icons.Material.Filled.NoteAdd"></MudIcon>
                 <span>Transactions</span>
@@ -41,7 +41,7 @@
                     <span>Form 56</span>
                 </MudNavLink>
             </MudNavGroup>
-         </div>
+        </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link gap-2" href="reports">
                 <MudIcon Icon="@Icons.Material.Filled.PictureAsPdf"></MudIcon>
@@ -54,12 +54,16 @@
                 <span>Abstract Report</span>
             </NavLink>
         </div>
-         <div class="nav-item">
+        <div class="nav-item">
+
             <MudNavGroup style="color: white;" Class="nav-link gap-2" Title="Settings" Icon="@Icons.Material.Filled.Settings">
-                <MudNavLink Class="nav-link" Href="/accounts">
-                    <MudIcon Icon="@Icons.Material.Filled.ManageAccounts"></MudIcon>
-                    <span>Accounts</span>
-                </MudNavLink>
+                @if (GlobalClass.UserAccount.AccountType == Enums.AccountType.Admin)
+                {
+                    <MudNavLink Class="nav-link" Href="/accounts">
+                        <MudIcon Icon="@Icons.Material.Filled.ManageAccounts"></MudIcon>
+                        <span>Accounts</span>
+                    </MudNavLink>
+                }
                 <MudNavLink Class="nav-link" Href="/paymenttype">
                     <MudIcon Icon="@Icons.Material.Filled.Payments"></MudIcon>
                     <span>Payment Types</span>
@@ -81,5 +85,5 @@
     }
 }
 <style>
- 
+
 </style>

@@ -36,5 +36,10 @@ namespace WebReceipt.Common
             BasicTax,
             SpecialEducationFund
         }
+        public enum AccountType
+        {
+            Admin,
+            Collector
+        }
     }
 }

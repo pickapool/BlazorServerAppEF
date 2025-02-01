@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebReceipt.Common;
 
 namespace WebReceipt.Models
 {
@@ -11,5 +12,6 @@ namespace WebReceipt.Models
         public string UserAccountName { get; set;} = string.Empty;
         public string UserAccountPassword { get; set; } = string.Empty;
         public string EmployeeName { get;set; } = string.Empty;
+        public Enums.AccountType AccountType { get; set; }
     }
 }
