@@ -16,7 +16,6 @@ namespace WebReceipt.Models
             Date = DateTime.Now;
         }
         public int Form56Id { get; set; }
-        [Required]
         public int FormNo { get; set; }
         [Required]
         public string PreviousReceiptNo { get; set; } = string.Empty;

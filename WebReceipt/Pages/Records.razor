@@ -9,30 +9,30 @@
 
 @if(!isCreate)
 {
-<MudTable Items="ListOfReceipts"
-          Dense="true" Hover="true" Height="calc(100vh - 160px)"
-          Filter="new Func<ReceiptModel,bool>(FilterFunc1)"
-            Loading="IsLoading"
-            >
-    <ToolBarContent>
-        <MudIconButton OnClick="Add" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Info"></MudIconButton>
-        <MudText Class="mt-5" Typo="Typo.subtitle2">Add Form 51</MudText>
-        <MudSpacer />
-        <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
-         Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
-          IconSize="Size.Small" Immediate></MudTextField>
-        <MudMenu Class="mt-5" StartIcon='@Icons.Material.Filled.MoreVert' AnchorOrigin='Origin.TopLeft'
+    <MudTable Items="ListOfReceipts"
+    Dense="true" Hover="true" Height="calc(100vh - 160px)"
+    Filter="new Func<ReceiptModel,bool>(FilterFunc1)"
+    Loading="IsLoading"
+    >
+        <ToolBarContent>
+            <MudIconButton OnClick="Add" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Info"></MudIconButton>
+            <MudText Class="mt-5" Typo="Typo.subtitle2">Add Form 51</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
+            Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+            IconSize="Size.Small" Immediate></MudTextField>
+            <MudMenu Class="mt-5" StartIcon='@Icons.Material.Filled.MoreVert' AnchorOrigin='Origin.TopLeft'
             TransformOrigin='Origin.TopRight' Dense='true' Size='Size.Small' Label='More'>
-            <MudMenuItem OnClick="Toggle">
-                <div class='d-flex align-center gap-2 '>
-                    <MudIcon Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
-                    <MudText Typo='Typo.body2'>Filter</MudText>
-                </div>
-            </MudMenuItem>
-        </MudMenu>
-        <MudPopover Open="@_isOpen" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="none px-4 pt-4 width400px">
+                <MudMenuItem OnClick="Toggle">
+                    <div class='d-flex align-center gap-2 '>
+                        <MudIcon Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
+                        <MudText Typo='Typo.body2'>Filter</MudText>
+                    </div>
+                </MudMenuItem>
+            </MudMenu>
+            <MudPopover Open="@_isOpen" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="none px-4 pt-4 width400px">
                 <MudGrid Spacing="1">
-                   <MudItem Class="d-flex" xs="12">
+                    <MudItem Class="d-flex" xs="12">
                         <MudIcon Class="mr-2" Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
                         <MudText Typo="Typo.button">FILTER</MudText>
                     </MudItem>
@@ -58,21 +58,21 @@
                     <MudItem xs=2><MudCheckBox @bind-Checked="parameter.IsTransactionType"></MudCheckBox></MudItem>
                     <MudItem xs=10>
                         <MudSelect T="PaymentTypeModel?" 
-                            Class="w300px" 
-                            @bind-SelectedValues="parameter.ListOfPayments" 
-                            Label="Payment Type"
-                            @bind-Value="pType"  
-                            Clearable 
-                            Margin="Margin.Dense" 
-                            MultiSelectionTextFunc="@(new Func<List<string>, string>(SelectedType))"
-                            IconSize='Size.Small' 
-                            Dense 
-                            MultiSelection 
-                            Disabled='!parameter.IsTransactionType' 
-                            Placeholder='Payment Type' 
-                            Variant='Variant.Outlined'
-                            AnchorOrigin='Origin.BottomCenter' 
-                            TransformOrigin='Origin.TopCenter'>
+                        Class="w300px" 
+                        @bind-SelectedValues="parameter.ListOfPayments" 
+                        Label="Payment Type"
+                        @bind-Value="pType"  
+                        Clearable 
+                        Margin="Margin.Dense" 
+                        MultiSelectionTextFunc="@(new Func<List<string>, string>(SelectedType))"
+                        IconSize='Size.Small' 
+                        Dense 
+                        MultiSelection 
+                        Disabled='!parameter.IsTransactionType' 
+                        Placeholder='Payment Type' 
+                        Variant='Variant.Outlined'
+                        AnchorOrigin='Origin.BottomCenter' 
+                        TransformOrigin='Origin.TopCenter'>
                             @foreach (var transactionType in Payments)
                             {
                                 <MudSelectItem T="PaymentTypeModel?" Value="@transactionType">@transactionType.PaymentTypeName</MudSelectItem>
@@ -87,112 +87,112 @@
                     </MudItem>
                 </MudGrid>
             </MudPopover>
-    </ToolBarContent>
-    <ColGroup>
-    <col/>
-    <col/>
-    <col/>
-    <col/>
-    <col/>
-    <col style="width: 10px;"/>
-    </ColGroup>
-    <HeaderContent>
-        <MudTh><MudTableSortLabel SortLabel="f_number" T="ReceiptModel">OR No.</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_payor" T="ReceiptModel">Payor</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_date" T="ReceiptModel">Date</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="f_agency" T="ReceiptModel">Transaction Type</MudTableSortLabel></MudTh>
-        <MudTh>Total</MudTh>
-        <MudTh></MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Number">@context.Number</MudTd>
-        <MudTd DataLabel="Payor">@context.Payor</MudTd>
-        <MudTd DataLabel="Date">@context.DateRecorded?.ToString("MM/dd/yyyy hh:mm tt")</MudTd>
-         <MudTd DataLabel="Agency">@context.PaymentType.PaymentTypeName</MudTd>
-        <MudTd Class="text-end" DataLabel="Fund">₱ @context.Total.ToString("N2")</MudTd>
-        <MudTd>
-            <MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.TopRight" Size="Size.Small">
-                <MudMenuItem OnClick="()=> Remove(context)">
-                    <MudIcon Icon="@Icons.Material.Filled.DeleteForever" Size="Size.Medium"></MudIcon>
-                    <span>Remove</span>
-                </MudMenuItem>
-                <MudMenuItem OnClick="()=> EditRecord(context)">
-                    <MudIcon Icon="@Icons.Material.Filled.Edit" Size="Size.Medium"></MudIcon>
-                    <span>Edit</span>
-                </MudMenuItem>
-                <MudMenuItem OnClick="()=> GetReport(context)">
+        </ToolBarContent>
+        <ColGroup>
+            <col/>
+            <col/>
+            <col/>
+            <col/>
+            <col/>
+            <col style="width: 10px;"/>
+        </ColGroup>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortLabel="f_number" T="ReceiptModel">OR No.</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="f_payor" T="ReceiptModel">Payor</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="f_date" T="ReceiptModel">Date</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="f_agency" T="ReceiptModel">Transaction Type</MudTableSortLabel></MudTh>
+            <MudTh>Total</MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Number">@context.Number</MudTd>
+            <MudTd DataLabel="Payor">@context.Payor</MudTd>
+            <MudTd DataLabel="Date">@context.DateRecorded?.ToString("MM/dd/yyyy hh:mm tt")</MudTd>
+            <MudTd DataLabel="Agency">@context.PaymentType.PaymentTypeName</MudTd>
+            <MudTd Class="text-end" DataLabel="Fund">₱ @context.Total.ToString("N2")</MudTd>
+            <MudTd>
+                <MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.TopRight" Size="Size.Small">
+                    <MudMenuItem OnClick="()=> Remove(context)">
+                        <MudIcon Icon="@Icons.Material.Filled.DeleteForever" Size="Size.Medium"></MudIcon>
+                        <span>Remove</span>
+                    </MudMenuItem>
+                    <MudMenuItem OnClick="()=> EditRecord(context)">
+                        <MudIcon Icon="@Icons.Material.Filled.Edit" Size="Size.Medium"></MudIcon>
+                        <span>Edit</span>
+                    </MudMenuItem>
+                    <MudMenuItem OnClick="()=> GetReport(context)">
                         <MudIcon Icon="@Icons.Material.Filled.LocalPrintshop" Size="Size.Medium"></MudIcon>
-                    <span>Print</span>
-                </MudMenuItem>
-            </MudMenu>
-        </MudTd>
-    </RowTemplate>
-    <ChildRowContent>
-        @if(context.IsShowReceipt)
-        {
-            <td class="pa-1" colspan="6">
-                <div class="d-flex flex-column justify-content-end gap-1 w-100">
-                    <MudButton OnClick="()=> context.IsShowReceipt = !context.IsShowReceipt" Class="ml-auto mr-1 mb-3" Variant="Variant.Filled" Color="Color.Info" Label="true">Close</MudButton>
-                    <iframe src='@context.PDF' style='height:81vh;' />
-                </div>
-            </td>
-        }
-    </ChildRowContent>
-    <NoRecordsContent>
-        <MudText>No matching records found</MudText>
-    </NoRecordsContent>
-    <LoadingContent>
-        <MudText>Loading...</MudText>
-    </LoadingContent>
-    <PagerContent>
-        <MudTablePager />
-    </PagerContent>
+                        <span>Print</span>
+                    </MudMenuItem>
+                </MudMenu>
+            </MudTd>
+        </RowTemplate>
+        <ChildRowContent>
+            @if(context.IsShowReceipt)
+            {
+                <td class="pa-1" colspan="6">
+                    <div class="d-flex flex-column justify-content-end gap-1 w-100">
+                        <MudButton OnClick="()=> context.IsShowReceipt = !context.IsShowReceipt" Class="ml-auto mr-1 mb-3" Variant="Variant.Filled" Color="Color.Info" Label="true">Close</MudButton>
+                        <iframe src='@context.PDF' style='height:81vh;' />
+                    </div>
+                </td>
+            }
+        </ChildRowContent>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
     </MudTable>
 } else
 {
     <div class="d-flex justify-center">
-    <MudPaper Class="d-flex flex-column pa-4 align-self-center" Elevation="4" Height="auto" Width="80%">
-        <MudText Class="text-center">Receipt Form</MudText>
-        <MudGrid Spacing="0">
-            <MudItem xs="4">
-                <MudDatePicker Class="mr-1" @bind-Date="ReceiptModel.DateRecorded" Label="Date" Margin="Margin.Dense"></MudDatePicker>
-            </MudItem>
-            <MudItem xs="4">
-                <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Number" Label="No." Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
-            </MudItem>
-            <MudItem xs="4">
-                <MudAutocomplete Class="mr-1" @bind-Value="ReceiptModel.PaymentType"
-                             SearchFunc="Search"
-                             Variant="Variant.Text"
-                             ToStringFunc="GetPaymentTypeName"
-                             Margin="Margin.Dense"
-                             Dense
-                             Placeholder="Search"
-                             Required RequiredError="Required*"
-                             />
-                @* <MudSelect Class="mr-1" @bind-Value="ReceiptModel.PaymentType" Text="ReceiptModel.PaymentType" Placeholder="Transaction Type" Margin='Margin.Dense'
+        <MudPaper Class="d-flex flex-column pa-4 align-self-center" Elevation="4" Height="auto" Width="80%">
+            <MudText Class="text-center">Receipt Form</MudText>
+            <MudGrid Spacing="0">
+                <MudItem xs="4">
+                    <MudDatePicker Class="mr-1" @bind-Date="ReceiptModel.DateRecorded" Label="Date" Margin="Margin.Dense"></MudDatePicker>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Number" Label="No." Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudAutocomplete Class="mr-1" @bind-Value="ReceiptModel.PaymentType"
+                    SearchFunc="Search"
+                    Variant="Variant.Text"
+                    ToStringFunc="GetPaymentTypeName"
+                    Margin="Margin.Dense"
+                    Dense
+                    Placeholder="Search"
+                    Required RequiredError="Required*"
+                    />
+                    @* <MudSelect Class="mr-1" @bind-Value="ReceiptModel.PaymentType" Text="ReceiptModel.PaymentType" Placeholder="Transaction Type" Margin='Margin.Dense'
                     AnchorOrigin="Origin.BottomCenter">
                     @foreach (var type in Payments.Where( e => e.PaymentTypeName != "Cedula" && e.PaymentTypeName != "Form 56").ToList())
                     {
                         <MudSelectItem Value="@type">@type.PaymentTypeName</MudSelectItem>
                     }
                 </MudSelect> *@
-            </MudItem>
-            <MudItem xs="12">
-                <MudTextField Class="mr-1" @bind-Value="ReceiptModel.Agency" Label="Agency" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
-            </MudItem>
-            <MudItem xs="6">
-                <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Payor" Label="Payor" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
-            </MudItem>
-            <MudItem xs="6">
-                <MudTextField @bind-Value="ReceiptModel.Fund" Label="Funds" Margin="Margin.Dense"></MudTextField>
-            </MudItem>
-            <MudItem xs="12">
-                <MudTable Class="nature-table mt-1" Items="ReceiptModel.ListOfNatures" Dense Hover FixedHeader FixedFooter
-                           RowEditCommit='( (object model) => Total((NatureOfCollectionModel)model))' Height="200px">
-                     <ToolBarContent>
-                         <MudText Typo="Typo.body1">Nature of Colletions - </MudText>
-                         <MudText Class="fw-bolder" Typo="Typo.caption">Total @ReceiptModel.ListOfNatures.Sum(e => e.Amount).ToString("N2")</MudText>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField Class="mr-1" @bind-Value="ReceiptModel.Agency" Label="Agency" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField Class="ml-1" @bind-Value="ReceiptModel.Payor" Label="Payor" Margin="Margin.Dense" Required RequiredError="Required*"></MudTextField>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="ReceiptModel.Fund" Label="Funds" Margin="Margin.Dense"></MudTextField>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTable Class="nature-table mt-1" Items="ReceiptModel.ListOfNatures" Dense Hover FixedHeader FixedFooter
+                    RowEditCommit='( (object model) => Total((NatureOfCollectionModel)model))' Height="200px">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.body1">Nature of Colletions - </MudText>
+                            <MudText Class="fw-bolder" Typo="Typo.caption">Total @ReceiptModel.ListOfNatures.Sum(e => e.Amount).ToString("N2")</MudText>
                             <MudSpacer />
                             <MudIconButton OnClick="AddNew" Icon="@Icons.Material.Filled.Add" Size="Size.Small"></MudIconButton>
                         </ToolBarContent>
@@ -219,10 +219,10 @@
                         <RowEditingTemplate>
                             <MudTd DataLabel="Nature">
                                 <MudAutocomplete Class="mr-1" @bind-Value="context.NatureName"
-                                    SearchFunc="Search1"
-                                    Variant="Variant.Text"
-                                    Margin="Margin.Dense"
-                                    Dense/>
+                                SearchFunc="Search1"
+                                Variant="Variant.Text"
+                                Margin="Margin.Dense"
+                                Dense/>
 
                                 @* <MudTextField @bind-Value="@context.NatureName" Margin="Margin.Dense"></MudTextField> *@
                             </MudTd>
@@ -265,7 +265,7 @@
                 </MudItem>
             </MudGrid>
         </MudPaper>
-        </div>
+    </div>
 }
 @code{
     List<ReceiptModel> ListOfReceipts = new();
@@ -409,6 +409,15 @@
             var value = property.GetValue(ReceiptModel)?.ToString();
             var isRequired = Attribute.IsDefined(property, typeof(RequiredAttribute));
             if(String.IsNullOrEmpty(value) && isRequired)
+            {
+                property.SetValue(ReceiptModel, "Required*");
+            }
+        }
+        foreach (var property in typeof(ReceiptModel).GetProperties().Where(p => p.PropertyType == typeof(string)))
+        {
+            var value = property.GetValue(ReceiptModel)?.ToString();
+            var isRequired = Attribute.IsDefined(property, typeof(RequiredAttribute));
+            if (value == "Required*" && isRequired)
             {
                 Extensions.ShowSnackbar("Please input in a field that required.", Variant.Filled, SnackbarService, Severity.Error);
                 return;

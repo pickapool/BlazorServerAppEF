@@ -10,14 +10,14 @@
     <MudTable Items="@cedulas" Dense FixedHeader="true" FixedFooter="@true" Height="calc(100vh - 160px)" Filter="new Func<CedulaModel,bool>(FilterFunc1)">
         <ToolBarContent>
             <MudIconButton OnClick="()=> Createnew()" class="ml-0 mt-5" Icon="@Icons.Material.Filled.Add" Color="Color.Info"
-                aria-label="github"></MudIconButton>
+            aria-label="github"></MudIconButton>
             <MudText Class="mt-5" Typo="Typo.subtitle2">Add Cedula</MudText>
             <MudSpacer />
             <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Margin="Margin.Dense"
-                Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
-                IconSize="Size.Small" Immediate></MudTextField>
+            Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+            IconSize="Size.Small" Immediate></MudTextField>
             <MudMenu Class="mt-5" StartIcon='@Icons.Material.Filled.MoreVert' AnchorOrigin='Origin.TopLeft'
-                TransformOrigin='Origin.TopRight' Dense='true' Size='Size.Small' Label='More'>
+            TransformOrigin='Origin.TopRight' Dense='true' Size='Size.Small' Label='More'>
                 <MudMenuItem OnClick="Toggle">
                     <div class='d-flex align-center gap-2 '>
                         <MudIcon Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
@@ -27,7 +27,7 @@
             </MudMenu>
             <MudPopover Open="@_isOpen" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Fixed="true" Class="px-4 pt-4 width400px">
                 <MudGrid Spacing="1">
-                   <MudItem Class="d-flex" xs="12">
+                    <MudItem Class="d-flex" xs="12">
                         <MudIcon Class="mr-2" Icon='@Icons.Material.Filled.FilterList' Size='Size.Small' />
                         <MudText Typo="Typo.button">FILTER</MudText>
                     </MudItem>
@@ -78,13 +78,13 @@
             <MudTd Class="text-end" DataLabel="Fund">₱ @context.Paid.ToString("N2")</MudTd>
             <MudTd>
                 <MudMenu Icon="@Icons.Material.Filled.MoreVert" Class="pa-1" Size="Size.Small" ActivationEvent="@MouseEvent.MouseOver" AnchorOrigin="Origin.CenterLeft" TransformOrigin="Origin.TopRight" Dense Color="Color.Inherit">
-                     <MudMenuItem OnClick="()=> Edit(context)">
+                    <MudMenuItem OnClick="()=> Edit(context)">
                         <a class='d-flex align-center gap-2 '>
                             <MudIcon Icon='@Icons.Material.Filled.Edit' Size='Size.Small' />
                             <MudText Typo='Typo.body2'>Edit</MudText>
                         </a>
                     </MudMenuItem>
-                     <MudMenuItem OnClick="()=> Delete(context)">
+                    <MudMenuItem OnClick="()=> Delete(context)">
                         <div class='d-flex align-center gap-2 '>
                             <MudIcon Icon='@Icons.Material.Filled.Cancel' Size='Size.Small' />
                             <MudText Typo='Typo.body2'>Remove</MudText>
@@ -132,7 +132,7 @@ else
                     <span class="pl-5">Name(SureName)</span>
                     <MudTextField @bind-Value="@cedula.SureName" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
                 </div>
-                 <div class="name2 d-flex flex-column align-items-center custom">
+                <div class="name2 d-flex flex-column align-items-center custom">
                     <span>(First)</span>
                     <MudTextField @bind-Value="@cedula.FirstName" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
                 </div>
@@ -141,160 +141,160 @@ else
                     <MudTextField @bind-Value="@cedula.MiddleName" Variant="Variant.Text"></MudTextField>
                 </div>
             </div>
-                <div class="tin bbottom d-flex flex-column align-items-center custom">
-                    <span>
-                        TIN
+            <div class="tin bbottom d-flex flex-column align-items-center custom">
+                <span>
+                    TIN
+                </span>
+                <MudTextField @bind-Value="@cedula.Tin" onclick="this.select()" Mask="@(new PatternMask("000-000-000-00000"))" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
+            </div>
+
+            <div class="address bbottom bright d-flex flex-column align-items-start custom">
+                <span class="pl-5">Address</span>
+                <MudTextField @bind-Value="@cedula.Address" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
+            </div>
+            <div class="sex bbottom d-flex flex-column align-items-start custom">
+                <span class="pl-5">Sex</span>
+                <MudRadioGroup @bind-Value="@cedula.Sex">
+                    <MudRadio Value="@Enums.Sex.Male" Color="Color.Info" Size="Size.Small">Male</MudRadio>
+                    <MudRadio Value="@Enums.Sex.Female" Color="Color.Secondary" Size="Size.Small">Female</MudRadio>
+                </MudRadioGroup>
+            </div>
+            <div class="citizenship bbottom bright d-flex flex-column align-items-start custom">
+                <span class="pl-5">Citizenship</span>
+                <MudTextField @bind-Value="@cedula.Citizenship" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
+            </div>
+            <div class="or bbottom bright d-flex flex-column align-items-start custom">
+                <span class="pl-5">OR Number</span>
+                <MudTextField @bind-Value="@cedula.ORNumber" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="icr bbottom bright d-flex flex-column align-items-start custom">
+                <span class="pl-5">ICR No. (if an Alien)</span>
+                <MudTextField @bind-Value="@cedula.ICRNo" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="birth bbottom bright d-flex flex-column align-items-start custom">
+                <span class="pl-5">Place of Birth</span>
+                <MudTextField @bind-Value="@cedula.PlaceOfBirth" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
+            </div>
+            <div class="height bbottom d-flex flex-column align-items-start custom">
+                <span class="pl-5">Height</span>
+                <MudTextField @bind-Value="@cedula.Height" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="civil birth bright bbottom d-flex flex-column align-items-start custom">
+                <span class="pl-5">Civil Status</span>
+                <MudRadioGroup @bind-Value="@cedula.CivilStatus">
+                    <MudRadio Value="@Enums.CivilStatus.Single" Color="Color.Info" Size="Size.Small">Single</MudRadio>
+                    <MudRadio Value="@Enums.CivilStatus.Widow" Color="Color.Secondary" Size="Size.Small">Married</MudRadio>
+                    <MudRadio Value="@Enums.CivilStatus.Married" Color="Color.Secondary" Size="Size.Small">Widow/Widower/Legally Separated</MudRadio>
+                    <MudRadio Value="@Enums.CivilStatus.Divorced" Color="Color.Secondary" Size="Size.Small">Divorced</MudRadio>
+                </MudRadioGroup>
+            </div>
+            <div class="dateofbirth bbottom bright d-flex flex-column center">
+                <span>Date of Birth</span>
+                <MudDatePicker  @bind-Date="@cedula.DateOfBirth"/>
+            </div>
+            <div class="weightbirth bbottom d-flex flex-column align-items-start custom">
+                <span class="pl-5">Weight</span>
+                <MudTextField @bind-Value="@cedula.Weight" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="profession bbottom bright d-flex flex-column align-items-start custom">
+                <span class="pl-5">Profession/Occupation/Business</span>
+                <MudTextField @bind-Value="@cedula.Occupation" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
+            </div>
+            <div class="taxamount bbottom bright d-flex flex-column center justify-content-center" style="background-color: #3e3e3e; color:white;">
+                <span>TAXABLE AMOUNT</span>
+            </div>
+            <div class="communitytax bbottom d-flex flex-column center justify-content-center" style="background-color: #3e3e3e; color:white;">
+                <span>COMMUNITY TAX DUE</span>
+            </div>
+            <div class="basic bbottom bright d-flex align-items-center">
+                <span class="pl-5 information1">
+                    A. BASIC COMMUNITY TAX (P 5.00) Voluntary of Exempted (P 1.00)
+                </span>
+            </div>
+            <div class="basictax bbottom bright d-flex flex-column align-items-start custom">
+                <MudTextField Class="pt-4" @bind-Value="@cedula.BasicTax" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="basiccomm bbottom d-flex flex-column align-items-start custom">
+                <MudTextField  Class="pt-4" @bind-Value="@cedula.BasicCommunity" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="add bbottom bright d-flex align-items-center">
+                <span class="pl-5 information1">
+                    B. ADDITIONAL COMMUNITY TAX (tax not to exceed P 5,000.00)
+                </span>
+            </div>
+            <div class="addtax bbottom bright d-flex flex-column align-items-start custom">
+                <MudTextField  Class="pt-4" @bind-Value="@cedula.AdditionTax" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="addcomm bbottom d-flex flex-column align-items-start custom">
+                <MudTextField  Class="pt-4" @bind-Value="@cedula.AdditionCommunity" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="gross bbottom bright d-flex align-items-center">
+                <div class="d-flex flex-row align-items-center">
+                    <span class="pl-5 information2">1.</span>
+                    <span class="pl-2">
+                        GROSS RECEIPTS OR EARNINGS DERIVED FROM BUSINESS DURING THE
+                        <br>
+                        PRECEDING YEAR (P 1.00 for every P 1, 000.00)
                     </span>
-                     <MudTextField @bind-Value="@cedula.Tin" onclick="this.select()" Mask="@(new PatternMask("000-000-000-00000"))" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
-                </div>
-               
-                <div class="address bbottom bright d-flex flex-column align-items-start custom">
-                    <span class="pl-5">Address</span>
-                    <MudTextField @bind-Value="@cedula.Address" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
-                </div>
-                <div class="sex bbottom d-flex flex-column align-items-start custom">
-                    <span class="pl-5">Sex</span>
-                    <MudRadioGroup @bind-Value="@cedula.Sex">
-                        <MudRadio Value="@Enums.Sex.Male" Color="Color.Info" Size="Size.Small">Male</MudRadio>
-                        <MudRadio Value="@Enums.Sex.Female" Color="Color.Secondary" Size="Size.Small">Female</MudRadio>
-                    </MudRadioGroup>
-                </div>
-                <div class="citizenship bbottom bright d-flex flex-column align-items-start custom">
-                    <span class="pl-5">Citizenship</span>
-                    <MudTextField @bind-Value="@cedula.Citizenship" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
-                </div>
-                <div class="or bbottom bright d-flex flex-column align-items-start custom">
-                    <span class="pl-5">OR Number</span>
-                    <MudTextField @bind-Value="@cedula.ORNumber" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="icr bbottom bright d-flex flex-column align-items-start custom">
-                    <span class="pl-5">ICR No. (if an Alien)</span>
-                    <MudTextField @bind-Value="@cedula.ICRNo" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="birth bbottom bright d-flex flex-column align-items-start custom">
-                    <span class="pl-5">Place of Birth</span>
-                    <MudTextField @bind-Value="@cedula.PlaceOfBirth" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
-                </div>
-                <div class="height bbottom d-flex flex-column align-items-start custom">
-                    <span class="pl-5">Height</span>
-                    <MudTextField @bind-Value="@cedula.Height" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="civil birth bright bbottom d-flex flex-column align-items-start custom">
-                    <span class="pl-5">Civil Status</span>
-                    <MudRadioGroup @bind-Value="@cedula.CivilStatus">
-                        <MudRadio Value="@Enums.CivilStatus.Single" Color="Color.Info" Size="Size.Small">Single</MudRadio>
-                        <MudRadio Value="@Enums.CivilStatus.Widow" Color="Color.Secondary" Size="Size.Small">Married</MudRadio>
-                        <MudRadio Value="@Enums.CivilStatus.Married" Color="Color.Secondary" Size="Size.Small">Widow/Widower/Legally Separated</MudRadio>
-                        <MudRadio Value="@Enums.CivilStatus.Divorced" Color="Color.Secondary" Size="Size.Small">Divorced</MudRadio>
-                    </MudRadioGroup>
-                </div>
-                <div class="dateofbirth bbottom bright d-flex flex-column center">
-                    <span>Date of Birth</span>
-                    <MudDatePicker  @bind-Date="@cedula.DateOfBirth"/>
-                </div>
-                <div class="weightbirth bbottom d-flex flex-column align-items-start custom">
-                    <span class="pl-5">Weight</span>
-                    <MudTextField @bind-Value="@cedula.Weight" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="profession bbottom bright d-flex flex-column align-items-start custom">
-                    <span class="pl-5">Profession/Occupation/Business</span>
-                    <MudTextField @bind-Value="@cedula.Occupation" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
-                </div>
-                <div class="taxamount bbottom bright d-flex flex-column center justify-content-center" style="background-color: #3e3e3e; color:white;">
-                    <span>TAXABLE AMOUNT</span>
-                </div>
-                <div class="communitytax bbottom d-flex flex-column center justify-content-center" style="background-color: #3e3e3e; color:white;">
-                    <span>COMMUNITY TAX DUE</span>
-                </div>
-                <div class="basic bbottom bright d-flex align-items-center">
-                    <span class="pl-5 information1">
-                        A. BASIC COMMUNITY TAX (P 5.00) Voluntary of Exempted (P 1.00)
-                    </span>
-                </div>
-                <div class="basictax bbottom bright d-flex flex-column align-items-start custom">
-                    <MudTextField Class="pt-4" @bind-Value="@cedula.BasicTax" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="basiccomm bbottom d-flex flex-column align-items-start custom">
-                    <MudTextField  Class="pt-4" @bind-Value="@cedula.BasicCommunity" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="add bbottom bright d-flex align-items-center">
-                    <span class="pl-5 information1">
-                        B. ADDITIONAL COMMUNITY TAX (tax not to exceed P 5,000.00)
-                    </span>
-                </div>
-                <div class="addtax bbottom bright d-flex flex-column align-items-start custom">
-                    <MudTextField  Class="pt-4" @bind-Value="@cedula.AdditionTax" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="addcomm bbottom d-flex flex-column align-items-start custom">
-                    <MudTextField  Class="pt-4" @bind-Value="@cedula.AdditionCommunity" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="gross bbottom bright d-flex align-items-center">
-                    <div class="d-flex flex-row align-items-center">
-                        <span class="pl-5 information2">1.</span>
-                        <span class="pl-2">
-                            GROSS RECEIPTS OR EARNINGS DERIVED FROM BUSINESS DURING THE
-                            <br>
-                            PRECEDING YEAR (P 1.00 for every P 1, 000.00)
-                        </span>
-                    </div>
-                </div>
-                <div class="grosstax bbottom bright d-flex flex-column align-items-start custom">
-                    <MudTextField  Class="pt-4" @bind-Value="@cedula.GrossTax" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="grosscomm bbottom d-flex flex-column align-items-start custom">
-                    <MudTextField  Class="pt-4" @bind-Value="@cedula.GrossCommunity" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="salary bbottom bright d-flex align-items-center">
-                    <div class="d-flex flex-row align-items-center">
-                        <span class="pl-5 information2">2.</span>
-                        <span class="pl-2">
-                            SALARIES OR GROSS RECEIPT OR EARNINGS DERIVED FROME EXERCISE OF
-                            <br>
-                            PROFESSION OR PURSUIT OF ANY OCCUPATION (P 1.00 for every P 1,000.00)
-                        </span>
-                    </div>
-                </div>
-                <div class="salarytax bbottom bright d-flex flex-column align-items-start custom">
-                    <MudTextField  Class="pt-4" @bind-Value="@cedula.SalaryTax" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="salarycomm bbottom d-flex flex-column align-items-start custom">
-                    <MudTextField  Class="pt-4" @bind-Value="@cedula.SalaryCommunity" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="income bbottom bright d-flex align-items-center">
-                    <div class="d-flex flex-row align-items-center">
-                        <span class="pl-5 information2">3.</span>
-                        <span class="pl-2">
-                            INCOME FROM REAL PROPERTY (P 1.00 for every P 1,000.00)
-                        </span>
-                    </div>
-                </div>
-                <div class="incometax bbottom bright d-flex flex-column align-items-start custom">
-                    <MudTextField  Class="pt-4" @bind-Value="@cedula.IncomeTax" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="incomecomm bbottom d-flex flex-column align-items-start custom">
-                    <MudTextField  Class="pt-4" @bind-Value="@cedula.IncomeCommunity" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="total bbottom bright d-flex flex-column align-items-start custom">
-                    <span class="pl-5">TOTAL</span>
-                    <MudTextField @bind-Value="@cedula.Total" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="interest bbottom bright d-flex flex-column align-items-start custom">
-                    <span class="pl-5">INTEREST</span>
-                    <MudTextField @bind-Value="@cedula.Interest" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="paid bbottom d-flex flex-column align-items-start custom">
-                    <span class="pl-5">PAID</span>
-                    <MudTextField @bind-Value="@cedula.Paid" Variant="Variant.Text"></MudTextField>
-                </div>
-                <div class="tres bbottom bright d-flex flex-column custom">
-                    <span>MUNICIPALITY/CITY TREASURER</span>
-                    <MudTextField @bind-Value="@cedula.CityTreasurer" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
-                </div>
-                <div class="actions d-flex justify-content-center align-center">
-                    <MudIconButton OnClick="()=> Cancel()" class="ml-0" Color="Color.Error" aria-label="github">Cancel</MudIconButton>
-                    <MudIconButton style="width: 100px;" OnClick="()=> Save()" class="ml-0" Variant="Variant.Filled" Color="Color.Info" aria-label="github">Save</MudIconButton>
                 </div>
             </div>
+            <div class="grosstax bbottom bright d-flex flex-column align-items-start custom">
+                <MudTextField  Class="pt-4" @bind-Value="@cedula.GrossTax" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="grosscomm bbottom d-flex flex-column align-items-start custom">
+                <MudTextField  Class="pt-4" @bind-Value="@cedula.GrossCommunity" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="salary bbottom bright d-flex align-items-center">
+                <div class="d-flex flex-row align-items-center">
+                    <span class="pl-5 information2">2.</span>
+                    <span class="pl-2">
+                        SALARIES OR GROSS RECEIPT OR EARNINGS DERIVED FROME EXERCISE OF
+                        <br>
+                        PROFESSION OR PURSUIT OF ANY OCCUPATION (P 1.00 for every P 1,000.00)
+                    </span>
+                </div>
+            </div>
+            <div class="salarytax bbottom bright d-flex flex-column align-items-start custom">
+                <MudTextField  Class="pt-4" @bind-Value="@cedula.SalaryTax" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="salarycomm bbottom d-flex flex-column align-items-start custom">
+                <MudTextField  Class="pt-4" @bind-Value="@cedula.SalaryCommunity" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="income bbottom bright d-flex align-items-center">
+                <div class="d-flex flex-row align-items-center">
+                    <span class="pl-5 information2">3.</span>
+                    <span class="pl-2">
+                        INCOME FROM REAL PROPERTY (P 1.00 for every P 1,000.00)
+                    </span>
+                </div>
+            </div>
+            <div class="incometax bbottom bright d-flex flex-column align-items-start custom">
+                <MudTextField  Class="pt-4" @bind-Value="@cedula.IncomeTax" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="incomecomm bbottom d-flex flex-column align-items-start custom">
+                <MudTextField  Class="pt-4" @bind-Value="@cedula.IncomeCommunity" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="total bbottom bright d-flex flex-column align-items-start custom">
+                <span class="pl-5">TOTAL</span>
+                <MudTextField @bind-Value="@cedula.Total" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="interest bbottom bright d-flex flex-column align-items-start custom">
+                <span class="pl-5">INTEREST</span>
+                <MudTextField @bind-Value="@cedula.Interest" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="paid bbottom d-flex flex-column align-items-start custom">
+                <span class="pl-5">PAID</span>
+                <MudTextField @bind-Value="@cedula.Paid" Variant="Variant.Text"></MudTextField>
+            </div>
+            <div class="tres bbottom bright d-flex flex-column custom">
+                <span>MUNICIPALITY/CITY TREASURER</span>
+                <MudTextField @bind-Value="@cedula.CityTreasurer" Variant="Variant.Text" Required RequiredError="Required*"></MudTextField>
+            </div>
+            <div class="actions d-flex justify-content-center align-center">
+                <MudIconButton OnClick="()=> Cancel()" class="ml-0" Color="Color.Error" aria-label="github">Cancel</MudIconButton>
+                <MudIconButton style="width: 100px;" OnClick="()=> Save()" class="ml-0" Variant="Variant.Filled" Color="Color.Info" aria-label="github">Save</MudIconButton>
+            </div>
+        </div>
 
 
     </MudPaper>
@@ -310,7 +310,7 @@ else
     public bool _isOpen;
     private bool ShowList = false, ShowReport = false;
     private string searchString1 = "", PDFContent = "";
-    
+
     FilterParameter parameter = new();
 
     protected override async Task OnInitializedAsync()
@@ -358,11 +358,21 @@ else
             var isRequired = Attribute.IsDefined(property, typeof(RequiredAttribute));
             if(String.IsNullOrEmpty(value) && isRequired)
             {
-                Extensions.ShowSnackbar("Please input in a field that required.", Variant.Filled, SnackBar, Severity.Error);
+                property.SetValue(cedula, "Required*");
+            }
+        }
+        foreach (var property in typeof(CedulaModel).GetProperties().Where(p => p.PropertyType == typeof(string)))
+        {
+            var value = property.GetValue(cedula)?.ToString();
+            var isRequired = Attribute.IsDefined(property, typeof(RequiredAttribute));
+            if (value == "Required*" && isRequired)
+            {
+                Extensions.ShowSnackbar("Please input in a field that is required.", Variant.Filled, SnackBar, Severity.Error);
                 return;
             }
         }
 
+        await Task.Delay(1000);
         cedula.Tin = cedula.Tin.Replace("-", "");
         Task t  = cedula.CedulaId == 0? CedulaService.AddCedula(cedula) : CedulaService.UpdateCedula(cedula);
         await t;

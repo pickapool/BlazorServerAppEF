@@ -15,7 +15,6 @@ namespace WebReceipt.Models
         }
         public int ReceiptId { get; set; }
         public DateTime? DateRecorded { get; set; } = DateTime.Now;
-        [Required]
         public string Number { get; set; } = string.Empty;
         [Required]
         public string Agency { get; set; } = string.Empty;
