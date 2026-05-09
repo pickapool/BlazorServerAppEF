@@ -68,7 +68,7 @@
         var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.ExtraSmall, FullWidth = true };
         var parameters = new DialogParameters();
         parameters.Add("User", model);
-        var result = await DialogService.Show<AddAccountDialog>("Account",parameters, options).Result;
+        var result = await (await DialogService.ShowAsync<AddAccountDialog>("Account",parameters, options)).Result;
         if (!result.Canceled)
         {
             await OnInitializedAsync();

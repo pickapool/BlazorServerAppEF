@@ -56,7 +56,7 @@
         var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.ExtraSmall, FullWidth = true };
         var parameters = new DialogParameters();
         parameters.Add("Payment", model);
-        var result = await DialogService.Show<PaymentTypeDialog>("Payment Type",parameters, options).Result;
+        var result = await (await DialogService.ShowAsync<PaymentTypeDialog>("Payment Type",parameters, options)).Result;
         if (!result.Canceled)
         {
             await OnInitializedAsync();

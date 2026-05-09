@@ -66,13 +66,13 @@
                     </MudTable>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudCheckBox @bind-Checked="ReceiptModel.Cash" Size="Size.Small" Label="Cash"></MudCheckBox>
+                    <MudCheckBox T="bool" @bind-Checked="ReceiptModel.Cash" Size="Size.Small" Label="Cash"></MudCheckBox>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudCheckBox @bind-Checked="ReceiptModel.Check" Size="Size.Small" Label="Check"></MudCheckBox>
+                    <MudCheckBox T="bool" @bind-Checked="ReceiptModel.Check" Size="Size.Small" Label="Check"></MudCheckBox>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudCheckBox @bind-Checked="ReceiptModel.MoneyOrder" Size="Size.Small" Label="Money Order"></MudCheckBox>
+                    <MudCheckBox T="bool" @bind-Checked="ReceiptModel.MoneyOrder" Size="Size.Small" Label="Money Order"></MudCheckBox>
                 </MudItem>
                 <MudItem xs="4">
                     <MudTextField Class="mr-1" @bind-Value="ReceiptModel.DraweeBank" Label="Drawee Bank" Margin="Margin.Dense"></MudTextField>
@@ -104,7 +104,7 @@
 </DialogContent>
 </MudDialog>
 @code{
-    [CascadingParameter] public MudDialogInstance MudDialog { get; set; } = default!;
+    [CascadingParameter] public IMudDialogInstance MudDialog { get; set; } = default!;
     [Parameter] public ReceiptModel ReceiptModel { get;set; } = new();
     private void Total(NatureOfCollectionModel model)
     {

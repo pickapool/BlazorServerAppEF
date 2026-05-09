@@ -20,7 +20,7 @@
     </DialogActions>
 </MudDialog>
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public UserAccountModel User { get; set; } = new();
     protected override void OnInitialized()
     {

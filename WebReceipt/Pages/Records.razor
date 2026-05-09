@@ -39,25 +39,25 @@
                     <MudItem Class="mb-2" xs="12">
                         <MudDivider/>
                     </MudItem> 
-                    <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsDate"></MudCheckBox></MudItem>
+                    <MudItem xs="2"><MudCheckBox T="bool" @bind-Checked="parameter.IsDate"></MudCheckBox></MudItem>
                     <MudItem xs="10">
                         <MudDateRangePicker Label="Date" @bind-DateRange="parameter._dateRange" 
                         IconSize='Size.Small' DisableToolbar AnchorOrigin='Origin.BottomLeft' TransformOrigin='Origin.BottomRight'
                         Placeholder="Date" Variant='Variant.Outlined' Margin='Margin.Dense' Disabled="!parameter.IsDate"/>
                     </MudItem>
-                    <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsORNumber"></MudCheckBox></MudItem>
+                    <MudItem xs="2"><MudCheckBox T="bool" @bind-Checked="parameter.IsORNumber"></MudCheckBox></MudItem>
                     <MudItem xs="10">
                         <MudTextField @bind-Value="parameter.ORNumber" Label="OR Number" Margin="Margin.Dense"
                         Variant="Variant.Outlined" Disabled="!parameter.IsORNumber"/>
                     </MudItem>
-                    <MudItem xs="2"><MudCheckBox @bind-Checked="parameter.IsPayor"></MudCheckBox></MudItem>
+                    <MudItem xs="2"><MudCheckBox T="bool" @bind-Checked="parameter.IsPayor"></MudCheckBox></MudItem>
                     <MudItem xs="10">
                         <MudTextField @bind-Value="parameter.PayorName" Label="Payor" Margin="Margin.Dense"
                         Variant="Variant.Outlined" Disabled="!parameter.IsPayor"/>
                     </MudItem>
-                    <MudItem xs=2><MudCheckBox @bind-Checked="parameter.IsTransactionType"></MudCheckBox></MudItem>
+                    <MudItem xs=2><MudCheckBox T="bool" @bind-Checked="parameter.IsTransactionType"></MudCheckBox></MudItem>
                     <MudItem xs=10>
-                        <MudSelect T="PaymentTypeModel?" 
+                        <MudSelect T="PaymentTypeModel" 
                         Class="w300px" 
                         @bind-SelectedValues="parameter.ListOfPayments" 
                         Label="Payment Type"
@@ -75,7 +75,7 @@
                         TransformOrigin='Origin.TopCenter'>
                             @foreach (var transactionType in Payments)
                             {
-                                <MudSelectItem T="PaymentTypeModel?" Value="@transactionType">@transactionType.PaymentTypeName</MudSelectItem>
+                                <MudSelectItem T="PaymentTypeModel" Value="@transactionType">@transactionType.PaymentTypeName</MudSelectItem>
                             }
                         </MudSelect>
                     </MudItem>
@@ -236,13 +236,13 @@
                     </MudTable>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudCheckBox @bind-Checked="ReceiptModel.Cash" Size="Size.Small" Label="Cash"></MudCheckBox>
+                    <MudCheckBox T="bool" @bind-Checked="ReceiptModel.Cash" Size="Size.Small" Label="Cash"></MudCheckBox>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudCheckBox @bind-Checked="ReceiptModel.Check" Size="Size.Small" Label="Check"></MudCheckBox>
+                    <MudCheckBox T="bool" @bind-Checked="ReceiptModel.Check" Size="Size.Small" Label="Check"></MudCheckBox>
                 </MudItem>
                 <MudItem xs="4">
-                    <MudCheckBox @bind-Checked="ReceiptModel.MoneyOrder" Size="Size.Small" Label="Money Order"></MudCheckBox>
+                    <MudCheckBox T="bool" @bind-Checked="ReceiptModel.MoneyOrder" Size="Size.Small" Label="Money Order"></MudCheckBox>
                 </MudItem>
                 <MudItem xs="4">
                     <MudTextField Class="mr-1" @bind-Value="ReceiptModel.DraweeBank" Label="Drawee Bank" Margin="Margin.Dense"></MudTextField>
@@ -440,10 +440,10 @@
         isCreate = false;
         StateHasChanged();
     }
-    private async Task<IEnumerable<PaymentTypeModel>> Search(string value)
+    private async Task<IEnumerable<PaymentTypeModel>> Search(string value, System.Threading.CancellationToken cancellationToken)
     {
         // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
+        await Task.Delay(5, cancellationToken);
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
@@ -451,10 +451,10 @@
 
         return Payments.Where( e => !e.PaymentTypeName.Contains("Form 56") && !e.PaymentTypeName.Contains("Cedula")).ToList().Where(x => x.PaymentTypeName.Contains(value, StringComparison.InvariantCultureIgnoreCase)).ToList();
     }
-    private async Task<IEnumerable<string>> Search1(string value)
+    private async Task<IEnumerable<string>> Search1(string value, System.Threading.CancellationToken cancellationToken)
     {
         // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
+        await Task.Delay(5, cancellationToken);
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
